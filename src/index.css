@@ -1,8 +1,13 @@
 @import "tailwindcss";
 
 html, body {
-  font-family: "Courier New", Courier, monospace; 
+  font-family: "Courier New", Courier, monospace;
   font-weight: bold;
   margin: 0;
   width: 100%;
+  /* paints the canvas behind the page, so the rubber-band
+     overscroll area matches the site instead of flashing white */
+  background-color: #1C1512;
+  /* stops the bounce past the top/bottom/sides entirely */
+  overscroll-behavior: none;
 }
