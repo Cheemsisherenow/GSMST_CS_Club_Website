@@ -7,10 +7,12 @@ import Gallery from './pages/Gallery'
 import Officers from './pages/Officers'
 import Resources from './pages/Resources'
 import Header from './Header'
+import ScrollTop from './ScrollTop';
 const App = () => {
   return (
     <>
       <Header />
+      <ScrollTop/>
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/divisions" element={<Divisions />} />
