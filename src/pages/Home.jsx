@@ -323,7 +323,7 @@ const GetInvolved = () => {
                     <path d="M3 5a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h18a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2H3zm0 2 9 6 9-6v2l-9 6-9-6V7z" />
                   </svg>
                 </span>
-                <span className="text-3xl font-bold">Email List</span>
+                <span className="text-3xl font-bold">Officer Contacts</span>
               </NavLink>
             </div>
           </div>
