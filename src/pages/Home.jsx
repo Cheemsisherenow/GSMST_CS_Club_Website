@@ -145,7 +145,7 @@ const Spotlight = () => {
             <div className="mb-2 text-4xl text-[#E7B96B]">
               Orientation Meeting
             </div>
-            <div className="mb-2">| MLLH 3PM-4PM</div>
+            <div className="mb-2">| MLLH - 3PM-4PM</div>
             <div>
               Come to CS club's first kickoff general meeting for the year!
             </div>
@@ -184,7 +184,7 @@ const Spotlight = () => {
                 <span className="text-[#c9846a]">09/23/2026</span>
               </div>
               <div className="text-4xl text-[#c9846a] mb-2">Escape Room</div>
-              <div className="mb-2">| MLLH 3PM-4PM</div>
+              <div className="mb-2">| MLLH - 3PM-4PM</div>
               <div>Come join us in a escape room game for fun!</div>
             </div>
             <div className="self-center rounded-r-lg bg-[#c9846a] text-[#1C1512] px-8 py-4 [clip-path:polygon(20px_0,100%_0,100%_100%,20px_100%,0_50%)]">
