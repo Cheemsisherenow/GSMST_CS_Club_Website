@@ -187,8 +187,8 @@ const algo = {
   title: "Algorithmic Programming",
   description:
     "Placeholder description for contest prep, data structure, problem sets, mock rounds, and team selection.",
-  lead: "N/A",
-  meeting: "N/A",
+  lead: "Evan Yang",
+  meeting: "09/03/2026",
   room: "N/A",
   reverse: true,
 };
@@ -198,8 +198,8 @@ const cyber = {
   title: "CyberDragons",
   description:
     "Placeholder description for cybersecurity lessons, CTF practice, responsible disclosure, and team discussion.",
-  lead: "N/A",
-  meeting: "N/A",
+  lead: "Luke Cheng",
+  meeting: "09/02/2026",
   room: "N/A",
 };
 
@@ -209,8 +209,8 @@ const cs = {
   title: "CS101",
   description:
     "Placeholder description for students learning programming fundamentals, web basics, debugging habits, and project confidence",
-  lead: "N/A",
-  meeting: "N/A",
+  lead: "Stephen Akrong",
+  meeting: "09/01/2026",
   room: "N/A",
   reverse: true,
 };

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 
 const CODE_LINES = 24;
 
@@ -99,8 +99,75 @@ const Calandar = () => {
           <CodeLine>{""}</CodeLine>
         </div>
       </div>
+      <EmbbededCalendar/>
     </div>
   );
 };
+
+// Filter labels + their pill colors, matching the palette used elsewhere
+// on the site (e.g. the division accent colors on the Divisions page).
+// TODO: once there's an actual events data source, use `activeFilter`
+// (null = show everything) to filter that list instead of just toggling
+// the pill's own look.
+const EVENT_FILTERS = [
+  { label: "Meetings", color: "#C97B63" },
+  { label: "Volunteer", color: "#E7B96B" },
+  { label: "Competitions", color: "#7FA396" },
+];
+
+const EmbbededCalendar = () => {
+  const [activeFilter, setActiveFilter] = useState(null);
+
+  const toggleFilter = (label) => {
+    setActiveFilter((current) => (current === label ? null : label));
+  };
+
+  return (
+    <div className="bg-[#1C1512] overflow-hidden border border-[#3a2f26] p-12">
+      <div className="grid grid-cols-[3fr_1fr] gap-2">
+        <div className="flex flex-col gap-4">
+          <div className="text-6xl text-[#E7B96B]">Monthly Calendar</div>
+          <iframe
+            src="https://calendar.google.com/calendar/u/0?cid=Y2xhc3Nyb29tMTEwNTkxNjE1OTQ4ODEwNDY0MTI3QGdyb3VwLmNhbGVuZGFyLmdvb2dsZS5jb20"
+            className="aspect-4/3 rounded-lg bg-[#F4EFE8]"
+          ></iframe>
+        </div>
+        <div>
+          <div className="flex flex-col gap-2">
+            <div className="text-6xl text-[#E7B96B]">Upcoming</div>
+            <div className="grid grid-cols-2 gap-2">
+              {EVENT_FILTERS.slice(0, 2).map((f) => (
+                <button
+                  key={f.label}
+                  onClick={() => toggleFilter(f.label)}
+                  className="rounded-lg py-3 text-xl text-black"
+                  style={{
+                    backgroundColor: f.color,
+                    opacity: activeFilter && activeFilter !== f.label ? 0.4 : 1,
+                  }}
+                >
+                  {f.label}
+                </button>
+              ))}
+            </div>
+            {EVENT_FILTERS.slice(2).map((f) => (
+              <button
+                key={f.label}
+                onClick={() => toggleFilter(f.label)}
+                className="rounded-lg py-3 text-xl font-bold text-black"
+                style={{
+                  backgroundColor: f.color,
+                  opacity: activeFilter && activeFilter !== f.label ? 0.4 : 1,
+                }}
+              >
+                {f.label}
+              </button>
+            ))}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
 
 export default Calandar;

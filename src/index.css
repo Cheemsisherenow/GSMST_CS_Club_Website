@@ -11,3 +11,10 @@ html, body {
   /* stops the bounce past the top/bottom/sides entirely */
   overscroll-behavior: none;
 }
+
+/* a hard on/off cursor blink — animate-pulse fades smoothly, which doesn't
+   read as a terminal cursor; this snaps instantly at the halfway point */
+@keyframes blink {
+  0%, 50% { opacity: 1; }
+  50.01%, 100% { opacity: 0; }
+}

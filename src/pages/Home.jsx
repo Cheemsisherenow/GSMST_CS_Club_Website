@@ -1,5 +1,10 @@
-import React from "react";
+import React, { useRef, useState } from "react";
 import { NavLink } from "react-router-dom";
+import gsap from "gsap";
+import { SplitText } from "gsap/SplitText";
+import { useGSAP } from "@gsap/react";
+
+gsap.registerPlugin(SplitText);
 /*const g = [...document.querySelectorAll('.border-r > div')];
 const col = document.querySelector('.border-r').nextElementSibling;
 let total = 0;
@@ -15,6 +20,31 @@ const CODE_LINES = 24;
 
 function CodeLine({ children }) {
   return <div className="h-9 leading-7 whitespace-pre text-xl">{children}</div>;
+}
+
+function Typewriter({ children, speed = 0.05 }) {
+  const containerRef = useRef(null);
+  const [done, setDone] = useState(false);
+
+  useGSAP(() => {
+    const split = SplitText.create(containerRef.current, { type: "chars" });
+    gsap.set(split.chars, { opacity: 0 });
+    gsap.to(split.chars, {
+      opacity: 1,
+      duration: 0,
+      stagger: speed,
+      ease: "none",
+      onComplete: () => setDone(true),
+    });
+    return () => split.revert();
+  }, []);
+
+  return (
+    <>
+      <span ref={containerRef}>{children}</span>
+      {done && <span className="animate-[blink_1s_infinite]">_</span>}
+    </>
+  );
 }
 
 const Hero = () => {
@@ -67,9 +97,11 @@ const Hero = () => {
 
           {/* --- HEADLINE: not a CodeLine, so it ignores the 28px rhythm --- */}
           <h1 className="text-8xl pl-12 text-[#E7B96B] leading-none whitespace-nowrap mb-6">
-            Welcome to
-            <br />
-            GSMST's CS Club
+            <Typewriter>
+              Welcome to
+              <br />
+              GSMST's CS Club
+            </Typewriter>
           </h1>
 
           <CodeLine>
@@ -99,12 +131,18 @@ const Hero = () => {
 
           {/* --- BUTTONS: also not a CodeLine, same reason --- */}
           <div className="flex gap-[14px] pl-12">
-            <button className="font-mono font-bold px-10 py-5 text-2xl whitespace-nowrap rounded-lg cursor-pointer bg-[#e3c088] text-[#241a10] ring-1 ring-inset ring-[#e3c088] hover:opacity-85 transition-opacity">
+            <button
+              href="https://docs.google.com/forms/d/e/1FAIpQLSf9RmXHCNVPsQZiRgBSL1XP0mABGRPCnLSRCI6WL67fvpM8BQ/viewform?usp=header"
+              className="font-mono font-bold px-10 py-5 text-2xl whitespace-nowrap rounded-lg cursor-pointer bg-[#e3c088] text-[#241a10] ring-1 ring-inset ring-[#e3c088] hover:opacity-85 transition-opacity"
+            >
               onClick = {'{"Join Club"}'}
             </button>
-            <button className="font-mono font-bold px-10 py-5 text-2xl whitespace-nowrap rounded-lg cursor-pointer bg-transparent text-[#c9b896] ring-1 ring-inset ring-[#3a2f26] hover:opacity-85 transition-opacity">
+            <NavLink
+              to="/calendar"
+              className="font-mono font-bold px-10 py-5 text-2xl whitespace-nowrap rounded-lg cursor-pointer bg-transparent text-[#c9b896] ring-1 ring-inset ring-[#3a2f26] hover:opacity-85 transition-opacity"
+            >
               onClick = {'{"See Calendar"}'}
-            </button>
+            </NavLink>
           </div>
 
           <CodeLine>&nbsp;&nbsp;)</CodeLine>
