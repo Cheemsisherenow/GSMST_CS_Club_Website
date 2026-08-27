@@ -140,7 +140,7 @@ const Spotlight = () => {
           <div>
             <div className="mb-4">
               <span className="text-[#7FA396]">$</span> date --{" "}
-              <span className="text-[#E7B96B]">2026/09/01</span>
+              <span className="text-[#E7B96B]">09/01/2026</span>
             </div>
             <div className="mb-2 text-4xl text-[#E7B96B]">
               Orientation Meeting
@@ -163,7 +163,7 @@ const Spotlight = () => {
             <div className="pr-12 py-12">
               <div className="text-[#B5AFA6] mb-4">
                 <span className="text-[#7FA396]">$</span> date --{" "}
-                <span className="text-[#7FA396]">2026/09/08</span>
+                <span className="text-[#7FA396]">09/08/2026</span>
               </div>
               <div className="text-4xl text-[#7FA396] mb-2">
                 CyberPatriots Application Due
@@ -181,7 +181,7 @@ const Spotlight = () => {
             <div className="pr-12 py-12">
               <div className="text-[#B5AFA6] mb-4">
                 <span className="text-[#7FA396]">$</span> date --{" "}
-                <span className="text-[#c9846a]">2026/09/23</span>
+                <span className="text-[#c9846a]">09/23/2026</span>
               </div>
               <div className="text-4xl text-[#c9846a] mb-2">Escape Room</div>
               <div className="mb-2">| MLLH 3PM-4PM</div>
@@ -365,7 +365,7 @@ const Meet_Divisions = () => {
             </NavLink>
           </div>
         </div>
-        <div className="flex flex-col rounded-xl border-2 border-[#c9846a] bg-[#f4efe8] overflow-hidden">
+        <div className="flex flex-col rounded-xl border-2 border-[#7FA396] bg-[#f4efe8] overflow-hidden">
           <div className="relative">
             <img
               src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQdQogZKb-T6BI-dJRKvEXik0uD8bapenlK3xYUqQU6wA&s=10"
@@ -373,7 +373,7 @@ const Meet_Divisions = () => {
             />
             <div className="absolute left-1/2 top-full -translate-x-1/2 -translate-y-1/2 w-32 h-32 rounded-full bg-[#f4efe8] p-1 flex items-center justify-center">
               <div className="w-full h-full rounded-full bg-[#7FA396] p-3 flex items-center justify-center">
-                <img src="/linux.png"/>
+                <img src="/linux.png" />
               </div>
             </div>
           </div>
@@ -390,7 +390,7 @@ const Meet_Divisions = () => {
             </NavLink>
           </div>
         </div>
-        <div className="flex flex-col rounded-xl border-2 border-[#c9846a] bg-[#f4efe8] overflow-hidden">
+        <div className="flex flex-col rounded-xl border-2 border-[#E7B96B] bg-[#f4efe8] overflow-hidden">
           <div className="relative">
             <img
               src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQdQogZKb-T6BI-dJRKvEXik0uD8bapenlK3xYUqQU6wA&s=10"
@@ -398,7 +398,7 @@ const Meet_Divisions = () => {
             />
             <div className="absolute left-1/2 top-full -translate-x-1/2 -translate-y-1/2 w-32 h-32 rounded-full bg-[#f4efe8] p-1 flex items-center justify-center">
               <div className="w-full h-full rounded-full bg-[#E7B96B] p-3 flex items-center justify-center">
-                <img src="/python.webp" className="p-1"/>
+                <img src="/python.webp" className="p-1" />
               </div>
             </div>
           </div>
