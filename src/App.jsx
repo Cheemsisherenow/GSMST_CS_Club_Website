@@ -8,6 +8,7 @@ import Officers from './pages/Officers'
 import Resources from './pages/Resources'
 import Header from './Header'
 import ScrollTop from './ScrollTop';
+import Footer from './Footer';
 const App = () => {
   return (
     <>
@@ -21,6 +22,7 @@ const App = () => {
         <Route path="/officers" element={<Officers />} />
         <Route path="/resources" element={<Resources />} />
       </Routes>
+      <Footer/>
     </>
   );
 }

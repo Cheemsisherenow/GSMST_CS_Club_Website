@@ -158,8 +158,8 @@ const Spotlight = () => {
             </div>
           </div>
         </div>
-        <div className="flex flex-col px-12">
-          <div className="grid grid-cols-[3fr_2fr] border-b border-[#3a2f26] text-2xl">
+        <div className="flex flex-col">
+          <div className="grid grid-cols-[3fr_2fr] border-b px-12 border-[#3a2f26] text-2xl">
             <div className="pr-12 py-12">
               <div className="text-[#B5AFA6] mb-4">
                 <span className="text-[#7FA396]">$</span> date --{" "}
@@ -177,7 +177,7 @@ const Spotlight = () => {
               &gt;&gt; Cybersecurity
             </div>
           </div>
-          <div className="grid grid-cols-[3fr_2fr] border-b border-[#3a2f26]  text-2xl">
+          <div className="grid grid-cols-[3fr_2fr] px-12 text-2xl">
             <div className="pr-12 py-12">
               <div className="text-[#B5AFA6] mb-4">
                 <span className="text-[#7FA396]">$</span> date --{" "}
@@ -415,6 +415,10 @@ const Meet_Divisions = () => {
           </div>
         </div>
       </div>
+      <NavLink to="/divisions" className="float-right mt-12 text-3xl text-[#B5AFA6]">
+        {" "}
+        See All Divisions &gt;&gt;
+      </NavLink>
     </div>
   );
 };
