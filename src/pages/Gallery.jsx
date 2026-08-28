@@ -1,4 +1,8 @@
-import React from "react";
+import React, { useRef } from "react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { useGSAP } from "@gsap/react";
+gsap.registerPlugin(ScrollTrigger);
 
 const CODE_LINES = 24;
 
@@ -6,7 +10,7 @@ function CodeLine({ children }) {
   return <div className="h-9 leading-7 whitespace-pre text-xl">{children}</div>;
 }
 
-const Gallery = () => {
+const GalleryHero = () => {
   return (
     <div className="bg-[#1C1512] overflow-hidden border border-[#3a2f26]">
       {/* the two independent columns */}
@@ -90,4 +94,85 @@ const Gallery = () => {
   );
 };
 
+const SlideingGallery = () => {
+  const scrollerRef = useRef(null);
+
+  useGSAP(() => {
+    const images = gsap.utils.toArray(".gallery-img");
+    images.forEach((img) => {
+      gsap.from(img, {
+        opacity: 0,
+        duration: 0.6,
+        scrollTrigger: {
+          trigger: img,
+          scroller: scrollerRef.current,
+          horizontal: true,
+          start: "left 90%",
+          toggleActions: "play reverse play reverse",
+        },
+      });
+    });
+  }, []);
+  return (
+    <div className="bg-[#1C1512] overflow-hidden p-12 text-[#E7B96B] text-6xl ">
+      Gallery Caraselle
+      <div ref={scrollerRef} className="flex gap-4 mt-8 overflow-x-auto">
+        <div className="flex text-[#F4EFE8] text-3xl gap-8 flex-col">
+          Placeholder
+          <div className="flex gap-4 items-center border-l-2 p-4 pl-8 h-[60vh] ">
+            <img
+              src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQdQogZKb-T6BI-dJRKvEXik0uD8bapenlK3xYUqQU6wA&s=10"
+              alt=""
+              className="gallery-img max-h-full shrink-0 rounded-xl"
+              loading="lazy"
+            />
+            <img
+              src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQdQogZKb-T6BI-dJRKvEXik0uD8bapenlK3xYUqQU6wA&s=10"
+              alt=""
+              className=" gallery-img max-h-full shrink-0"
+            />
+            <img
+              src="/c++.webp"
+              alt=""
+              className="gallery-img max-h-full bg-white shrink-0"
+            />
+            <img
+              src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQdQogZKb-T6BI-dJRKvEXik0uD8bapenlK3xYUqQU6wA&s=10"
+              alt=""
+              className=" gallery-img max-h-full shrink-0"
+            />
+
+            <img
+              src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQdQogZKb-T6BI-dJRKvEXik0uD8bapenlK3xYUqQU6wA&s=10"
+              alt=""
+              className=" gallery-img max-h-full shrink-0 "
+              loading="lazy"
+            />
+            <img
+              src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQdQogZKb-T6BI-dJRKvEXik0uD8bapenlK3xYUqQU6wA&s=10"
+              alt=""
+              className=" gallery-img max-h-full shrink-0 "
+              loading="lazy"
+            />
+            <img
+              src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQdQogZKb-T6BI-dJRKvEXik0uD8bapenlK3xYUqQU6wA&s=10"
+              alt=""
+              className=" gallery-img max-h-full shrink-0 "
+              loading="lazy"
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+const Gallery = () => {
+  return (
+    <>
+      <GalleryHero />
+      <SlideingGallery />
+    </>
+  );
+};
 export default Gallery;

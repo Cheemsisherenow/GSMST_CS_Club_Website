@@ -2,13 +2,14 @@ import React from 'react'
 import { Routes, Route } from "react-router-dom";
 import Home from './pages/Home'
 import Divisions from './pages/Divisions'
-import Calandar from './pages/Calandar'
+import Calandar from './pages/Calendar'
 import Gallery from './pages/Gallery'
 import Officers from './pages/Officers'
 import Resources from './pages/Resources'
 import Header from './Header'
 import ScrollTop from './ScrollTop';
 import Footer from './Footer';
+
 const App = () => {
   return (
     <>

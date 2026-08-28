@@ -13,13 +13,10 @@ const TODAY = new Date().toLocaleDateString("en-US", {
   year: "numeric",
 });
 
-const Calandar = () => {
+const Calendar = () => {
   return (
     <div className="bg-[#1C1512] overflow-hidden border border-[#3a2f26]">
-      {/* the two independent columns */}
       <div className="flex gap-6">
-        {/* GUTTER — just a list of numbers, each locked to 28px.
-            It knows nothing about what's happening in the content column. */}
         <div className="py-[26px] text-center px-2 border-r border-[#3a2f26]">
           {Array.from({ length: CODE_LINES }, (_, i) => (
             <div key={i} className="h-9 leading-7 w-10 text-[#6b5c49] text-xl">
@@ -28,9 +25,6 @@ const Calandar = () => {
           ))}
         </div>
 
-        {/* CONTENT — normal code lines use CodeLine (h-9) so they snap
-            to the gutter. The date + headline block doesn't — it just
-            takes whatever space it naturally needs. */}
         <div className="pt-[26px] pr-[26px] pb-10 text-[#f4efe8]">
           <CodeLine>
             <span className="text-[#C97B63]">from</span>{" "}
@@ -58,9 +52,6 @@ const Calandar = () => {
             <span className="text-[#7FA396]">'''</span>
           </CodeLine>
 
-          {/* --- DATE + HEADLINE: not a CodeLine, so it ignores the 36px
-              rhythm. date line + 3-line headline + margin = exactly
-              9 gutter rows (324px). --- */}
           <div className="pl-12 mb-8">
             <div className="text-2xl text-[#cfc3ae] mb-2 whitespace-nowrap">
               {TODAY}
@@ -99,7 +90,7 @@ const Calandar = () => {
           <CodeLine>{""}</CodeLine>
         </div>
       </div>
-      <EmbbededCalendar/>
+      <EmbbededCalendar />
     </div>
   );
 };
@@ -123,18 +114,20 @@ const EmbbededCalendar = () => {
   };
 
   return (
-    <div className="bg-[#1C1512] overflow-hidden border border-[#3a2f26] p-12">
+    <div className="bg-[#1C1512] overflow-hidden border-t border-[#3a2f26] p-12">
       <div className="grid grid-cols-[3fr_1fr] gap-2">
         <div className="flex flex-col gap-4">
           <div className="text-6xl text-[#E7B96B]">Monthly Calendar</div>
           <iframe
-            src="https://calendar.google.com/calendar/u/0?cid=Y2xhc3Nyb29tMTEwNTkxNjE1OTQ4ODEwNDY0MTI3QGdyb3VwLmNhbGVuZGFyLmdvb2dsZS5jb20"
-            className="aspect-4/3 rounded-lg bg-[#F4EFE8]"
+            title="GSMST CS Club Calendar"
+            src="https://calendar.google.com/calendar/embed?src=classroom110591615948810464127%40group.calendar.google.com&ctz=America%2FNew_York"
+            style={{ border: 0 }}
+            className="w-full aspect-4/3 rounded-lg bg-[#F4EFE8]"
           ></iframe>
         </div>
         <div>
-          <div className="flex flex-col gap-2">
-            <div className="text-6xl text-[#E7B96B]">Upcoming</div>
+          <div className="flex flex-col gap-2 ">
+            <div className="text-6xl text-[#E7B96B] mb-2">Upcoming</div>
             <div className="grid grid-cols-2 gap-2">
               {EVENT_FILTERS.slice(0, 2).map((f) => (
                 <button
@@ -168,6 +161,6 @@ const EmbbededCalendar = () => {
       </div>
     </div>
   );
-}
+};
 
-export default Calandar;
+export default Calendar;
