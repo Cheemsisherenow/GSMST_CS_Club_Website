@@ -112,6 +112,17 @@ const SlideingGallery = () => {
         },
       });
     });
+
+    const unloaded = images.filter((img) => !img.complete);
+    if (unloaded.length === 0) return;
+    let remaining = unloaded.length;
+    const onLoad = () => {
+      remaining -= 1;
+      if (remaining === 0) ScrollTrigger.refresh();
+    };
+    unloaded.forEach((img) => img.addEventListener("load", onLoad));
+    return () =>
+      unloaded.forEach((img) => img.removeEventListener("load", onLoad));
   }, []);
   return (
     <div className="bg-[#1C1512] overflow-hidden p-12 text-[#E7B96B] text-6xl ">
