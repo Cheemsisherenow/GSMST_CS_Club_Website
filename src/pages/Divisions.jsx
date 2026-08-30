@@ -2,32 +2,15 @@ import React, { useRef, useState } from "react";
 import { NavLink } from "react-router-dom";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
-
-const CODE_LINES = 24;
-
-function CodeLine({ children }) {
-  return <div className="h-9 leading-7 whitespace-pre text-xl">{children}</div>;
-}
+import Typewriter from "../Typewriter";
+import { CodeLine, CodeSection, RowBlock } from "../CodeLine";
 
 const Divisions = () => {
   return (
-    <div className="bg-[#1C1512] overflow-hidden border border-b-2 border-[#3a2f26]">
-      {/* the two independent columns */}
-      <div className="flex gap-6">
-        {/* GUTTER — just a list of numbers, each locked to 28px.
-            It knows nothing about what's happening in the content column. */}
-        <div className="py-[26px] text-center px-2 border-r border-[#3a2f26]">
-          {Array.from({ length: CODE_LINES }, (_, i) => (
-            <div key={i} className="h-9 leading-7 w-10 text-[#6b5c49] text-xl">
-              {i + 1}
-            </div>
-          ))}
-        </div>
-
-        {/* CONTENT — normal code lines use CodeLine (h-9) so they snap
-            to the gutter. The headline doesn't — it just takes whatever
-            space it naturally needs. */}
-        <div className="pt-[26px] pr-[26px] pb-10 text-[#f4efe8]">
+    <CodeSection
+      className="bg-[#1C1512] overflow-hidden border border-b-2 border-[#3a2f26]"
+      contentClassName="pr-[calc(var(--row)*13/18)] text-[#f4efe8]"
+    >
           <CodeLine>
             <span className="text-[#C97B63]">import</span>{" "}
             <span className="text-[#7FA396]">
@@ -58,15 +41,19 @@ const Divisions = () => {
           </CodeLine>
           <CodeLine>{""}</CodeLine>
 
-          {/* --- HEADLINE: not a CodeLine, so it ignores the 36px rhythm.
-              3 lines * 96px + mb-9 (36px) = 324px = exactly 9 gutter rows. --- */}
-          <h1 className="text-8xl pl-12 text-[#E7B96B] leading-none whitespace-nowrap mb-9">
-            Choose a track
-            <br />
-            without
-            <br />
-            choosing a box
-          </h1>
+          {/* Not a CodeLine — RowBlock measures it and pads it out to a
+              whole number of rows, whatever text size it ends up. */}
+          <RowBlock>
+            <h1 className="text-[length:calc(var(--row)*8/3)] pl-[calc(var(--row)*4/3)] text-[#E7B96B] leading-none whitespace-nowrap">
+              <Typewriter>
+                Choose a track
+                <br />
+                without
+                <br />
+                choosing a box
+              </Typewriter>
+            </h1>
+          </RowBlock>
 
           <CodeLine>
             &nbsp;&nbsp;&nbsp;&nbsp;
@@ -97,9 +84,7 @@ const Divisions = () => {
             <span className="text-[#c1663a]">export</span>{" "}
             <span className="text-[#7FA396]">default Divisions </span>
           </CodeLine>
-        </div>
-      </div>
-    </div>
+    </CodeSection>
   );
 };
 
@@ -159,21 +144,21 @@ const ImageCarousel = ({ images, rowRef, next, prev }) => {
             src={src}
             alt=""
             className="h-full object-cover shrink-0"
-            style={{ width: `${100 / count}%`  }}
+            style={{ width: `${100 / count}%` }}
           />
         ))}
       </div>
       <button
         onClick={prev}
         aria-label="Previous image"
-        className="absolute left-5 top-1/2 -translate-y-1/2 text-4xl text-white drop-shadow"
+        className="absolute left-5 top-1/2 -translate-y-1/2 text-4xl text-white drop-shadow p-2 rounded-full trnasition-all  duration-300 ease-in-out hover:bg-[#9c968e]"
       >
         &lt;
       </button>
       <button
         onClick={next}
         aria-label="Next image"
-        className="absolute right-5 top-1/2 -translate-y-1/2 text-4xl text-white drop-shadow"
+        className="absolute right-5 top-1/2 -translate-y-1/2 text-4xl text-white drop-shadow rounded-full trnasition-all  duration-300 ease-in-out p-2 hover:bg-[#9c968e]"
       >
         &gt;
       </button>
@@ -191,6 +176,7 @@ const algo = {
   meeting: "09/03/2026",
   room: "N/A",
   reverse: true,
+  images: algoData,
 };
 const cyber = {
   color: "#7FA396",
@@ -201,6 +187,7 @@ const cyber = {
   lead: "Luke Cheng",
   meeting: "09/02/2026",
   room: "N/A",
+  images: cyberData,
 };
 
 const cs = {
@@ -213,6 +200,7 @@ const cs = {
   meeting: "09/01/2026",
   room: "N/A",
   reverse: true,
+  images: csData,
 };
 const DivisionSpotlight = ({
   color,
@@ -223,25 +211,11 @@ const DivisionSpotlight = ({
   meeting,
   room,
   reverse = false,
+  images,
 }) => {
-  const {
-    index: indexAlgo,
-    next: nextAlgo,
-    prev: prevAlgo,
-    rowRef: algoRef,
-  } = useSlider(algoData.length);
-  const {
-    index: indexCyber,
-    next: nextCyber,
-    prev: prevCyber,
-    rowRef: cyberRef,
-  } = useSlider(cyberData.length);
-  const {
-    index: indexCS,
-    next: nextCS,
-    prev: prevCS,
-    rowRef: csRef,
-  } = useSlider(csData.length);
+  // One slider, built from whichever image set this specific division
+  // passed in — not one hardcoded/shared slider for every instance.
+  const { next, prev, rowRef } = useSlider(images.length);
 
   return (
     <div className="bg-[#1C1512] overflow-hidden p-12 text-black">
@@ -252,10 +226,10 @@ const DivisionSpotlight = ({
       >
         {reverse && (
           <ImageCarousel
-            images={cyberData}
-            rowRef={cyberRef}
-            next={nextCyber}
-            prev={prevCyber}
+            images={images}
+            rowRef={rowRef}
+            next={next}
+            prev={prev}
           />
         )}
         <div className="flex flex-col p-4">
@@ -291,7 +265,7 @@ const DivisionSpotlight = ({
             <div className="grid grid-cols-2 gap-4 text-2xl">
               <NavLink
                 to="/resources"
-                className="flex flex-col text-center rounded-xl border-2 p-2"
+                className="flex flex-col text-center rounded-xl border-2 p-2 transition-all ease-in-out duration-300 hover:opacity-85 hover:-translate-y-0.5"
                 style={{ borderColor: color }}
               >
                 {" "}
@@ -299,7 +273,7 @@ const DivisionSpotlight = ({
               </NavLink>
               <NavLink
                 to="/calendar"
-                className="flex flex-col text-center rounded-xl border-2 p-2"
+                className="flex flex-col text-center rounded-xl border-2 p-2 transition-all ease-in-out duration-300 hover:opacity-85 hover:-translate-y-0.5"
                 style={{ borderColor: color }}
               >
                 {" "}
@@ -310,10 +284,10 @@ const DivisionSpotlight = ({
         </div>
         {!reverse && (
           <ImageCarousel
-            images={cyberData}
-            rowRef={cyberRef}
-            next={nextCyber}
-            prev={prevCyber}
+            images={images}
+            rowRef={rowRef}
+            next={next}
+            prev={prev}
           />
         )}
       </div>

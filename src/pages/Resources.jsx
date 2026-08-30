@@ -1,31 +1,14 @@
 import React, { useRef, useState, useLayoutEffect } from "react";
 import gsap from "gsap/all";
-
-const CODE_LINES = 27;
-
-function CodeLine({ children }) {
-  return <div className="h-9 leading-7 whitespace-pre text-xl">{children}</div>;
-}
+import Typewriter from "../Typewriter";
+import { CodeLine, CodeSection, RowBlock } from "../CodeLine";
 
 const Resources = () => {
   return (
-    <div className="bg-[#1C1512] overflow-hidden border border-[#3a2f26]">
-      {/* the two independent columns */}
-      <div className="flex gap-6">
-        {/* GUTTER — just a list of numbers, each locked to 28px.
-            It knows nothing about what's happening in the content column. */}
-        <div className="py-[26px] text-center px-2 border-r border-[#3a2f26]">
-          {Array.from({ length: CODE_LINES }, (_, i) => (
-            <div key={i} className="h-9 leading-7 w-10 text-[#6b5c49] text-xl">
-              {i + 1}
-            </div>
-          ))}
-        </div>
-
-        {/* CONTENT — normal code lines use CodeLine (h-9) so they snap
-            to the gutter. The headline doesn't — it just takes whatever
-            space it naturally needs. */}
-        <div className="pt-[26px] pr-[26px] pb-10 text-[#f4efe8]">
+    <CodeSection
+      className="bg-[#1C1512] overflow-hidden border border-[#3a2f26]"
+      contentClassName="pr-[calc(var(--row)*13/18)] text-[#f4efe8]"
+    >
           <CodeLine>
             <span className="text-[#C97B63]">const</span> express ={" "}
             <span className="text-[#7FA396]">require</span>(
@@ -65,14 +48,17 @@ const Resources = () => {
           </CodeLine>
           <CodeLine>{""}</CodeLine>
 
-          {/* --- HEADLINE: not a CodeLine, so it ignores the 36px rhythm --- */}
-          <h1 className="text-8xl pl-12 text-[#E7B96B] leading-none whitespace-nowrap mb-9">
-            Links that
-            <br />
-            makes the club
-            <br />
-            run faster
-          </h1>
+          <RowBlock>
+            <h1 className="text-[length:calc(var(--row)*8/3)] pl-[calc(var(--row)*4/3)] text-[#E7B96B] leading-none whitespace-nowrap">
+              <Typewriter>
+                Links that
+                <br />
+                makes the club
+                <br />
+                run faster
+              </Typewriter>
+            </h1>
+          </RowBlock>
 
           <CodeLine>
             &nbsp;&nbsp;res.<span className="text-[#7FA396]">send</span>(
@@ -92,24 +78,31 @@ const Resources = () => {
           <CodeLine>{"});"}</CodeLine>
           <CodeLine>{""}</CodeLine>
           <CodeLine>module.exports = router;</CodeLine>
-        </div>
-      </div>
-    </div>
+    </CodeSection>
   );
 };
 
-const Folder = ({ folderFront, folderBack }) => {
+const Document_Store = [
+  { path: "https://mail.google.com/mail/u/0/#inbox", title: "Placeholder" },
+  { path: "placeholder link", title: "Placeholder" },
+  { path: "placeholder link", title: "Placeholder" },
+  { path: "placeholder link", title: "Placeholder" },
+  { path: "placeholder link", title: "Placeholder" },
+];
+const Folder = ({ folderFront, folderBack, middleFolder }) => {
   const baseHeight = useRef(null);
   const isOpen = useRef(false);
+  const [clicked, setClicked] = useState(() => new Set());
 
   const open = (el) => {
     if (baseHeight.current === null) baseHeight.current = el.offsetHeight;
     gsap.to(el, { height: baseHeight.current * 2, duration: 0.6 });
     gsap.to(el.querySelector(".backFolder"), {
-      rotationX: 180,
+      rotationX: 185,
       transformOrigin: "bottom center",
       duration: 0.6,
     });
+    
     isOpen.current = true;
   };
 
@@ -120,6 +113,8 @@ const Folder = ({ folderFront, folderBack }) => {
       transformOrigin: "bottom center",
       duration: 0.6,
     });
+    
+    
     isOpen.current = false;
   };
 
@@ -132,14 +127,37 @@ const Folder = ({ folderFront, folderBack }) => {
       onMouseLeave={(e) => {
         if (isOpen.current) close(e.currentTarget);
       }}
+      className="w-[70%] cursor-pointer mx-auto"
     >
       <div className="wrapper relative">
         <div
-          className="w-[70%] mx-auto aspect-[1315/1001] bg-no-repeat bg-[length:100%_100%]"
+          className="aspect-[1315/1001] bg-no-repeat bg-[length:100%_100%] pt-24 p-12"
           style={{ backgroundImage: `url(${folderBack})` }}
-        ></div>
+        >
+          <div className="flex flex-col gap-8 text-2xl underline">
+            {Document_Store.map((doc, i) => (
+              <div key={i} className="flex items-center gap-4">
+                <img src="/Doc.png" className="w-8" />
+                <a
+                  href={doc.path}
+                  className={`transition-all duration-100 ease-in-out hover:text-[#0202b3] ${
+                    clicked.has(i) ? "text-[#800080]" : "text-[#0000FF]"
+                  }`}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setClicked((prev) => new Set(prev).add(i));
+                  }}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  {doc.title}
+                </a>
+              </div>
+            ))}
+          </div>
+        </div>
         <div
-          className="backFolder absolute inset-x-0 z-10 bottom-0 w-[70%] mx-auto aspect-[1315/886] bg-no-repeat bg-[length:100%_100%]"
+          className="backFolder absolute inset-x-0 z-10 bottom-0 aspect-[1315/886] bg-no-repeat bg-[length:100%_100%]"
           style={{ backgroundImage: `url(${folderFront})` }}
         ></div>
       </div>
@@ -167,27 +185,37 @@ const ResourceFolders = () => {
 
   return (
     <div className="bg-[#1C1512] p-12">
+      <div className="text-[#E7B96B] text-7xl mb-16 text-center">
+        Folders of Resources
+      </div>
       <div className="relative">
         <div ref={firstWrapperRef} className="relative z-0">
           <Folder
             folderFront="/FolderFront4.png"
             folderBack="/FolderBack4.png"
+            middleFolder="/FolderMiddle4.png"
           />
         </div>
         <div className="relative z-10" style={{ marginTop: pullUp }}>
           <Folder
             folderFront="/FolderFront3.png"
             folderBack="/FolderBack3.png"
+            middleFolder="/FolderMiddle3.png"
           />
         </div>
         <div className="relative z-20" style={{ marginTop: pullUp }}>
           <Folder
             folderFront="/FolderFront2.png"
             folderBack="/FolderBack2.png"
+            middleFolder="/FolderMiddle2.png"
           />
         </div>
         <div className="relative z-30" style={{ marginTop: pullUp }}>
-          <Folder folderFront="/FolderFront.png" folderBack="/FolderBack.png" />
+          <Folder
+            folderFront="/FolderFront.png"
+            folderBack="/FolderBack.png"
+            middleFolder="/FolderMiddle.png"
+          />
         </div>
       </div>
     </div>

@@ -1,19 +1,38 @@
 @import "tailwindcss";
 
+
+:root {
+  --row: clamp(16px, 2.8125vw, 128px);
+}
+
+
+.code-line {
+  height: var(--row);
+  line-height: calc(var(--row) * 7 / 9);
+  font-size: calc(var(--row) * 5 / 9);
+  white-space: pre;
+}
+
+/* A gutter line number — same row metrics, plus the fixed column
+   width (40px at row=36) that keeps the numbers right-aligned. */
+.code-num {
+  height: var(--row);
+  line-height: calc(var(--row) * 7 / 9);
+  font-size: calc(var(--row) * 5 / 9);
+  width: calc(var(--row) * 10 / 9);
+  text-align: center;
+}
+
 html, body {
   font-family: "Courier New", Courier, monospace;
   font-weight: bold;
   margin: 0;
   width: 100%;
-  /* paints the canvas behind the page, so the rubber-band
-     overscroll area matches the site instead of flashing white */
   background-color: #1C1512;
-  /* stops the bounce past the top/bottom/sides entirely */
   overscroll-behavior: none;
 }
 
-/* a hard on/off cursor blink — animate-pulse fades smoothly, which doesn't
-   read as a terminal cursor; this snaps instantly at the halfway point */
+
 @keyframes blink {
   0%, 50% { opacity: 1; }
   50.01%, 100% { opacity: 0; }

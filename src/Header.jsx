@@ -13,7 +13,7 @@ const Header = () => {
       </div>
       {/* Nav bar right here, set the default color of home to green, once another tab is clicked, 
       the previous dot is set to red and the new one is set to green */}
-      <nav className="flex gap-12 text-[#B5AFA6] text-xl">
+      <nav className="flex gap-12 divide-x-2 divide-[#3a2f26] text-[#B5AFA6] text-xl">
         {header_Links.map((item) => {
           const isActive = location.pathname === item.path;
           let markerColor = "marker:text-[#C97B63]";
@@ -21,8 +21,12 @@ const Header = () => {
             markerColor = "marker:text-[#7FA396]";
           }
           return (
-            <li key={item.label} className={markerColor}>
+            <li
+              key={item.label}
+              className={`relative group pr-6 hover:-translate-y-0.5 transition-all duration-300 ease-in-out ${markerColor}`}
+            >
               <NavLink to={item.path}>{item.label}</NavLink>
+              <span className="absolute -left-4 right-6 bottom-0 h-0.5 bg-[#B5AFA6] scale-x-0 origin-center transition-all duration-300 ease-in-out group-hover:scale-x-100"></span>{" "}
             </li>
           );
         })}

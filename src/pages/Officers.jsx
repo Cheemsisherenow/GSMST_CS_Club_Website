@@ -2,34 +2,18 @@ import React, { useRef } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
+import Typewriter from "../Typewriter";
+
+import { CodeLine, CodeSection, RowBlock } from "../CodeLine";
 
 gsap.registerPlugin(ScrollTrigger);
 
-const CODE_LINES = 24;
-
-function CodeLine({ children }) {
-  return <div className="h-9 leading-7 whitespace-pre text-xl">{children}</div>;
-}
-
 const Officers = () => {
   return (
-    <div className="bg-[#1C1512] overflow-hidden border border-[#3a2f26]">
-      {/* the two independent columns */}
-      <div className="flex gap-6">
-        {/* GUTTER — just a list of numbers, each locked to 28px.
-            It knows nothing about what's happening in the content column. */}
-        <div className="py-[26px] text-center px-2 border-r border-[#3a2f26]">
-          {Array.from({ length: CODE_LINES }, (_, i) => (
-            <div key={i} className="h-9 leading-7 w-10 text-[#6b5c49] text-xl">
-              {i + 1}
-            </div>
-          ))}
-        </div>
-
-        {/* CONTENT — normal code lines use CodeLine (h-9) so they snap
-            to the gutter. The headline doesn't — it just takes whatever
-            space it naturally needs. */}
-        <div className="pt-[26px] pr-[26px] pb-10 text-[#f4efe8]">
+    <CodeSection
+      className="bg-[#1C1512] overflow-hidden border border-[#3a2f26]"
+      contentClassName="pr-[calc(var(--row)*13/18)] text-[#f4efe8]"
+    >
           <CodeLine>
             &lt;<span className="text-[#C97B63]">!DOCTYPE html</span>&gt;
           </CodeLine>
@@ -54,14 +38,17 @@ const Officers = () => {
           </CodeLine>
           <CodeLine>{""}</CodeLine>
 
-          {/* --- HEADLINE: not a CodeLine, so it ignores the 36px rhythm --- */}
-          <h1 className="text-8xl pl-12 text-[#E7B96B] leading-none whitespace-nowrap mb-9">
-            The people who
-            <br />
-            keeps the room
-            <br />
-            open
-          </h1>
+          <RowBlock>
+            <h1 className="text-[length:calc(var(--row)*8/3)] pl-[calc(var(--row)*4/3)] text-[#E7B96B] leading-none whitespace-nowrap">
+              <Typewriter>
+                The people who
+                <br />
+                keeps the room
+                <br />
+                open
+              </Typewriter>
+            </h1>
+          </RowBlock>
 
           <CodeLine>
             &nbsp;&nbsp;&nbsp;&nbsp;
@@ -94,9 +81,7 @@ const Officers = () => {
           </CodeLine>
           <CodeLine>{""}</CodeLine>
           <CodeLine>{""}</CodeLine>
-        </div>
-      </div>
-    </div>
+    </CodeSection>
   );
 };
 
@@ -169,9 +154,12 @@ const STEM_HEIGHT = 32; // px — trunk length above the dot, and each stem's le
 const JUNCTION_HEIGHT = STEM_HEIGHT * 2; // px — trunk + stem stacked = the connector's total height
 const DOT_SIZE = STEM_HEIGHT * 0.6; // px
 const DOT_BORDER = LINE_THICKNESS + 1; // px
-const BRANCH_INSET = 100 / 6; // % — 1/6 of the width = the center of the outer columns in a 3-column grid
 
-const OrgChartConnector = () => {
+const OrgChartConnector = ({ columns = 3 }) => {
+  // % — half a column's width = the center of the OUTER columns in an
+  // N-column grid (e.g. 1/6 for 3 columns, 1/4 for 2), so the branch's
+  // ends line up with the first/last stem regardless of column count.
+  const branchInset = 100 / (columns * 2);
   const containerRef = useRef(null);
   const trunkRef = useRef(null);
   const branchRef = useRef(null);
@@ -223,8 +211,8 @@ const OrgChartConnector = () => {
         className="absolute bg-white"
         style={{
           top: STEM_HEIGHT,
-          left: `${BRANCH_INSET}%`,
-          right: `${BRANCH_INSET}%`,
+          left: `${branchInset}%`,
+          right: `${branchInset}%`,
           height: LINE_THICKNESS,
         }}
       />
@@ -241,8 +229,10 @@ const OrgChartConnector = () => {
       {/* one stem per column, dropping from the branch into each card —
           gap-8 matches the officer row's own gap-8 exactly, so the two
           grids' column centers line up instead of drifting apart */}
-      <div className="grid grid-cols-3 gap-8 h-full">
-        {[0, 1, 2].map((i) => (
+      <div
+        className={`grid ${columns === 2 ? "grid-cols-2" : "grid-cols-3"} gap-8 h-full`}
+      >
+        {Array.from({ length: columns }, (_, i) => i).map((i) => (
           <div key={i} className="relative">
             <div
               ref={(el) => (stemRefs.current[i] = el)}
@@ -311,6 +301,44 @@ const OfficersChart = () => {
               <OfficerCard {...officer} color="#C97B63" />
             </div>
           ))}
+        </div>
+      </div>
+      <div>
+        <h2 className="text-6xl font-bold text-[#E7B96B] border-t-2 border-[#E7B96B] -mx-12 text-center mb-16">
+          <div className="mt-12">CS101 Officers</div>
+        </h2>
+
+        <div className="max-w-md mx-auto">
+          <OfficerCard {...president} color="#E7B96B" />
+        </div>
+
+        {/* Card size should match the 3-column sections exactly, not just
+            look similar — so this row's width is "2 out of 3 equal columns
+            plus their shared gap-8" (matching grid-cols-3's own math),
+            centered, instead of letting 2 columns stretch across the full
+            row and end up oversized. The connector above needs the exact
+            same width/centering so its stems still land on the card
+            centers, so both share this one wrapper. */}
+        <div className="max-w-[calc((2*(100%-4rem)/3)+2rem)] mx-auto">
+          <OrgChartConnector columns={2} />
+          <div className="grid grid-cols-2 gap-8">
+            {officers.slice(0, 2).map((officer, i) => (
+              <div key={i}>
+                <OfficerCard {...officer} color="#E7B96B" />
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <div className="max-w-[calc((2*(100%-4rem)/3)+2rem)] mx-auto">
+          <OrgChartConnector columns={2} />
+          <div className="grid grid-cols-2 gap-8">
+            {officers.slice(0, 2).map((officer, i) => (
+              <div key={i}>
+                <OfficerCard {...officer} color="#E7B96B" />
+              </div>
+            ))}
+          </div>
         </div>
       </div>
     </div>

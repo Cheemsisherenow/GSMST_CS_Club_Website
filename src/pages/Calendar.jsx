@@ -1,10 +1,6 @@
 import React, { useState } from "react";
-
-const CODE_LINES = 24;
-
-function CodeLine({ children }) {
-  return <div className="h-9 leading-7 whitespace-pre text-xl">{children}</div>;
-}
+import Typewriter from "../Typewriter";
+import { CodeLine, CodeSection, RowBlock } from "../CodeLine";
 
 const TODAY = new Date().toLocaleDateString("en-US", {
   weekday: "long",
@@ -15,17 +11,11 @@ const TODAY = new Date().toLocaleDateString("en-US", {
 
 const Calendar = () => {
   return (
-    <div className="bg-[#1C1512] overflow-hidden border border-[#3a2f26]">
-      <div className="flex gap-6">
-        <div className="py-[26px] text-center px-2 border-r border-[#3a2f26]">
-          {Array.from({ length: CODE_LINES }, (_, i) => (
-            <div key={i} className="h-9 leading-7 w-10 text-[#6b5c49] text-xl">
-              {i + 1}
-            </div>
-          ))}
-        </div>
-
-        <div className="pt-[26px] pr-[26px] pb-10 text-[#f4efe8]">
+    <CodeSection
+      className="bg-[#1C1512] overflow-hidden border border-[#3a2f26]"
+      contentClassName="pr-[calc(var(--row)*13/18)] text-[#f4efe8]"
+      after={<EmbbededCalendar />}
+    >
           <CodeLine>
             <span className="text-[#C97B63]">from</span>{" "}
             <span className="text-[#E7B96B]">datetime</span>{" "}
@@ -52,18 +42,21 @@ const Calendar = () => {
             <span className="text-[#7FA396]">'''</span>
           </CodeLine>
 
-          <div className="pl-12 mb-8">
-            <div className="text-2xl text-[#cfc3ae] mb-2 whitespace-nowrap">
+          {/* Date line + headline snapped together as one block. */}
+          <RowBlock className="pl-[calc(var(--row)*4/3)]">
+            <div className="text-[length:calc(var(--row)*2/3)] leading-[calc(var(--row)*8/9)] text-[#cfc3ae] mb-[calc(var(--row)*2/9)] whitespace-nowrap">
               {TODAY}
             </div>
-            <h1 className="text-8xl text-[#E7B96B] leading-none whitespace-nowrap">
-              Live schedules
-              <br />
-              and events
-              <br />
-              in one place
+            <h1 className="text-[length:calc(var(--row)*8/3)] text-[#E7B96B] leading-none whitespace-nowrap">
+              <Typewriter>
+                Live schedules
+                <br />
+                and events
+                <br />
+                in one place
+              </Typewriter>
             </h1>
-          </div>
+          </RowBlock>
 
           <CodeLine>
             &nbsp;&nbsp;&nbsp;&nbsp;
@@ -88,10 +81,7 @@ const Calendar = () => {
           </CodeLine>
           <CodeLine>&nbsp;&nbsp;)</CodeLine>
           <CodeLine>{""}</CodeLine>
-        </div>
-      </div>
-      <EmbbededCalendar />
-    </div>
+    </CodeSection>
   );
 };
 
