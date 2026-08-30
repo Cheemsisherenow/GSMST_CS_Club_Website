@@ -2,7 +2,7 @@
 
 
 :root {
-  --row: clamp(16px, 2.8125vw, 128px);
+  --row: clamp(16px, 2.2125vw, 96px);
 }
 
 
