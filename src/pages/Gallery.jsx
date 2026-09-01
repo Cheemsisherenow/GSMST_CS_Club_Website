@@ -130,7 +130,14 @@ const SlideingGallery = () => {
 
   return (
     <div className="bg-[#1C1512] overflow-hidden p-4 md:p-12 text-[#E7B96B] text-3xl md:text-6xl ">
-      Gallery Caraselle
+      <div className="flex items-center flex-wrap gap-3 md:gap-6">
+        Gallery Caraselle
+        {/* Not real content yet — swap/remove once gallery_images has
+            actual rows people can browse. */}
+        <span className="text-xs md:text-base font-bold tracking-wide px-3 py-1 rounded-full bg-[#E7B96B] text-[#1C1512]">
+           Work in Progress
+        </span>
+      </div>
       <div ref={scrollerRef} className="flex gap-4 mt-8 overflow-x-auto">
         <div className="flex gap-4 items-center h-[40vh] md:h-[60vh]">
           {images.map((img) => (

@@ -93,8 +93,6 @@ const algoData = [
 ];
 const cyberData = [
   "/DivisionPictures/Cyber/IMG1.jpg",
-  "/DivisionPictures/Cyber/IMG2.jpg",
-  "/DivisionPictures/Cyber/IMG3.jpg",
 ];
 const csData = [
   "/DivisionPictures/CS101/IMG1.jpg",

@@ -348,7 +348,8 @@ const Meet_Divisions = () => {
         <div className="flex flex-col rounded-xl border-2 border-[#c9846a] bg-[#f4efe8] overflow-hidden">
           <div className="relative">
             <img
-              src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQdQogZKb-T6BI-dJRKvEXik0uD8bapenlK3xYUqQU6wA&s=10"
+              src="/DivisionPictures/Algo/IMG1.jpg"
+              alt="Algorithmic Programming"
               className="aspect-video object-cover w-full p-1 rounded-xl"
             />
             <div className="absolute left-1/2 top-full -translate-x-1/2 -translate-y-1/2 w-32 h-32 rounded-full bg-[#f4efe8] p-1 flex items-center justify-center">
@@ -358,7 +359,7 @@ const Meet_Divisions = () => {
             </div>
           </div>
           <div className="flex flex-col flex-1 pt-20 pb-6">
-            <h3 className="self-center text-3xl px-2 font-bold text-[#c9846a]">
+            <h3 className="text-center text-3xl px-2 font-bold text-[#c9846a]">
               Algorithmic Programming
             </h3>
             <p className="mt-4 text-lg px-6 md:h-21">
@@ -373,7 +374,8 @@ const Meet_Divisions = () => {
         <div className="flex flex-col rounded-xl border-2 border-[#7FA396] bg-[#f4efe8] overflow-hidden">
           <div className="relative">
             <img
-              src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQdQogZKb-T6BI-dJRKvEXik0uD8bapenlK3xYUqQU6wA&s=10"
+              src="/DivisionPictures/Cyber/IMG1.jpg"
+              alt="CyberDragons"
               className="aspect-video object-cover w-full p-1 rounded-xl"
             />
             <div className="absolute left-1/2 top-full -translate-x-1/2 -translate-y-1/2 w-32 h-32 rounded-full bg-[#f4efe8] p-1 flex items-center justify-center">
@@ -383,7 +385,7 @@ const Meet_Divisions = () => {
             </div>
           </div>
           <div className="flex flex-col flex-1 pt-20 pb-6">
-            <h3 className="self-center text-3xl px-2 font-bold text-[#7FA396]">
+            <h3 className="text-center text-3xl px-2 font-bold text-[#7FA396]">
               CyberDragons
             </h3>
             <p className="mt-4 text-lg px-6 md:h-21">
@@ -398,7 +400,8 @@ const Meet_Divisions = () => {
         <div className="flex flex-col rounded-xl border-2 border-[#E7B96B] bg-[#f4efe8] overflow-hidden">
           <div className="relative">
             <img
-              src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQdQogZKb-T6BI-dJRKvEXik0uD8bapenlK3xYUqQU6wA&s=10"
+              src="/DivisionPictures/CS101/IMG1.jpg"
+              alt="CS101"
               className="aspect-video object-cover w-full p-1 rounded-xl"
             />
             <div className="absolute left-1/2 top-full -translate-x-1/2 -translate-y-1/2 w-32 h-32 rounded-full bg-[#f4efe8] p-1 flex items-center justify-center">
@@ -408,7 +411,7 @@ const Meet_Divisions = () => {
             </div>
           </div>
           <div className="flex flex-col flex-1 pt-20 pb-6">
-            <h3 className="self-center text-3xl px-2 font-bold text-[#E7B96B]">
+            <h3 className="text-center text-3xl px-2 font-bold text-[#E7B96B]">
               CS101
             </h3>
             <p className="mt-4 text-lg px-6 md:h-21">

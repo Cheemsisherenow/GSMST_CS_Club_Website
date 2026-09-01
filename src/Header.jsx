@@ -16,7 +16,11 @@ const Header = () => {
       On small screens the links scroll horizontally rather than wrapping — the
       header is sticky, so a wrapped second row would eat vertical space on
       every page. */}
-      <nav className="flex gap-4 md:gap-12 divide-x-2 divide-[#3a2f26] text-[#B5AFA6] text-sm md:text-xl overflow-x-auto no-scrollbar">
+      {/* pl- leaves room for the FIRST link's bullet: the markers are
+          list-style-position:outside, so each paints to the left of its own
+          <li>. Without that padding the leading item sits flush against the
+          scroll box's edge and its bullet gets clipped by overflow-x. */}
+      <nav className="flex gap-4 md:gap-12 pl-4 md:pl-6 divide-x-2 divide-[#3a2f26] text-[#B5AFA6] text-sm md:text-xl overflow-x-auto no-scrollbar">
         {header_Links.map((item) => {
           const isActive = location.pathname === item.path;
           let markerColor = "marker:text-[#C97B63]";
