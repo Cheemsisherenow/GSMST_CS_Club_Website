@@ -149,9 +149,9 @@ const Spotlight = () => {
             </div>
           </div>
           <div className="self-start relative inline-block">
-            <div className="absolute left-6 -top-3 w-0 h-0 border-l-[10px] border-l-transparent border-r-[10px] border-r-transparent border-b-[14px] border-b-[#e3c088]" />
+            <div className="absolute left-4 md:left-6 -top-2 md:-top-3 w-0 h-0 border-l-[7px] md:border-l-[10px] border-l-transparent border-r-[7px] md:border-r-[10px] border-r-transparent border-b-[10px] md:border-b-[14px] border-b-[#e3c088]" />
 
-            <div className=" rounded-lg bg-[#e3c088] text-[#1C1512] font-bold px-6 py-3 whitespace-nowrap">
+            <div className="rounded-lg bg-[#e3c088] text-[#1C1512] font-bold px-4 md:px-6 py-2 md:py-3 whitespace-nowrap">
               &gt;&gt; Featured
             </div>
           </div>
@@ -175,7 +175,7 @@ const Spotlight = () => {
                 flush against the panel's right edge, which it only is once the
                 row is actually two columns — so it drops back to a plain pill
                 in the stacked layout. */}
-            <div className="self-start md:self-center mb-8 md:mb-0 rounded-lg md:rounded-l-none md:rounded-r-lg bg-[#7FA396] text-[#1C1512] px-6 md:px-8 py-3 md:py-4 md:[clip-path:polygon(20px_0,100%_0,100%_100%,20px_100%,0_50%)]">
+            <div className="self-start md:self-center mb-6 md:mb-0 rounded-lg md:rounded-l-none md:rounded-r-lg bg-[#7FA396] text-[#1C1512] px-4 md:px-8 py-2 md:py-4 md:[clip-path:polygon(20px_0,100%_0,100%_100%,20px_100%,0_50%)]">
               &gt;&gt; Cybersecurity
             </div>
           </div>
@@ -191,7 +191,7 @@ const Spotlight = () => {
               <div className="mb-2">| MLLH - 3PM-4PM</div>
               <div>Come join us in a escape room game for fun!</div>
             </div>
-            <div className="self-start md:self-center mb-8 md:mb-0 rounded-lg md:rounded-l-none md:rounded-r-lg bg-[#c9846a] text-[#1C1512] px-6 md:px-8 py-3 md:py-4 md:[clip-path:polygon(20px_0,100%_0,100%_100%,20px_100%,0_50%)]">
+            <div className="self-start md:self-center mb-6 md:mb-0 rounded-lg md:rounded-l-none md:rounded-r-lg bg-[#c9846a] text-[#1C1512] px-4 md:px-8 py-2 md:py-4 md:[clip-path:polygon(20px_0,100%_0,100%_100%,20px_100%,0_50%)]">
               &gt;&gt; Activity
             </div>
           </div>
