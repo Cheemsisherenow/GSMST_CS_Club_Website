@@ -1,9 +1,10 @@
-import React, { useRef } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
 import Typewriter from "../Typewriter";
 import { CodeLine, CodeSection, RowBlock } from "../CodeLine";
+import { supabase } from "../supabaseClient";
 gsap.registerPlugin(ScrollTrigger);
 
 const GalleryHero = () => {
@@ -28,7 +29,7 @@ const GalleryHero = () => {
           <CodeLine>{""}</CodeLine>
 
           <RowBlock minGapRows={1}>
-            <h1 className="text-[length:calc(var(--row)*8/3)] pl-[calc(var(--row)*4/3)] text-[#E7B96B] leading-none whitespace-nowrap">
+            <h1 className="code-h1 pl-[calc(var(--row)*4/3)] text-[#E7B96B] leading-none whitespace-nowrap">
               <Typewriter>
                 Saving
                 <br />
@@ -80,82 +81,67 @@ const GalleryHero = () => {
 
 const SlideingGallery = () => {
   const scrollerRef = useRef(null);
+  const [images, setImages] = useState([]);
 
-  useGSAP(() => {
-    const images = gsap.utils.toArray(".gallery-img");
-    images.forEach((img) => {
-      gsap.from(img, {
-        opacity: 0,
-        duration: 0.6,
-        scrollTrigger: {
-          trigger: img,
-          scroller: scrollerRef.current,
-          horizontal: true,
-          start: "left 90%",
-          toggleActions: "play reverse play reverse",
-        },
+  useEffect(() => {
+    supabase
+      .from("gallery_images")
+      .select("*")
+      .order("created_at", { ascending: false })
+      .then(({ data, error }) => {
+        if (error) console.error(error);
+        else setImages(data);
       });
-    });
-
-    const unloaded = images.filter((img) => !img.complete);
-    if (unloaded.length === 0) return;
-    let remaining = unloaded.length;
-    const onLoad = () => {
-      remaining -= 1;
-      if (remaining === 0) ScrollTrigger.refresh();
-    };
-    unloaded.forEach((img) => img.addEventListener("load", onLoad));
-    return () =>
-      unloaded.forEach((img) => img.removeEventListener("load", onLoad));
   }, []);
+
+  // Same reveal-as-you-scroll + "wait for images to actually load before
+  // trusting ScrollTrigger's measurements" logic as before, just re-run
+  // whenever the set of images changes instead of only once.
+  useGSAP(
+    () => {
+      const els = gsap.utils.toArray(".gallery-img");
+      els.forEach((img) => {
+        gsap.from(img, {
+          opacity: 0,
+          duration: 0.6,
+          scrollTrigger: {
+            trigger: img,
+            scroller: scrollerRef.current,
+            horizontal: true,
+            start: "left 90%",
+            toggleActions: "play reverse play reverse",
+          },
+        });
+      });
+
+      const unloaded = els.filter((img) => !img.complete);
+      if (unloaded.length === 0) return;
+      let remaining = unloaded.length;
+      const onLoad = () => {
+        remaining -= 1;
+        if (remaining === 0) ScrollTrigger.refresh();
+      };
+      unloaded.forEach((img) => img.addEventListener("load", onLoad));
+      return () =>
+        unloaded.forEach((img) => img.removeEventListener("load", onLoad));
+    },
+    { dependencies: [images.map((img) => img.id).join(",")] }
+  );
+
   return (
-    <div className="bg-[#1C1512] overflow-hidden p-12 text-[#E7B96B] text-6xl ">
+    <div className="bg-[#1C1512] overflow-hidden p-4 md:p-12 text-[#E7B96B] text-3xl md:text-6xl ">
       Gallery Caraselle
       <div ref={scrollerRef} className="flex gap-4 mt-8 overflow-x-auto">
-        <div className="flex text-[#F4EFE8] text-3xl gap-8 flex-col">
-          Placeholder
-          <div className="flex gap-4 items-center border-l-2 p-4 pl-8 h-[60vh] ">
+        <div className="flex gap-4 items-center h-[40vh] md:h-[60vh]">
+          {images.map((img) => (
             <img
-              src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQdQogZKb-T6BI-dJRKvEXik0uD8bapenlK3xYUqQU6wA&s=10"
-              alt=""
+              key={img.id}
+              src={img.image_url}
+              alt={img.caption || ""}
               className="gallery-img max-h-full shrink-0 rounded-xl"
               loading="lazy"
             />
-            <img
-              src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQdQogZKb-T6BI-dJRKvEXik0uD8bapenlK3xYUqQU6wA&s=10"
-              alt=""
-              className=" gallery-img max-h-full shrink-0"
-            />
-            <img
-              src="/c++.webp"
-              alt=""
-              className="gallery-img max-h-full bg-white shrink-0"
-            />
-            <img
-              src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQdQogZKb-T6BI-dJRKvEXik0uD8bapenlK3xYUqQU6wA&s=10"
-              alt=""
-              className=" gallery-img max-h-full shrink-0"
-            />
-
-            <img
-              src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQdQogZKb-T6BI-dJRKvEXik0uD8bapenlK3xYUqQU6wA&s=10"
-              alt=""
-              className=" gallery-img max-h-full shrink-0 "
-              loading="lazy"
-            />
-            <img
-              src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQdQogZKb-T6BI-dJRKvEXik0uD8bapenlK3xYUqQU6wA&s=10"
-              alt=""
-              className=" gallery-img max-h-full shrink-0 "
-              loading="lazy"
-            />
-            <img
-              src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQdQogZKb-T6BI-dJRKvEXik0uD8bapenlK3xYUqQU6wA&s=10"
-              alt=""
-              className=" gallery-img max-h-full shrink-0 "
-              loading="lazy"
-            />
-          </div>
+          ))}
         </div>
       </div>
     </div>

@@ -65,6 +65,7 @@ export const CyberOfficers = [
     description: "I play volleyball sometimes",
     email: "jason.lu6993@g.gcpsk12.org",
     photo: "/OfficerImages/Jason.jpeg",
+    title: "Officer",
   },
   {
     role: "CyberDragon Officer",
@@ -73,13 +74,16 @@ export const CyberOfficers = [
       "I joined CS Club for competitions and got hooked! Outside coding, I’m into Ferrari and GT3 racing.",
     email: "aarmaan.singh3366@g.gcpsk12.org",
     photo: "/OfficerImages/Aarmaan.jpg",
+    title: "Officer",
   },
   {
     role: "CyberDragon Officer",
     name: "Benjamin Drobny",
-    description: "I work in cybersecurity/ networking and highly recommend cyberpatriot! 主に日本語で対応しております。お気軽にお問い合わせください。",
+    description:
+      "I work in cybersecurity/ networking and highly recommend cyberpatriot! 主に日本語で対応しております。お気軽にお問い合わせください。",
     email: "benjamin.drobny5152@g.gcpsk12.org",
     photo: "/OfficerImages/Benjamin.jpeg",
+    title: "Officer",
   },
 ];
 export const AlgoOfficers = [
@@ -90,6 +94,7 @@ export const AlgoOfficers = [
       "I play soccer and pingpong, I also like drones and making websites + softwares (guess who made this) and I also like cats",
     email: "zihong.chen2739@g.gcpsk12.org",
     photo: "/OfficerImages/Zihong.jpg",
+    title: "Officer",
   },
   {
     role: "Algorithmic Officer",
@@ -98,6 +103,7 @@ export const AlgoOfficers = [
       "I like math, coding, and AI. Outside of school, I enjoy traveling and walking outside.",
     email: "george.zhang0032@g.gcpk12.org",
     photo: "/OfficerImages/George.jpeg",
+    title: "Officer",
   },
   {
     role: "Algorithmic Officer",
@@ -106,6 +112,7 @@ export const AlgoOfficers = [
       "I've been algorithimic officer for a year now, and I love CS club muahahha",
     email: "alexander.lu8279@g.gcpsk12.org",
     photo: "/OfficerImages/Alexander.png",
+    title: "Officer",
   },
 ];
 export const CS101Officers = [
@@ -115,6 +122,7 @@ export const CS101Officers = [
     description: "Senior, ME(?) major. Plays soccer and the piano",
     email: "henry.shi4460@g.gcpsk12.org",
     photo: "/OfficerImages/Henry.png",
+    title: "Officer",
   },
   {
     role: "CS101 Officer",
@@ -123,6 +131,7 @@ export const CS101Officers = [
       "I’m good at python and I love to learn about AI…I like sports… yeah that’s about it :)",
     email: "ikal.benavidescruz4804@g.gcpsk12.org",
     photo: "/OfficerImages/ikal.jpeg",
+    title: "Officer",
   },
   {
     role: "CS101 Officer",
@@ -130,6 +139,7 @@ export const CS101Officers = [
     description: "I love CS club and AI",
     email: "edwards.nguyen7449@g.gcpsk12.org",
     photo: "/OfficerImages/Edward.png",
+    title: "Officer",
   },
   {
     role: "CS101 Officer",
@@ -138,5 +148,35 @@ export const CS101Officers = [
       "I do CS and I love playing league, my favoritve champion is Teemo",
     email: "danny.lee2982@g.gcpsk12.org",
     photo: "/OfficerImages/Danny.jpg",
+    title: "Officer",
+  },
+];
+
+export const GWC = [
+  {
+    role: "GWC Officer",
+    name: "Prisha Patel",
+    description:
+      "Hi, I'm Prisha! A bit about me is that I love trying new food spots and going on walks.",
+    email: "prisha.patel3596@g.gcpsk12.org",
+    photo: "/OfficerImages/Prisha.jpg",
+    title: "Officer",
+  },
+  {
+    role: "GWC Officer",
+    name: "Paloma Laboy",
+    description:
+      "Been into CS since middle school robotics. Outside of CS, I play high school varsity golf.",
+    email: "paloma.laboy5673@g.gcpsk12.org",
+    photo: "/OfficerImages/Paloma.jpeg",
+    title: "Officer",
+  },
+  {
+    role: "GWC Officer",
+    name: "Alysia Kim",
+    description: "I like CS club a lot",
+    email: "alysia.kim4991@g.gcpsk12.org",
+    photo: "/OfficerImages/Alysia.png",
+    title: "Officer",
   },
 ];

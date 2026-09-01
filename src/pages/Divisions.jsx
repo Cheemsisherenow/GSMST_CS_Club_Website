@@ -42,7 +42,7 @@ const Divisions = () => {
       {/* Not a CodeLine — RowBlock measures it and pads it out to a
               whole number of rows, whatever text size it ends up. */}
       <RowBlock minGapRows={1}>
-        <h1 className="text-[length:calc(var(--row)*8/3)] pl-[calc(var(--row)*4/3)] text-[#E7B96B] leading-none whitespace-nowrap">
+        <h1 className="code-h1 pl-[calc(var(--row)*4/3)] text-[#E7B96B] leading-none whitespace-nowrap">
           <Typewriter>
             Choose a track
             <br />
@@ -215,51 +215,56 @@ const DivisionSpotlight = ({
   const { next, prev, rowRef } = useSlider(images.length);
 
   return (
-    <div className="bg-[#1C1512] overflow-hidden p-12 text-black">
+    <div className="bg-[#1C1512] overflow-hidden p-4 md:p-12 text-black">
       <div
-        className={`grid ${
-          reverse ? "grid-cols-[3fr_2fr]" : "grid-cols-[2fr_3fr]"
+        className={`grid grid-cols-1 ${
+          reverse ? "md:grid-cols-[3fr_2fr]" : "md:grid-cols-[2fr_3fr]"
         } bg-white rounded-3xl overflow-hidden`}
       >
+        {/* Stacked, the carousel always goes on top regardless of `reverse` —
+            the alternating left/right ordering only means anything while the
+            two are actually side by side. */}
         {reverse && (
-          <ImageCarousel
-            images={images}
-            rowRef={rowRef}
-            next={next}
-            prev={prev}
-          />
+          <div className="h-64 md:h-auto">
+            <ImageCarousel
+              images={images}
+              rowRef={rowRef}
+              next={next}
+              prev={prev}
+            />
+          </div>
         )}
-        <div className="flex flex-col p-4">
-          <div className="text-2xl mb-1" style={{ color }}>
+        <div className="flex flex-col p-4 md:order-none order-2">
+          <div className="text-lg md:text-2xl mb-1" style={{ color }}>
             {track}
           </div>
-          <div className="text-7xl mb-4" style={{ color }}>
+          <div className="text-4xl md:text-7xl mb-4" style={{ color }}>
             {title}
           </div>
-          <div className="text-2xl h-32">{description}</div>
+          <div className="text-lg md:text-2xl md:h-32">{description}</div>
           <div className="flex flex-col gap-4 mt-6 ">
             <div
               className="flex flex-col rounded-xl border-2 p-2"
               style={{ borderColor: color }}
             >
-              <div className="text-xl">Division Lead</div>
-              <div className="text-3xl">{lead}</div>
+              <div className="text-base md:text-xl">Division Lead</div>
+              <div className="text-2xl md:text-3xl">{lead}</div>
             </div>
             <div
               className="flex flex-col rounded-xl border-2 p-2"
               style={{ borderColor: color }}
             >
-              <div className="text-xl">Next Meeting</div>
-              <div className="text-3xl">{meeting}</div>
+              <div className="text-base md:text-xl">Next Meeting</div>
+              <div className="text-2xl md:text-3xl">{meeting}</div>
             </div>
             <div
               className="flex flex-col rounded-xl border-2 p-2"
               style={{ borderColor: color }}
             >
-              <div className="text-xl">Room Number</div>
-              <div className="text-3xl">{room}</div>
+              <div className="text-base md:text-xl">Room Number</div>
+              <div className="text-2xl md:text-3xl">{room}</div>
             </div>
-            <div className="grid grid-cols-2 gap-4 text-2xl">
+            <div className="grid grid-cols-2 gap-4 text-lg md:text-2xl">
               <NavLink
                 to="/resources"
                 className="flex flex-col text-center rounded-xl border-2 p-2 transition-all ease-in-out duration-300 hover:opacity-85 hover:-translate-y-0.5"
@@ -280,12 +285,14 @@ const DivisionSpotlight = ({
           </div>
         </div>
         {!reverse && (
-          <ImageCarousel
-            images={images}
-            rowRef={rowRef}
-            next={next}
-            prev={prev}
-          />
+          <div className="h-64 md:h-auto order-1 md:order-none">
+            <ImageCarousel
+              images={images}
+              rowRef={rowRef}
+              next={next}
+              prev={prev}
+            />
+          </div>
         )}
       </div>
     </div>

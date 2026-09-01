@@ -43,7 +43,20 @@ export function useRowSnap(minGapRows = 0) {
     ro.observe(probe); // --row changes (viewport resize)
     apply();
 
-    return () => ro.disconnect();
+    // A first pass can land on a height that's still settling — most often the
+    // webfont swapping in under the block's text, which shifts its height by a
+    // pixel or two AFTER the margin was computed from the old one, leaving the
+    // block permanently off the row grid. Re-measure once the fonts are in and
+    // once more on the next frame.
+    let raf = requestAnimationFrame(() => {
+      raf = requestAnimationFrame(apply);
+    });
+    document.fonts?.ready.then(apply).catch(() => {});
+
+    return () => {
+      ro.disconnect();
+      cancelAnimationFrame(raf);
+    };
   }, []);
 
   return ref;
@@ -113,7 +126,18 @@ export function CodeSection({
     ro.observe(probe);
     apply();
 
-    return () => ro.disconnect();
+    // Same settling problem as useRowSnap: the RowBlocks inside this content
+    // column adjust their own margins after their first measurement, so the
+    // column's final height isn't known on the first pass here either.
+    let raf = requestAnimationFrame(() => {
+      raf = requestAnimationFrame(apply);
+    });
+    document.fonts?.ready.then(apply).catch(() => {});
+
+    return () => {
+      ro.disconnect();
+      cancelAnimationFrame(raf);
+    };
   }, []);
 
   return (

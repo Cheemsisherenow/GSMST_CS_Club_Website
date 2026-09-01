@@ -51,7 +51,7 @@ const Hero = () => {
           <CodeLine>{""}</CodeLine>
 
           <RowBlock>
-            <h1 className="text-[length:calc(var(--row)*8/3)] pl-[calc(var(--row)*4/3)] text-[#E7B96B] leading-none whitespace-nowrap">
+            <h1 className="code-h1 pl-[calc(var(--row)*4/3)] text-[#E7B96B] leading-none whitespace-nowrap">
               <Typewriter>
                 Welcome to
                 <br />
@@ -87,7 +87,7 @@ const Hero = () => {
 
           {/* Also not a CodeLine — the border adds 2px that no row fraction
               accounts for, which RowBlock absorbs automatically. */}
-          <RowBlock className="flex gap-[calc(var(--row)*7/18)] pl-[calc(var(--row)*4/3)]">
+          <RowBlock className="flex flex-wrap gap-[calc(var(--row)*7/18)] pl-[calc(var(--row)*4/3)]">
             <a
               href="https://docs.google.com/forms/d/e/1FAIpQLSf9RmXHCNVPsQZiRgBSL1XP0mABGRPCnLSRCI6WL67fvpM8BQ/viewform?usp=header"
               target="_blank"
@@ -118,29 +118,29 @@ const Spotlight = () => {
   return (
     <div className="bg-[#241C18] overflow-hidden border text-[#f4efe8] border-[#3a2f26]">
       <div className="flex justify-between border-b border-[#3a2f26] py-4 text-[#B5AFA6]">
-        <div className="flex justify-between w-full px-12 items-center">
-          <div className="text-5xl flex gap-6">
+        <div className="flex flex-wrap gap-y-2 justify-between w-full px-6 md:px-12 items-center">
+          <div className="text-2xl md:text-5xl flex gap-3 md:gap-6 items-center">
             <h2>Upcoming Dates</h2>{" "}
-            <span className="flex justify-center items-center w-13 h-13 rounded-full bg-[#c9b896] text-[#f4efe8] ">
+            <span className="flex justify-center items-center w-8 h-8 md:w-13 md:h-13 rounded-full bg-[#c9b896] text-[#f4efe8] ">
               3
             </span>
           </div>
           <NavLink
             to="/calendar"
-            className="text-3xl cursor-pointer hover:-translate-y-0.5 hover:text-[#9c968e] duration-300 ease-in-out transition-all"
+            className="text-lg md:text-3xl cursor-pointer hover:-translate-y-0.5 hover:text-[#9c968e] duration-300 ease-in-out transition-all"
           >
             All Events &gt;&gt;
           </NavLink>
         </div>
       </div>
-      <div className="grid grid-cols-[2fr_3fr]">
-        <div className="border-r text-2xl border-[#3a2f26] flex flex-col justify-center gap-8 px-12">
+      <div className="grid grid-cols-1 md:grid-cols-[2fr_3fr]">
+        <div className="border-b md:border-b-0 md:border-r text-lg md:text-2xl border-[#3a2f26] flex flex-col justify-center gap-8 px-6 md:px-12 py-8 md:py-0">
           <div>
             <div className="mb-4">
               <span className="text-[#7FA396]">$</span> date --{" "}
               <span className="text-[#E7B96B]">09/01/2026</span>
             </div>
-            <div className="mb-2 text-4xl text-[#E7B96B]">
+            <div className="mb-2 text-2xl md:text-4xl text-[#E7B96B]">
               Orientation Meeting
             </div>
             <div className="mb-2">| MLLH - 3PM-4PM</div>
@@ -157,13 +157,13 @@ const Spotlight = () => {
           </div>
         </div>
         <div className="flex flex-col">
-          <div className="grid grid-cols-[3fr_2fr] border-b px-12 border-[#3a2f26] text-2xl">
-            <div className="pr-12 py-12">
+          <div className="grid grid-cols-1 md:grid-cols-[3fr_2fr] border-b px-6 md:px-12 border-[#3a2f26] text-lg md:text-2xl">
+            <div className="md:pr-12 py-8 md:py-12">
               <div className="text-[#B5AFA6] mb-4">
                 <span className="text-[#7FA396]">$</span> date --{" "}
                 <span className="text-[#7FA396]">09/08/2026</span>
               </div>
-              <div className="text-4xl text-[#7FA396] mb-2">
+              <div className="text-2xl md:text-4xl text-[#7FA396] mb-2">
                 CyberPatriots Application Due
               </div>
               <div>
@@ -171,21 +171,27 @@ const Spotlight = () => {
                 CyberDragons!
               </div>
             </div>
-            <div className="self-center rounded-r-lg bg-[#7FA396] text-[#1C1512] px-8 py-4 [clip-path:polygon(20px_0,100%_0,100%_100%,20px_100%,0_50%)]">
+            {/* The arrow-notch clip-path only reads as a tag while the chip is
+                flush against the panel's right edge, which it only is once the
+                row is actually two columns — so it drops back to a plain pill
+                in the stacked layout. */}
+            <div className="self-start md:self-center mb-8 md:mb-0 rounded-lg md:rounded-l-none md:rounded-r-lg bg-[#7FA396] text-[#1C1512] px-6 md:px-8 py-3 md:py-4 md:[clip-path:polygon(20px_0,100%_0,100%_100%,20px_100%,0_50%)]">
               &gt;&gt; Cybersecurity
             </div>
           </div>
-          <div className="grid grid-cols-[3fr_2fr] px-12 text-2xl">
-            <div className="pr-12 py-12">
+          <div className="grid grid-cols-1 md:grid-cols-[3fr_2fr] px-6 md:px-12 text-lg md:text-2xl">
+            <div className="md:pr-12 py-8 md:py-12">
               <div className="text-[#B5AFA6] mb-4">
                 <span className="text-[#7FA396]">$</span> date --{" "}
                 <span className="text-[#c9846a]">09/23/2026</span>
               </div>
-              <div className="text-4xl text-[#c9846a] mb-2">Escape Room</div>
+              <div className="text-2xl md:text-4xl text-[#c9846a] mb-2">
+                Escape Room
+              </div>
               <div className="mb-2">| MLLH - 3PM-4PM</div>
               <div>Come join us in a escape room game for fun!</div>
             </div>
-            <div className="self-center rounded-r-lg bg-[#c9846a] text-[#1C1512] px-8 py-4 [clip-path:polygon(20px_0,100%_0,100%_100%,20px_100%,0_50%)]">
+            <div className="self-start md:self-center mb-8 md:mb-0 rounded-lg md:rounded-l-none md:rounded-r-lg bg-[#c9846a] text-[#1C1512] px-6 md:px-8 py-3 md:py-4 md:[clip-path:polygon(20px_0,100%_0,100%_100%,20px_100%,0_50%)]">
               &gt;&gt; Activity
             </div>
           </div>
@@ -195,7 +201,10 @@ const Spotlight = () => {
   );
 };
 
-const GET_INVOLVED_START = 25;
+// Continues the Hero section's numbering — Hero ends at 25, so this picks up
+// at 26. (Hero's gutter used to render 24 from a measurement that was taken
+// before its RowBlocks settled; CodeLine.jsx now re-measures after that.)
+const GET_INVOLVED_START = 26;
 
 const GetInvolved = () => {
   return (
@@ -207,7 +216,7 @@ const GetInvolved = () => {
       <CodeLine>{""}</CodeLine>
 
       <RowBlock>
-        <h1 className="text-[length:calc(var(--row)*5/3)] text-[#E7B96B] leading-none whitespace-nowrap">
+        <h1 className="code-h2 text-[#E7B96B] leading-none whitespace-nowrap">
           Get Involved and Join
         </h1>
       </RowBlock>
@@ -223,7 +232,7 @@ const GetInvolved = () => {
 
       {/* The CASE lines self-align; the cards under them are arbitrary
               height, so the whole grid gets snapped as one block. */}
-      <RowBlock className="grid grid-cols-2 gap-x-[calc(var(--row)*32/9)]">
+      <RowBlock className="grid grid-cols-1 md:grid-cols-2 gap-x-[calc(var(--row)*32/9)]">
         <div>
           <CodeLine>
             &nbsp;&nbsp;&nbsp;&nbsp;
@@ -275,7 +284,7 @@ const GetInvolved = () => {
 
       <CodeLine>{""}</CodeLine>
 
-      <RowBlock className="grid grid-cols-2 gap-x-[calc(var(--row)*32/9)]">
+      <RowBlock className="grid grid-cols-1 md:grid-cols-2 gap-x-[calc(var(--row)*32/9)]">
         <div>
           <CodeLine>
             &nbsp;&nbsp;&nbsp;&nbsp;
@@ -331,11 +340,11 @@ const GetInvolved = () => {
 
 const Meet_Divisions = () => {
   return (
-    <div className="text-2xl overflow-hidden text-black p-12">
-      <div className="text-6xl mb-12 text-[#E7B96B] flex justify-center items-center">
+    <div className="text-lg md:text-2xl overflow-hidden text-black p-6 md:p-12">
+      <div className="text-3xl md:text-6xl mb-8 md:mb-12 text-[#E7B96B] flex justify-center items-center text-center">
         Meet Our Divisions
       </div>
-      <div className="grid grid-cols-3 gap-6 ">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 ">
         <div className="flex flex-col rounded-xl border-2 border-[#c9846a] bg-[#f4efe8] overflow-hidden">
           <div className="relative">
             <img
@@ -352,11 +361,11 @@ const Meet_Divisions = () => {
             <h3 className="self-center text-3xl px-2 font-bold text-[#c9846a]">
               Algorithmic Programming
             </h3>
-            <p className="mt-4 text-lg px-6 h-21">
+            <p className="mt-4 text-lg px-6 md:h-21">
               Problem solving, contest training, and fast thinking under
               constraints in a real competition.
             </p>
-            <NavLink className="mt-18 self-start mx-6 rounded-lg bg-[#c9846a] text-[#1C1512] font-bold px-6 py-3 hover:opacity-85 hover:-translate-y-0.5 duration-300 transition-all">
+            <NavLink className="mt-8 md:mt-18 self-start mx-6 rounded-lg bg-[#c9846a] text-[#1C1512] font-bold px-6 py-3 hover:opacity-85 hover:-translate-y-0.5 duration-300 transition-all">
               Learn More &gt;&gt;
             </NavLink>
           </div>
@@ -377,11 +386,11 @@ const Meet_Divisions = () => {
             <h3 className="self-center text-3xl px-2 font-bold text-[#7FA396]">
               CyberDragons
             </h3>
-            <p className="mt-4 text-lg px-6 h-21">
+            <p className="mt-4 text-lg px-6 md:h-21">
               Cybersecurity concepts, capture-the-flag practice, and digital
               defense.
             </p>
-            <NavLink className="mt-18 self-start mx-6 rounded-lg bg-[#7FA396] text-[#1C1512] font-bold px-6 py-3 hover:-translate-y-0.5 duration-300 hover:opacity-85 transition-all">
+            <NavLink className="mt-8 md:mt-18 self-start mx-6 rounded-lg bg-[#7FA396] text-[#1C1512] font-bold px-6 py-3 hover:-translate-y-0.5 duration-300 hover:opacity-85 transition-all">
               Learn More &gt;&gt;
             </NavLink>
           </div>
@@ -402,10 +411,10 @@ const Meet_Divisions = () => {
             <h3 className="self-center text-3xl px-2 font-bold text-[#E7B96B]">
               CS101
             </h3>
-            <p className="mt-4 text-lg px-6 h-21">
+            <p className="mt-4 text-lg px-6 md:h-21">
               Beginner-friendly lessons, labs, and confidence-building problems.
             </p>
-            <NavLink className="mt-18 self-start mx-6 rounded-lg bg-[#E7B96B] text-[#1C1512] font-bold px-6 py-3 hover:-translate-y-0.5 duration-300 hover:opacity-85 transition-all">
+            <NavLink className="mt-8 md:mt-18 self-start mx-6 rounded-lg bg-[#E7B96B] text-[#1C1512] font-bold px-6 py-3 hover:-translate-y-0.5 duration-300 hover:opacity-85 transition-all">
               Learn More &gt;&gt;
             </NavLink>
           </div>

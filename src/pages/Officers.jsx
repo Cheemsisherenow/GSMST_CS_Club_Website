@@ -4,7 +4,7 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
 import Typewriter from "../Typewriter";
 import { FitText } from "../FitText";
-import { AlgoOfficers, CS101Officers, CyberOfficers, Executives, Heads } from "../constants";
+import { AlgoOfficers, CS101Officers, CyberOfficers, Executives, Heads, GWC } from "../constants";
 
 import { CodeLine, CodeSection, RowBlock } from "../CodeLine";
 
@@ -41,7 +41,7 @@ const Officers = () => {
           <CodeLine>{""}</CodeLine>
 
           <RowBlock minGapRows={1}>
-            <h1 className="text-[length:calc(var(--row)*8/3)] pl-[calc(var(--row)*4/3)] text-[#E7B96B] leading-none whitespace-nowrap">
+            <h1 className="code-h1 pl-[calc(var(--row)*4/3)] text-[#E7B96B] leading-none whitespace-nowrap">
               <Typewriter>
                 The people who
                 <br />
@@ -87,15 +87,6 @@ const Officers = () => {
   );
 };
 
-const president = {
-  role: "President",
-  name: "Jackie Lu",
-  description:
-    "Description blah blah blah blah blah blah blah bla blah blah blah blah blah blah blah",
-  email: "Jackielu@gmail.com",
-  photo: "/Jackie.jpeg",
-};
-const officers = [president, president, president]; 
 const MailIcon = () => (
   <svg viewBox="0 0 24 24" className="w-4 h-4" fill="currentColor">
     <path d="M3 5a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h18a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2H3zm0 2 9 6 9-6v2l-9 6-9-6V7z" />
@@ -114,6 +105,7 @@ const OfficerCard = ({
   <div
     className="rounded-xl border-2 border-[var(--color)] overflow-hidden bg-[#1C1512] hover:-translate-y-0.5 duration-300 ease-in-out hover:ring-2 hover:ring-[var(--color)]/60"
     style={{ "--color": color }}
+    loading="lazy"
   >
     <div className="flex items-center gap-2 bg-[var(--color)]/40 px-4 py-3">
       <span className="w-3 h-3 rounded-full bg-[#C97B63]" />
@@ -207,9 +199,12 @@ const OrgChartConnector = ({ columns = 3 }) => {
   }, []);
 
   return (
+    // Hidden below `md`, where the officer grids collapse to a single column
+    // — the trunk/branch/stems only describe a hierarchy while the cards are
+    // actually laid out side by side.
     <div
       ref={containerRef}
-      className="relative w-full"
+      className="relative w-full hidden md:block"
       style={{ height: JUNCTION_HEIGHT }}
     >
      
@@ -265,14 +260,14 @@ const OrgChartConnector = ({ columns = 3 }) => {
 
 const OfficersChart = () => {
   return (
-    <div className="flex flex-col bg-[#1C1512] p-12 gap-32">
+    <div className="flex flex-col bg-[#1C1512] p-6 md:p-12 gap-16 md:gap-32">
       <div>
-        <h2 className="text-6xl font-bold text-[#F4EFE8] text-center mb-16">
+        <h2 className="text-3xl md:text-6xl font-bold text-[#F4EFE8] text-center mb-8 md:mb-16">
           Executive Officers
         </h2>
-        <div className="grid grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {Executives.map((exec, i) => (
-            <div key={i} className={i === 1 ? "-mt-8" : ""}>
+            <div key={i} className={i === 1 ? "md:-mt-8" : ""}>
               <OfficerCard
                 {...exec}
                 color="#F4EFE8"
@@ -283,8 +278,8 @@ const OfficersChart = () => {
         </div>
       </div>
       <div>
-        <h2 className="text-6xl font-bold text-[#7FA396] -mx-12 border-t-2 border-[#7FA396] text-center mb-16">
-          <div className="mt-12">CyberDragons Officers</div>
+        <h2 className="text-3xl md:text-6xl font-bold text-[#7FA396] -mx-6 md:-mx-12 border-t-2 border-[#7FA396] text-center mb-8 md:mb-16">
+          <div className="mt-6 md:mt-12">CyberDragons Officers</div>
         </h2>
 
         <div className="max-w-md mx-auto">
@@ -293,7 +288,7 @@ const OfficersChart = () => {
 
         <OrgChartConnector />
 
-        <div className="grid grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {CyberOfficers.map((officer, i) => (
             <div key={i}>
               <OfficerCard {...officer} color="#7FA396" />
@@ -302,8 +297,8 @@ const OfficersChart = () => {
         </div>
       </div>
       <div>
-        <h2 className="text-6xl font-bold text-[#C97B63] border-t-2 border-[#C97B63] -mx-12 text-center mb-16">
-          <div className="mt-12">Algorithmic Officers</div>
+        <h2 className="text-3xl md:text-6xl font-bold text-[#C97B63] border-t-2 border-[#C97B63] -mx-6 md:-mx-12 text-center mb-8 md:mb-16">
+          <div className="mt-6 md:mt-12">Algorithmic Officers</div>
         </h2>
 
         <div className="max-w-md mx-auto">
@@ -312,7 +307,7 @@ const OfficersChart = () => {
 
         <OrgChartConnector />
 
-        <div className="grid grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {AlgoOfficers.map((officer, i) => (
             <div key={i}>
               <OfficerCard {...officer} color="#C97B63" />
@@ -321,8 +316,8 @@ const OfficersChart = () => {
         </div>
       </div>
       <div>
-        <h2 className="text-6xl font-bold text-[#E7B96B] border-t-2 border-[#E7B96B] -mx-12 text-center mb-16">
-          <div className="mt-12">CS101 Officers</div>
+        <h2 className="text-3xl md:text-6xl font-bold text-[#E7B96B] border-t-2 border-[#E7B96B] -mx-6 md:-mx-12 text-center mb-8 md:mb-16">
+          <div className="mt-6 md:mt-12">CS101 Officers</div>
         </h2>
 
         <div className="max-w-md mx-auto">
@@ -331,7 +326,7 @@ const OfficersChart = () => {
 
         <div className="max-w-[calc((2*(100%-4rem)/3)+2rem)] mx-auto">
           <OrgChartConnector columns={2} />
-          <div className="grid grid-cols-2 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             {CS101Officers.slice(0, 2).map((officer, i) => (
               <div key={i}>
                 <OfficerCard {...officer} color="#E7B96B" />
@@ -342,13 +337,25 @@ const OfficersChart = () => {
 
         <div className="max-w-[calc((2*(100%-4rem)/3)+2rem)] mx-auto">
           <OrgChartConnector columns={2} />
-          <div className="grid grid-cols-2 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             {CS101Officers.slice(2, 4).map((officer, i) => (
               <div key={i}>
                 <OfficerCard {...officer} color="#E7B96B" />
               </div>
             ))}
           </div>
+        </div>
+      </div>
+      <div>
+        <h2 className="text-3xl md:text-6xl font-bold text-[#0e9c90] border-t-2 text-center mb-8 md:mb-16 -mx-6 md:-mx-12">
+          <div className="mt-6 md:mt-12">Girls Who Code</div>
+        </h2>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          {GWC.map((exec, i) => (
+            <div key={i}>
+              <OfficerCard {...exec} color="#0e9c90" />
+            </div>
+          ))}
         </div>
       </div>
     </div>

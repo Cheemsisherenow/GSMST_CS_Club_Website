@@ -3,24 +3,54 @@
 
 :root {
   --row: clamp(16px, 2.2125vw, 96px);
+  /* Hero headline / section headline sizes, as their own tokens so the
+     mobile overrides below have one place to shrink them from. */
+  --code-h1: calc(var(--row) * 8 / 3);
+  --code-h2: calc(var(--row) * 5 / 3);
 }
 
+/* Below the `md` breakpoint the plain vw-based --row bottoms out at its 16px
+   floor, which leaves the code text at ~9px — too small to read. Scale it off
+   viewport width instead, and shrink the headlines harder than --row alone
+   would: they're `whitespace-nowrap`, so unlike the code lines they can't wrap
+   out of an overflow and have to actually fit the column. */
+@media (max-width: 767px) {
+  :root {
+    --row: clamp(20px, 6.4vw, 28px);
+    --code-h1: clamp(16px, 7vw, 28px);
+    --code-h2: clamp(14px, 5.2vw, 22px);
+  }
+}
 
+/* min-height (not height) + pre-wrap is what lets an over-long line spill
+   into extra rows instead of overflowing its column. line-height is a full
+   --row so each wrapped visual line is exactly one row tall, which keeps the
+   content on the row grid — CodeSection derives the gutter's line count from
+   the measured content height, so wrapped lines get numbered automatically. */
 .code-line {
-  height: var(--row);
-  line-height: calc(var(--row) * 7 / 9);
+  min-height: var(--row);
+  line-height: var(--row);
   font-size: calc(var(--row) * 5 / 9);
-  white-space: pre;
+  white-space: pre-wrap;
+  overflow-wrap: break-word;
 }
 
 /* A gutter line number — same row metrics, plus the fixed column
    width (40px at row=36) that keeps the numbers right-aligned. */
 .code-num {
   height: var(--row);
-  line-height: calc(var(--row) * 7 / 9);
+  line-height: var(--row);
   font-size: calc(var(--row) * 5 / 9);
   width: calc(var(--row) * 10 / 9);
   text-align: center;
+}
+
+.code-h1 {
+  font-size: var(--code-h1);
+}
+
+.code-h2 {
+  font-size: var(--code-h2);
 }
 
 html, body {
@@ -36,4 +66,30 @@ html, body {
 @keyframes blink {
   0%, 50% { opacity: 1; }
   50.01%, 100% { opacity: 0; }
+}
+
+/* The header nav scrolls sideways on small screens; its scrollbar would sit
+   right under the links and read as a stray underline, so hide the bar
+   itself while keeping the scrolling. */
+.no-scrollbar {
+  scrollbar-width: none;
+}
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+/* Thin accent-colored scrollbar for the calendar's "Upcoming" events list. */
+.events-scroll {
+  scrollbar-width: thin;
+  scrollbar-color: #C97B63 transparent;
+}
+.events-scroll::-webkit-scrollbar {
+  width: 6px;
+}
+.events-scroll::-webkit-scrollbar-track {
+  background: transparent;
+}
+.events-scroll::-webkit-scrollbar-thumb {
+  background-color: #C97B63;
+  border-radius: 999px;
 }
