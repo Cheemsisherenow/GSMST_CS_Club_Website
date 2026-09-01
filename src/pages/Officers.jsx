@@ -3,6 +3,8 @@ import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
 import Typewriter from "../Typewriter";
+import { FitText } from "../FitText";
+import { AlgoOfficers, CS101Officers, CyberOfficers, Executives, Heads } from "../constants";
 
 import { CodeLine, CodeSection, RowBlock } from "../CodeLine";
 
@@ -38,7 +40,7 @@ const Officers = () => {
           </CodeLine>
           <CodeLine>{""}</CodeLine>
 
-          <RowBlock>
+          <RowBlock minGapRows={1}>
             <h1 className="text-[length:calc(var(--row)*8/3)] pl-[calc(var(--row)*4/3)] text-[#E7B96B] leading-none whitespace-nowrap">
               <Typewriter>
                 The people who
@@ -91,7 +93,7 @@ const president = {
   description:
     "Description blah blah blah blah blah blah blah bla blah blah blah blah blah blah blah",
   email: "Jackielu@gmail.com",
-  photo: "https://placehold.co/300x300/1C1512/e3c088?text=Photo",
+  photo: "/Jackie.jpeg",
 };
 const officers = [president, president, president]; 
 const MailIcon = () => (
@@ -100,16 +102,24 @@ const MailIcon = () => (
   </svg>
 );
 
-const OfficerCard = ({ role, name, description, email, photo, color }) => (
+const OfficerCard = ({
+  role,
+  name,
+  description,
+  email,
+  photo,
+  color,
+  title,
+}) => (
   <div
-    className="rounded-xl border-2 border-[var(--color)] overflow-hidden bg-[#1C1512]"
+    className="rounded-xl border-2 border-[var(--color)] overflow-hidden bg-[#1C1512] hover:-translate-y-0.5 duration-300 ease-in-out hover:ring-2 hover:ring-[var(--color)]/60"
     style={{ "--color": color }}
   >
     <div className="flex items-center gap-2 bg-[var(--color)]/40 px-4 py-3">
       <span className="w-3 h-3 rounded-full bg-[#C97B63]" />
       <span className="w-3 h-3 rounded-full bg-[#E7B96B]" />
       <span className="w-3 h-3 rounded-full bg-[#7FA396]" />
-      <span className="ml-2 text-2xl text-[#B5AFA6]">User@{role}:~$</span>
+      <span className="ml-2 text-2xl text-[#B5AFA6]">User@{title}:~$</span>
     </div>
 
     <div className="px-6 py-4 text-[#F4EFE8]">
@@ -120,26 +130,29 @@ const OfficerCard = ({ role, name, description, email, photo, color }) => (
       <img
         src={photo}
         alt={name}
-        className="place-self-center w-3/4 aspect-square object-cover border-2 border-[var(--color)] mb-6"
+        loading="lazy"
+        className="place-self-center w-3/4 aspect-square object-cover p-2 border-2 border-[var(--color)] mb-6"
       />
 
-      <div className="text-[#F4EFE8] text-2xl">
+      <FitText className="text-[#F4EFE8] text-2xl">
         {" "}
         <span className="text-[#7FA396]"> &gt; </span> {role}
-      </div>
-      <div className="text-5xl font-bold text-[var(--color)] mb-4">{name}</div>
+      </FitText>
+      <FitText className="text-5xl font-bold leading-none text-[var(--color)] mt-2 mb-4">
+        {name}
+      </FitText>
 
-      <div className="text-[#F4EFE8] mb-6 text-xl">
+      <div className="text-[#F4EFE8] mb-6 text-xl h-28 line-clamp-4">
         {" "}
-        <span className="text-[#7FA396]"> &gt; </span> Description {description}
+        <span className="text-[#7FA396]"> &gt; </span> {description}
       </div>
 
       <a
         href={`mailto:${email}`}
-        className="inline-flex items-center gap-2 rounded-lg border text-xl border-[#3a2f26] bg-[#241C18] px-4 py-2 hover:opacity-85 transition-opacity"
+        className="inline-flex items-center gap-2 rounded-lg border text-xl border-[#3a2f26] bg-[#241C18] px-4 py-2 hover:opacity-85 transition-all hover:-translate-y-0.5 duration-300 ease-in-out"
       >
         <MailIcon />
-        {email}
+        Email Contact
       </a>
     </div>
   </div>
@@ -258,9 +271,13 @@ const OfficersChart = () => {
           Executive Officers
         </h2>
         <div className="grid grid-cols-3 gap-8">
-          {officers.map((officer, i) => (
+          {Executives.map((exec, i) => (
             <div key={i} className={i === 1 ? "-mt-8" : ""}>
-              <OfficerCard {...officer} color="#F4EFE8" />
+              <OfficerCard
+                {...exec}
+                color="#F4EFE8"
+                title={i === 1 ? "President" : "VicePresident"}
+              />
             </div>
           ))}
         </div>
@@ -271,13 +288,13 @@ const OfficersChart = () => {
         </h2>
 
         <div className="max-w-md mx-auto">
-          <OfficerCard {...president} color="#7FA396" />
+          <OfficerCard {...Heads[0]} title="HeadOfficer" color="#7FA396" />
         </div>
 
         <OrgChartConnector />
 
         <div className="grid grid-cols-3 gap-8">
-          {officers.map((officer, i) => (
+          {CyberOfficers.map((officer, i) => (
             <div key={i}>
               <OfficerCard {...officer} color="#7FA396" />
             </div>
@@ -290,13 +307,13 @@ const OfficersChart = () => {
         </h2>
 
         <div className="max-w-md mx-auto">
-          <OfficerCard {...president} color="#C97B63" />
+          <OfficerCard {...Heads[1]} title="HeadOfficer" color="#C97B63" />
         </div>
 
         <OrgChartConnector />
 
         <div className="grid grid-cols-3 gap-8">
-          {officers.map((officer, i) => (
+          {AlgoOfficers.map((officer, i) => (
             <div key={i}>
               <OfficerCard {...officer} color="#C97B63" />
             </div>
@@ -309,20 +326,13 @@ const OfficersChart = () => {
         </h2>
 
         <div className="max-w-md mx-auto">
-          <OfficerCard {...president} color="#E7B96B" />
+          <OfficerCard {...Heads[2]} title="HeadOfficer" color="#E7B96B" />
         </div>
 
-        {/* Card size should match the 3-column sections exactly, not just
-            look similar — so this row's width is "2 out of 3 equal columns
-            plus their shared gap-8" (matching grid-cols-3's own math),
-            centered, instead of letting 2 columns stretch across the full
-            row and end up oversized. The connector above needs the exact
-            same width/centering so its stems still land on the card
-            centers, so both share this one wrapper. */}
         <div className="max-w-[calc((2*(100%-4rem)/3)+2rem)] mx-auto">
           <OrgChartConnector columns={2} />
           <div className="grid grid-cols-2 gap-8">
-            {officers.slice(0, 2).map((officer, i) => (
+            {CS101Officers.slice(0, 2).map((officer, i) => (
               <div key={i}>
                 <OfficerCard {...officer} color="#E7B96B" />
               </div>
@@ -333,7 +343,7 @@ const OfficersChart = () => {
         <div className="max-w-[calc((2*(100%-4rem)/3)+2rem)] mx-auto">
           <OrgChartConnector columns={2} />
           <div className="grid grid-cols-2 gap-8">
-            {officers.slice(0, 2).map((officer, i) => (
+            {CS101Officers.slice(2, 4).map((officer, i) => (
               <div key={i}>
                 <OfficerCard {...officer} color="#E7B96B" />
               </div>

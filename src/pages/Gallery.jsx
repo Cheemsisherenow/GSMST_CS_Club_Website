@@ -27,7 +27,7 @@ const GalleryHero = () => {
           </CodeLine>
           <CodeLine>{""}</CodeLine>
 
-          <RowBlock>
+          <RowBlock minGapRows={1}>
             <h1 className="text-[length:calc(var(--row)*8/3)] pl-[calc(var(--row)*4/3)] text-[#E7B96B] leading-none whitespace-nowrap">
               <Typewriter>
                 Saving

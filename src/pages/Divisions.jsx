@@ -11,98 +11,95 @@ const Divisions = () => {
       className="bg-[#1C1512] overflow-hidden border border-b-2 border-[#3a2f26]"
       contentClassName="pr-[calc(var(--row)*13/18)] text-[#f4efe8]"
     >
-          <CodeLine>
-            <span className="text-[#C97B63]">import</span>{" "}
-            <span className="text-[#7FA396]">
-              React,
-              <span className="text-[#f4efe8]"> {"{"}</span>
-              {" useRef, useMemo "}
-              <span className="text-[#f4efe8]">{"}"} </span>
-            </span>
-            <span className="text-[#C97B63]">from</span>{" "}
-            <span className="text-[#E7B96B]">"react"</span>
-          </CodeLine>
-          <CodeLine>{""}</CodeLine>
-          <CodeLine>
-            <span className="text-[#453D34]">
-              // We have niches for everyone!
-            </span>
-          </CodeLine>
-          <CodeLine>
-            <span className="text-[#C97B63]">const</span>{" "}
-            <span className="text-[#7FA396]">Divisions </span> = () =&gt; {"{"}
-          </CodeLine>
-          <CodeLine>
-            &nbsp;&nbsp;<span className="text-[#C97B63]">return</span> (
-          </CodeLine>
-          <CodeLine>
-            &nbsp;&nbsp;&nbsp;&nbsp;&lt;
-            <span className="text-[#7FA396]">h1</span>&gt;
-          </CodeLine>
-          <CodeLine>{""}</CodeLine>
+      <CodeLine>
+        <span className="text-[#C97B63]">import</span>{" "}
+        <span className="text-[#7FA396]">
+          React,
+          <span className="text-[#f4efe8]"> {"{"}</span>
+          {" useRef, useMemo "}
+          <span className="text-[#f4efe8]">{"}"} </span>
+        </span>
+        <span className="text-[#C97B63]">from</span>{" "}
+        <span className="text-[#E7B96B]">"react"</span>
+      </CodeLine>
+      <CodeLine>{""}</CodeLine>
+      <CodeLine>
+        <span className="text-[#453D34]">// We have niches for everyone!</span>
+      </CodeLine>
+      <CodeLine>
+        <span className="text-[#C97B63]">const</span>{" "}
+        <span className="text-[#7FA396]">Divisions </span> = () =&gt; {"{"}
+      </CodeLine>
+      <CodeLine>
+        &nbsp;&nbsp;<span className="text-[#C97B63]">return</span> (
+      </CodeLine>
+      <CodeLine>
+        &nbsp;&nbsp;&nbsp;&nbsp;&lt;
+        <span className="text-[#7FA396]">h1</span>&gt;
+      </CodeLine>
+      <CodeLine>{""}</CodeLine>
 
-          {/* Not a CodeLine — RowBlock measures it and pads it out to a
+      {/* Not a CodeLine — RowBlock measures it and pads it out to a
               whole number of rows, whatever text size it ends up. */}
-          <RowBlock>
-            <h1 className="text-[length:calc(var(--row)*8/3)] pl-[calc(var(--row)*4/3)] text-[#E7B96B] leading-none whitespace-nowrap">
-              <Typewriter>
-                Choose a track
-                <br />
-                without
-                <br />
-                choosing a box
-              </Typewriter>
-            </h1>
-          </RowBlock>
+      <RowBlock minGapRows={1}>
+        <h1 className="text-[length:calc(var(--row)*8/3)] pl-[calc(var(--row)*4/3)] text-[#E7B96B] leading-none whitespace-nowrap">
+          <Typewriter>
+            Choose a track
+            <br />
+            without
+            <br />
+            choosing a box
+          </Typewriter>
+        </h1>
+      </RowBlock>
 
-          <CodeLine>
-            &nbsp;&nbsp;&nbsp;&nbsp;
-            <span className="text-[#B5AFA6]">
-              /* Each division has their own lead, officers, meeting time,
-            </span>
-          </CodeLine>
-          <CodeLine>
-            &nbsp;&nbsp;&nbsp;&nbsp;
-            <span className="text-[#B5AFA6]">
-              resource, calendar, and specializes in different fields.
-            </span>
-          </CodeLine>
-          <CodeLine>
-            &nbsp;&nbsp;&nbsp;&nbsp;
-            <span className="text-[#B5AFA6]">
-              Each student can join multiple divisions at once */
-            </span>
-          </CodeLine>
-          <CodeLine>{""}</CodeLine>
-          <CodeLine>
-            &nbsp;&nbsp;&nbsp;&nbsp;&lt;
-            <span className="text-[#7FA396]">/h1</span>&gt;
-          </CodeLine>
-          <CodeLine>&nbsp;&nbsp;)</CodeLine>
-          <CodeLine>{"}"}</CodeLine>
-          <CodeLine>
-            <span className="text-[#c1663a]">export</span>{" "}
-            <span className="text-[#7FA396]">default Divisions </span>
-          </CodeLine>
+      <CodeLine>
+        &nbsp;&nbsp;&nbsp;&nbsp;
+        <span className="text-[#B5AFA6]">
+          /* Each division has their own lead, officers, meeting time,
+        </span>
+      </CodeLine>
+      <CodeLine>
+        &nbsp;&nbsp;&nbsp;&nbsp;
+        <span className="text-[#B5AFA6]">
+          resource, calendar, and specializes in different fields.
+        </span>
+      </CodeLine>
+      <CodeLine>
+        &nbsp;&nbsp;&nbsp;&nbsp;
+        <span className="text-[#B5AFA6]">
+          Each student can join multiple divisions at once */
+        </span>
+      </CodeLine>
+      <CodeLine>{""}</CodeLine>
+      <CodeLine>
+        &nbsp;&nbsp;&nbsp;&nbsp;&lt;
+        <span className="text-[#7FA396]">/h1</span>&gt;
+      </CodeLine>
+      <CodeLine>&nbsp;&nbsp;)</CodeLine>
+      <CodeLine>{"}"}</CodeLine>
+      <CodeLine>
+        <span className="text-[#c1663a]">export</span>{" "}
+        <span className="text-[#7FA396]">default Divisions </span>
+      </CodeLine>
     </CodeSection>
   );
 };
 
-
 const algoData = [
-  "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQdQogZKb-T6BI-dJRKvEXik0uD8bapenlK3xYUqQU6wA&s=10",
-  "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQdQogZKb-T6BI-dJRKvEXik0uD8bapenlK3xYUqQU6wA&s=10",
-  "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQdQogZKb-T6BI-dJRKvEXik0uD8bapenlK3xYUqQU6wA&s=10",
+  "/DivisionPictures/Algo/IMG1.jpg",
+  "/DivisionPictures/Algo/IMG2.jpg",
+  "/DivisionPictures/Algo/IMG3.jpg",
 ];
 const cyberData = [
-  "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQdQogZKb-T6BI-dJRKvEXik0uD8bapenlK3xYUqQU6wA&s=10",
-  "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQdQogZKb-T6BI-dJRKvEXik0uD8bapenlK3xYUqQU6wA&s=10",
-  "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQdQogZKb-T6BI-dJRKvEXik0uD8bapenlK3xYUqQU6wA&s=10",
+  "/DivisionPictures/Cyber/IMG1.jpg",
+  "/DivisionPictures/Cyber/IMG2.jpg",
+  "/DivisionPictures/Cyber/IMG3.jpg",
 ];
 const csData = [
-  "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQdQogZKb-T6BI-dJRKvEXik0uD8bapenlK3xYUqQU6wA&s=10",
-  "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQdQogZKb-T6BI-dJRKvEXik0uD8bapenlK3xYUqQU6wA&s=10",
-  "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQdQogZKb-T6BI-dJRKvEXik0uD8bapenlK3xYUqQU6wA&s=10",
+  "/DivisionPictures/CS101/IMG1.jpg",
+  "/DivisionPictures/CS101/IMG2.jpg",
+  "/DivisionPictures/CS101/IMG3.jpg",
 ];
 
 const useSlider = (itemCount) => {
@@ -151,14 +148,14 @@ const ImageCarousel = ({ images, rowRef, next, prev }) => {
       <button
         onClick={prev}
         aria-label="Previous image"
-        className="absolute left-5 top-1/2 -translate-y-1/2 text-4xl text-white drop-shadow p-2 rounded-full trnasition-all  duration-300 ease-in-out hover:bg-[#9c968e]"
+        className="absolute left-5 top-1/2 -translate-y-1/2 text-4xl text-white drop-shadow p-2 rounded-full trnasition-all  duration-300 ease-in-out hover:bg-[#9c968e]/60"
       >
         &lt;
       </button>
       <button
         onClick={next}
         aria-label="Next image"
-        className="absolute right-5 top-1/2 -translate-y-1/2 text-4xl text-white drop-shadow rounded-full trnasition-all  duration-300 ease-in-out p-2 hover:bg-[#9c968e]"
+        className="absolute right-5 top-1/2 -translate-y-1/2 text-4xl text-white drop-shadow rounded-full trnasition-all  duration-300 ease-in-out p-2 hover:bg-[#9c968e]/60"
       >
         &gt;
       </button>
@@ -173,8 +170,8 @@ const algo = {
   description:
     "Placeholder description for contest prep, data structure, problem sets, mock rounds, and team selection.",
   lead: "Evan Yang",
-  meeting: "09/03/2026",
-  room: "N/A",
+  meeting: "09/10/2026",
+  room: "5.433",
   reverse: true,
   images: algoData,
 };
@@ -186,7 +183,7 @@ const cyber = {
     "Placeholder description for cybersecurity lessons, CTF practice, responsible disclosure, and team discussion.",
   lead: "Luke Cheng",
   meeting: "09/02/2026",
-  room: "N/A",
+  room: "5.",
   images: cyberData,
 };
 
@@ -197,8 +194,8 @@ const cs = {
   description:
     "Placeholder description for students learning programming fundamentals, web basics, debugging habits, and project confidence",
   lead: "Stephen Akrong",
-  meeting: "09/01/2026",
-  room: "N/A",
+  meeting: "09/08/2026",
+  room: "5.401",
   reverse: true,
   images: csData,
 };

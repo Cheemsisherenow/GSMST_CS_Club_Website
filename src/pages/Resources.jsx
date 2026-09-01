@@ -48,7 +48,7 @@ const Resources = () => {
           </CodeLine>
           <CodeLine>{""}</CodeLine>
 
-          <RowBlock>
+          <RowBlock minGapRows={1}>
             <h1 className="text-[length:calc(var(--row)*8/3)] pl-[calc(var(--row)*4/3)] text-[#E7B96B] leading-none whitespace-nowrap">
               <Typewriter>
                 Links that
@@ -191,30 +191,26 @@ const ResourceFolders = () => {
       <div className="relative">
         <div ref={firstWrapperRef} className="relative z-0">
           <Folder
-            folderFront="/FolderFront4.png"
-            folderBack="/FolderBack4.png"
-            middleFolder="/FolderMiddle4.png"
+            folderFront="/Folder4/FolderFront4.png"
+            folderBack="/Folder4/FolderBack4.png"
           />
         </div>
         <div className="relative z-10" style={{ marginTop: pullUp }}>
           <Folder
-            folderFront="/FolderFront3.png"
-            folderBack="/FolderBack3.png"
-            middleFolder="/FolderMiddle3.png"
+            folderFront="/Folder3/FolderFront3.png"
+            folderBack="/Folder3/FolderBack3.png"
           />
         </div>
         <div className="relative z-20" style={{ marginTop: pullUp }}>
           <Folder
-            folderFront="/FolderFront2.png"
-            folderBack="/FolderBack2.png"
-            middleFolder="/FolderMiddle2.png"
+            folderFront="/Folder2/FolderFront2.png"
+            folderBack="/Folder2/FolderBack2.png"
           />
         </div>
         <div className="relative z-30" style={{ marginTop: pullUp }}>
           <Folder
-            folderFront="/FolderFront.png"
-            folderBack="/FolderBack.png"
-            middleFolder="/FolderMiddle.png"
+            folderFront="/Folder1/FolderFront.png"
+            folderBack="/Folder1/FolderBack.png"
           />
         </div>
       </div>

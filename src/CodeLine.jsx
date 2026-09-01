@@ -15,7 +15,12 @@ function rowProbe() {
   return probeEl;
 }
 
-export function useRowSnap() {
+// minGapRows guarantees AT LEAST that many extra rows of margin beyond
+// whatever rounding-up already provides — needed because content that
+// lands exactly on a row multiple (e.g. 3 lines at leading-none, each
+// 8/3 of a row = exactly 8 rows) rounds up to itself, getting zero
+// margin, which reads as no gap at all before the next thing.
+export function useRowSnap(minGapRows = 0) {
   const ref = useRef(null);
 
   useLayoutEffect(() => {
@@ -26,7 +31,10 @@ export function useRowSnap() {
       const row = probe.getBoundingClientRect().height;
       if (!row) return;
       const h = el.getBoundingClientRect().height;
-      const rows = Math.max(1, Math.ceil((h - SUBPIXEL_TOLERANCE) / row));
+      const rows = Math.max(
+        1,
+        Math.ceil((h - SUBPIXEL_TOLERANCE) / row) + minGapRows
+      );
       el.style.marginBottom = `${(rows * row - h).toFixed(3)}px`;
     };
 
@@ -43,8 +51,8 @@ export function useRowSnap() {
 
 // Wrap any non-CodeLine content (headline, button row, card grid) in this and
 // it will occupy a whole number of rows at whatever size it happens to be.
-export function RowBlock({ children, className = "" }) {
-  const ref = useRowSnap();
+export function RowBlock({ children, className = "", minGapRows = 0 }) {
+  const ref = useRowSnap(minGapRows);
   return (
     <div ref={ref} className={className}>
       {children}
