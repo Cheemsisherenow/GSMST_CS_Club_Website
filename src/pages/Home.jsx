@@ -138,14 +138,14 @@ const Spotlight = () => {
           <div>
             <div className="mb-4">
               <span className="text-[#7FA396]">$</span> date --{" "}
-              <span className="text-[#E7B96B]">09/01/2026</span>
+              <span className="text-[#E7B96B]">09/03/2026</span>
             </div>
             <div className="mb-2 text-2xl md:text-4xl text-[#E7B96B]">
-              Orientation Meeting
+              CyberDragons meeting
             </div>
-            <div className="mb-2">| MLLH - 3PM-4PM</div>
+            <div className="mb-2">| 5.011 - 3PM-4PM</div>
             <div>
-              Come to CS club's first kickoff general meeting for the year!
+              Come to Cyberdragon's first meeting for the year!
             </div>
           </div>
           <div className="self-start relative inline-block">
@@ -157,8 +157,8 @@ const Spotlight = () => {
                 between two fixed sizes (which leaves a range of widths where
                 it's still the bigger size but the chip's already too narrow
                 for it, and ">> Featured" wraps onto two lines). */}
-            <div className="rounded-lg bg-[#e3c088] text-[#1C1512] font-bold px-4 md:px-6 py-2 md:py-3 whitespace-nowrap overflow-hidden text-ellipsis max-w-full text-[length:clamp(0.7rem,2vw,1.5rem)]">
-              &gt;&gt; Featured
+            <div className="rounded-lg bg-[#e3c088] text-[#1C1512] font-bold px-4 md:px-6 py-2 md:py-3 whitespace-nowrap max-w-full text-[length:clamp(0.7rem,2vw,1.5rem)]">
+              &gt;&gt; Cybersecurity
             </div>
           </div>
         </div>
@@ -181,7 +181,7 @@ const Spotlight = () => {
                 flush against the panel's right edge, which it only is once the
                 row is actually two columns — so it drops back to a plain pill
                 in the stacked layout. */}
-            <div className="self-start md:self-center mb-6 md:mb-0 rounded-lg md:rounded-l-none md:rounded-r-lg bg-[#7FA396] text-[#1C1512] px-4 md:px-8 py-2 md:py-4 md:[clip-path:polygon(20px_0,100%_0,100%_100%,20px_100%,0_50%)] whitespace-nowrap overflow-hidden text-ellipsis min-w-0 text-[length:clamp(0.7rem,2vw,1.5rem)]">
+            <div className="self-start md:self-center mb-6 md:mb-0 rounded-lg md:rounded-l-none md:rounded-r-lg bg-[#7FA396] text-[#1C1512] px-4 md:px-8 py-2 md:py-4 md:[clip-path:polygon(20px_0,100%_0,100%_100%,20px_100%,0_50%)] whitespace-nowrap min-w-0 text-[length:clamp(0.7rem,2vw,1.5rem)]">
               &gt;&gt; Cybersecurity
             </div>
           </div>
@@ -197,7 +197,7 @@ const Spotlight = () => {
               <div className="mb-2">| MLLH - 3PM-4PM</div>
               <div>Come join us in a escape room game for fun!</div>
             </div>
-            <div className="self-start md:self-center mb-6 md:mb-0 rounded-lg md:rounded-l-none md:rounded-r-lg bg-[#c9846a] text-[#1C1512] px-4 md:px-8 py-2 md:py-4 md:[clip-path:polygon(20px_0,100%_0,100%_100%,20px_100%,0_50%)] whitespace-nowrap overflow-hidden text-ellipsis min-w-0 text-[length:clamp(0.7rem,2vw,1.5rem)]">
+            <div className="self-start md:self-center mb-6 md:mb-0 rounded-lg md:rounded-l-none md:rounded-r-lg bg-[#c9846a] text-[#1C1512] px-4 md:px-8 py-2 md:py-4 md:[clip-path:polygon(20px_0,100%_0,100%_100%,20px_100%,0_50%)] whitespace-nowrap min-w-0 text-[length:clamp(0.7rem,2vw,1.5rem)]">
               &gt;&gt; Activity
             </div>
           </div>
