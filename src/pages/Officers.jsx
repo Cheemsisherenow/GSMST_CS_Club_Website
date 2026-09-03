@@ -1,10 +1,18 @@
 import React, { useRef } from "react";
+import { useMediaQuery } from "react-responsive";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
 import Typewriter from "../Typewriter";
 import { FitText } from "../FitText";
-import { AlgoOfficers, CS101Officers, CyberOfficers, Executives, Heads, GWC } from "../constants";
+import {
+  AlgoOfficers,
+  CS101Officers,
+  CyberOfficers,
+  Executives,
+  Heads,
+  GWC,
+} from "../constants";
 
 import { CodeLine, CodeSection, RowBlock } from "../CodeLine";
 
@@ -29,13 +37,13 @@ const Officers = () => {
               &lt;!-- You could also be on here! --&gt;
             </span>
           </CodeLine>
-          <CodeLine>
-            &nbsp;&nbsp;&lt;<span className="text-[#C97B63]">section</span>{" "}
+          <CodeLine indent={2}>
+            &lt;<span className="text-[#C97B63]">section</span>{" "}
             class=
             <span className="text-[#E7B96B]">"divisions"</span>&gt;
           </CodeLine>
-          <CodeLine>
-            &nbsp;&nbsp;&nbsp;&nbsp;&lt;
+          <CodeLine indent={4}>
+            &lt;
             <span className="text-[#7FA396]">h1</span>&gt;
           </CodeLine>
           <CodeLine>{""}</CodeLine>
@@ -52,31 +60,28 @@ const Officers = () => {
             </h1>
           </RowBlock>
 
-          <CodeLine>
-            &nbsp;&nbsp;&nbsp;&nbsp;
+          <CodeLine indent={4}>
             <span className="text-[#B5AFA6]">
               &lt;!-- /* Each division has their own lead, officers, meeting
             </span>
           </CodeLine>
-          <CodeLine>
-            &nbsp;&nbsp;&nbsp;&nbsp;
+          <CodeLine indent={4}>
             <span className="text-[#B5AFA6]">
               time, resource, calendar, and specializes in different fields.
             </span>
           </CodeLine>
-          <CodeLine>
-            &nbsp;&nbsp;&nbsp;&nbsp;
+          <CodeLine indent={4}>
             <span className="text-[#B5AFA6]">
               Each student can join multiple divisions at once */ --&gt;
             </span>
           </CodeLine>
           <CodeLine>{""}</CodeLine>
-          <CodeLine>
-            &nbsp;&nbsp;&nbsp;&nbsp;&lt;
+          <CodeLine indent={4}>
+            &lt;
             <span className="text-[#7FA396]">/h1</span>&gt;
           </CodeLine>
-          <CodeLine>
-            &nbsp;&nbsp;&lt;<span className="text-[#C97B63]">/section</span>&gt;
+          <CodeLine indent={2}>
+            &lt;<span className="text-[#C97B63]">/section</span>&gt;
           </CodeLine>
           <CodeLine>
             &lt;<span className="text-[#C97B63]">/html</span>&gt;
@@ -199,15 +204,11 @@ const OrgChartConnector = ({ columns = 3 }) => {
   }, []);
 
   return (
-    // Hidden below `md`, where the officer grids collapse to a single column
-    // — the trunk/branch/stems only describe a hierarchy while the cards are
-    // actually laid out side by side.
     <div
       ref={containerRef}
-      className="relative w-full hidden md:block"
+      className="relative w-full"
       style={{ height: JUNCTION_HEIGHT }}
     >
-     
       <div
         ref={trunkRef}
         className="absolute left-1/2 top-0 bg-white -translate-x-1/2"
@@ -259,6 +260,12 @@ const OrgChartConnector = ({ columns = 3 }) => {
 };
 
 const OfficersChart = () => {
+  // Below `md` the officer grids collapse to a single column, so the
+  // trunk/branch/stems have nothing to connect — skip mounting the
+  // connector at all there instead of just hiding it with CSS, so its GSAP
+  // scroll-trigger setup never runs for a chart that isn't visible anyway.
+  const isDesktop = useMediaQuery({ minWidth: 768 });
+
   return (
     <div className="flex flex-col bg-[#1C1512] p-6 md:p-12 gap-16 md:gap-32">
       <div>
@@ -286,7 +293,7 @@ const OfficersChart = () => {
           <OfficerCard {...Heads[0]} title="HeadOfficer" color="#7FA396" />
         </div>
 
-        <OrgChartConnector />
+        {isDesktop && <OrgChartConnector />}
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {CyberOfficers.map((officer, i) => (
@@ -305,7 +312,7 @@ const OfficersChart = () => {
           <OfficerCard {...Heads[1]} title="HeadOfficer" color="#C97B63" />
         </div>
 
-        <OrgChartConnector />
+        {isDesktop && <OrgChartConnector />}
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {AlgoOfficers.map((officer, i) => (
@@ -325,7 +332,7 @@ const OfficersChart = () => {
         </div>
 
         <div className="max-w-[calc((2*(100%-4rem)/3)+2rem)] mx-auto">
-          <OrgChartConnector columns={2} />
+          {isDesktop && <OrgChartConnector columns={2} />}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             {CS101Officers.slice(0, 2).map((officer, i) => (
               <div key={i}>
@@ -336,7 +343,7 @@ const OfficersChart = () => {
         </div>
 
         <div className="max-w-[calc((2*(100%-4rem)/3)+2rem)] mx-auto">
-          <OrgChartConnector columns={2} />
+          {isDesktop && <OrgChartConnector columns={2} />}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             {CS101Officers.slice(2, 4).map((officer, i) => (
               <div key={i}>

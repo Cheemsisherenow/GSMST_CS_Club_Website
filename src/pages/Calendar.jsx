@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
+import { useMediaQuery } from "react-responsive";
 import Typewriter from "../Typewriter";
 import { CodeLine, CodeSection, RowBlock } from "../CodeLine";
 import { supabase } from "../supabaseClient";
@@ -32,7 +33,7 @@ function formatEventDate(dateString) {
 // EVENT_FILTERS' `type` values exactly ("meeting" / "volunteer" /
 // "competition", case-insensitive) — update EVENT_FILTERS below if your
 // actual data uses different values.
-function Events({ activeFilter, maxHeight }) {
+function Events({ activeFilter, maxHeight, isDesktop }) {
   const [events, setEvents] = useState([]);
   const listRef = useRef(null);
 
@@ -87,14 +88,15 @@ function Events({ activeFilter, maxHeight }) {
   return (
     <div
       ref={listRef}
-      // Pinned to the calendar iframe's actual rendered height (measured by
-      // the parent via ResizeObserver, same pattern as ResourceFolders in
-      // Resources.jsx) so the list's bottom lines up with the iframe's
-      // bottom instead of stopping short or running past it. Null on mobile
-      // (stacked layout) and before the first measurement, where the CSS
-      // max-height below takes over instead.
-      style={maxHeight ? { height: maxHeight } : undefined}
-      className="events-scroll flex flex-col gap-4 overflow-y-auto pr-2 max-h-[70vh] md:max-h-none"
+      // Side by side (desktop): pinned to the calendar iframe's actual
+      // rendered height (measured by the parent, see EmbbededCalendar) so
+      // the list's bottom lines up with the iframe's bottom instead of
+      // stopping short or running past it. Stacked (mobile): there's no
+      // iframe to line up with, so it's just a flat viewport-relative cap.
+      style={isDesktop && maxHeight ? { height: maxHeight } : undefined}
+      className={`events-scroll flex flex-col gap-4 overflow-y-auto pr-2 ${
+        isDesktop ? "" : "max-h-[70vh]"
+      }`}
     >
       {visibleEvents.map((event) => (
         <div
@@ -150,15 +152,14 @@ const Calendar = () => {
             <span className="text-[#C97B63]">def</span>{" "}
             <span className="text-[#E7B96B]">calendar</span>():
           </CodeLine>
-          <CodeLine>
-            &nbsp;&nbsp;today = date.
+          <CodeLine indent={2}>
+            today = date.
             <span className="text-[#7FA396]">today</span>()
           </CodeLine>
-          <CodeLine>
-            &nbsp;&nbsp;<span className="text-[#C97B63]">return</span> (
+          <CodeLine indent={2}>
+            <span className="text-[#C97B63]">return</span> (
           </CodeLine>
-          <CodeLine>
-            &nbsp;&nbsp;&nbsp;&nbsp;
+          <CodeLine indent={4}>
             <span className="text-[#7FA396]">'''</span>
           </CodeLine>
 
@@ -178,28 +179,24 @@ const Calendar = () => {
             </h1>
           </RowBlock>
 
-          <CodeLine>
-            &nbsp;&nbsp;&nbsp;&nbsp;
+          <CodeLine indent={4}>
             <span className="text-[#B5AFA6]">
               We post competitions, volunteering,
             </span>
           </CodeLine>
-          <CodeLine>
-            &nbsp;&nbsp;&nbsp;&nbsp;
+          <CodeLine indent={4}>
             <span className="text-[#B5AFA6]">
               meetings, and deadlines here so
             </span>
           </CodeLine>
-          <CodeLine>
-            &nbsp;&nbsp;&nbsp;&nbsp;
+          <CodeLine indent={4}>
             <span className="text-[#B5AFA6]">nobody misses what's next</span>
           </CodeLine>
           <CodeLine>{""}</CodeLine>
-          <CodeLine>
-            &nbsp;&nbsp;&nbsp;&nbsp;
+          <CodeLine indent={4}>
             <span className="text-[#7FA396]">'''</span>
           </CodeLine>
-          <CodeLine>&nbsp;&nbsp;)</CodeLine>
+          <CodeLine indent={2}>)</CodeLine>
           <CodeLine>{""}</CodeLine>
     </CodeSection>
   );
@@ -216,6 +213,12 @@ const EVENT_FILTERS = [
 ];
 
 const EmbbededCalendar = () => {
+  // Only used to gate the JS-level height-measuring effect below — the
+  // layout itself (grid-cols-1 vs md:grid-cols-[3fr_1fr]) is still plain
+  // Tailwind, since that's a value swap CSS already handles fine. This is
+  // for logic that has no CSS equivalent: below `md` the two columns stack,
+  // so there's no iframe bottom to measure the events list against.
+  const isDesktop = useMediaQuery({ minWidth: 768 });
   const [activeFilter, setActiveFilter] = useState(null);
   const leftColRef = useRef(null);
   const headerRef = useRef(null);
@@ -225,20 +228,11 @@ const EmbbededCalendar = () => {
   // below the right column's own heading/filters block, so the events list's
   // bottom edge lines up with the iframe's bottom edge instead of stopping
   // short at a guessed height or running past it.
-  //
-  // Only meaningful while the two are actually side by side. Below `md` they
-  // stack, so the calendar's bottom sits ABOVE the events heading and that
-  // subtraction goes negative — fall back to null there and let the list use
-  // its own CSS height instead.
   useEffect(() => {
-    const sideBySide = window.matchMedia("(min-width: 768px)");
+    if (!isDesktop) return;
 
     function measure() {
       if (!leftColRef.current || !headerRef.current) return;
-      if (!sideBySide.matches) {
-        setEventsHeight(null);
-        return;
-      }
       const leftBottom = leftColRef.current.getBoundingClientRect().bottom;
       const headerBottom = headerRef.current.getBoundingClientRect().bottom;
       const GAP = 16; // matches the right column's `gap-4`
@@ -249,13 +243,11 @@ const EmbbededCalendar = () => {
     ro.observe(leftColRef.current);
     ro.observe(headerRef.current);
     window.addEventListener("resize", measure);
-    sideBySide.addEventListener("change", measure);
     return () => {
       ro.disconnect();
       window.removeEventListener("resize", measure);
-      sideBySide.removeEventListener("change", measure);
     };
-  }, []);
+  }, [isDesktop]);
 
   const toggleFilter = (type) => {
     setActiveFilter((current) => (current === type ? null : type));
@@ -309,7 +301,11 @@ const EmbbededCalendar = () => {
               </button>
             ))}
           </div>
-          <Events activeFilter={activeFilter} maxHeight={eventsHeight} />
+          <Events
+            activeFilter={activeFilter}
+            maxHeight={eventsHeight}
+            isDesktop={isDesktop}
+          />
         </div>
       </div>
     </div>

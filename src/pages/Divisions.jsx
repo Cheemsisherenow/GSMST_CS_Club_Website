@@ -30,11 +30,11 @@ const Divisions = () => {
         <span className="text-[#C97B63]">const</span>{" "}
         <span className="text-[#7FA396]">Divisions </span> = () =&gt; {"{"}
       </CodeLine>
-      <CodeLine>
-        &nbsp;&nbsp;<span className="text-[#C97B63]">return</span> (
+      <CodeLine indent={2}>
+        <span className="text-[#C97B63]">return</span> (
       </CodeLine>
-      <CodeLine>
-        &nbsp;&nbsp;&nbsp;&nbsp;&lt;
+      <CodeLine indent={4}>
+        &lt;
         <span className="text-[#7FA396]">h1</span>&gt;
       </CodeLine>
       <CodeLine>{""}</CodeLine>
@@ -53,30 +53,27 @@ const Divisions = () => {
         </h1>
       </RowBlock>
 
-      <CodeLine>
-        &nbsp;&nbsp;&nbsp;&nbsp;
+      <CodeLine indent={4}>
         <span className="text-[#B5AFA6]">
           /* Each division has their own lead, officers, meeting time,
         </span>
       </CodeLine>
-      <CodeLine>
-        &nbsp;&nbsp;&nbsp;&nbsp;
+      <CodeLine indent={4}>
         <span className="text-[#B5AFA6]">
           resource, calendar, and specializes in different fields.
         </span>
       </CodeLine>
-      <CodeLine>
-        &nbsp;&nbsp;&nbsp;&nbsp;
+      <CodeLine indent={4}>
         <span className="text-[#B5AFA6]">
           Each student can join multiple divisions at once */
         </span>
       </CodeLine>
       <CodeLine>{""}</CodeLine>
-      <CodeLine>
-        &nbsp;&nbsp;&nbsp;&nbsp;&lt;
+      <CodeLine indent={4}>
+        &lt;
         <span className="text-[#7FA396]">/h1</span>&gt;
       </CodeLine>
-      <CodeLine>&nbsp;&nbsp;)</CodeLine>
+      <CodeLine indent={2}>)</CodeLine>
       <CodeLine>{"}"}</CodeLine>
       <CodeLine>
         <span className="text-[#c1663a]">export</span>{" "}
@@ -91,9 +88,7 @@ const algoData = [
   "/DivisionPictures/Algo/IMG2.jpg",
   "/DivisionPictures/Algo/IMG3.jpg",
 ];
-const cyberData = [
-  "/DivisionPictures/Cyber/IMG1.jpg",
-];
+const cyberData = ["/DivisionPictures/Cyber/IMG1.jpg"];
 const csData = [
   "/DivisionPictures/CS101/IMG1.jpg",
   "/DivisionPictures/CS101/IMG2.jpg",

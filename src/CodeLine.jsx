@@ -73,8 +73,19 @@ export function RowBlock({ children, className = "", minGapRows = 0 }) {
   );
 }
 
-export function CodeLine({ children }) {
-  return <div className="code-line">{children}</div>;
+// indent is in "characters" — .code-line is a monospace font, so `ch`
+// (the width of one monospace character) lines up exactly with how many
+// spaces of indentation this used to be, without needing literal &nbsp;
+// characters in the JSX text to fake it.
+export function CodeLine({ children, indent = 0, className = "" }) {
+  return (
+    <div
+      className={`code-line ${className}`}
+      style={indent ? { paddingLeft: `${indent}ch` } : undefined}
+    >
+      {children}
+    </div>
+  );
 }
 
 export function CodeGutter({ lines, start = 1 }) {

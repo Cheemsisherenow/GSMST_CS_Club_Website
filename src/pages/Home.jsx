@@ -3,113 +3,97 @@ import { NavLink } from "react-router-dom";
 import Typewriter from "../Typewriter";
 import { CodeLine, CodeSection, RowBlock } from "../CodeLine";
 
-/*const g = [...document.querySelectorAll('.border-r > div')];
-const col = document.querySelector('.border-r').nextElementSibling;
-let total = 0;
-console.table([...col.children].map((d, i) => {
-  const h = Math.round(d.getBoundingClientRect().height);
-  const mb = parseInt(getComputedStyle(d).marginBottom);
-  total += h + mb;
-  return { i, h, mb, sum: h + mb, ok: (h + mb) % 36 === 0, text: d.textContent.slice(0, 20) };
-}));
-console.log('content', total, 'gutter', g.length * 36, 'rows needed', total / 36);*/
-
-
+// Written entirely against the --row/clamp() fluid-sizing system, not
+// Tailwind md: breakpoints, plus a couple of plain md:-prefixed utilities
+// (bg-black px-6 md:px-12, mr-6 md:mr-12) for the two accents below — a
+// value swap on one shared tree, not two duplicated trees. This used to be
+// split into an isDesktop ? (...) : (...) pair; that meant any edit (like
+// those two accents) only ever landed in one branch, so whichever branch
+// was rendering at the current width silently didn't have it.
 const Hero = () => {
   return (
     <CodeSection
       className="bg-[#1C1512] overflow-hidden border border-[#3a2f26]"
       contentClassName="pr-[calc(var(--row)*13/18)] text-[#f4efe8]"
     >
-          <CodeLine>
-            <span className="text-[#C97B63]">import</span>{" "}
-            <span className="text-[#7FA396]">
-              React, <span className="text-[#f4efe8]">{"{"}</span>
-              {" useState, useEffect "}
-              <span className="text-[#f4efe8]">{"} "}</span>
-            </span>
-            <span className="text-[#C97B63]">from</span>{" "}
-            <span className="text-[#E7B96B]">"react"</span>
-          </CodeLine>
-          <CodeLine>{""}</CodeLine>
-          <CodeLine>
-            <span className="text-[#453D34]">
-              // Want to join and learn this?
-            </span>
-          </CodeLine>
-          <CodeLine>
-            <span className="text-[#C97B63]">const</span>{" "}
-            <span className="text-[#7FA396]">Hero</span> = () =&gt; {"{"}
-          </CodeLine>
-          <CodeLine>
-            &nbsp;&nbsp;<span className="text-[#C97B63]">return</span> (
-          </CodeLine>
-          <CodeLine>
-            &nbsp;&nbsp;&nbsp;&nbsp; &lt;
-            <span className="text-[#7FA396]">h1</span>&gt;
-          </CodeLine>
-          <CodeLine>{""}</CodeLine>
+      <CodeLine>
+        <span className="text-[#C97B63]">import</span>{" "}
+        <span className="text-[#7FA396]">
+          React, <span className="text-[#f4efe8]">{"{"}</span>
+          {" useState, useEffect "}
+          <span className="text-[#f4efe8]">{"} "}</span>
+        </span>
+        <span className="text-[#C97B63]">from</span>{" "}
+        <span className="text-[#E7B96B]">"react"</span>
+      </CodeLine>
+      <CodeLine>{""}</CodeLine>
+      <CodeLine>
+        <span className="text-[#453D34]">// Want to join and learn this?</span>
+      </CodeLine>
+      <CodeLine>
+        <span className="text-[#C97B63]">const</span>{" "}
+        <span className="text-[#7FA396]">Hero</span> = () =&gt; {"{"}
+      </CodeLine>
+      <CodeLine indent={2}>
+        <span className="text-[#C97B63]">return</span> (
+      </CodeLine>
+      <CodeLine indent={4}>
+        {" "}
+        &lt;
+        <span className="text-[#7FA396]">h1</span>&gt;
+      </CodeLine>
+      <CodeLine>{""}</CodeLine>
 
-          <RowBlock>
-            <h1 className="code-h1 pl-[calc(var(--row)*4/3)] text-[#E7B96B] leading-none whitespace-nowrap">
-              <Typewriter>
-                Welcome to
-                <br />
-                GSMST's CS Club
-              </Typewriter>
-            </h1>
-          </RowBlock>
+      <RowBlock>
+        <h1 className="code-h1 pl-[calc(var(--row)*4/3)] text-[#E7B96B] leading-none whitespace-nowrap bg-black px-6 md:px-12">
+          <Typewriter>
+            Welcome to
+            <br />
+            GSMST's CS Club
+          </Typewriter>
+        </h1>
+      </RowBlock>
 
-          <CodeLine>
-            &nbsp;&nbsp;&nbsp;&nbsp;
-            <span className="text-[#B5AFA6]">
-              /* We help students learn computer science, build real
-            </span>
-          </CodeLine>
-          <CodeLine>
-            &nbsp;&nbsp;&nbsp;&nbsp;
-            <span className="text-[#B5AFA6]">
-              project, prepare for competitions, and find a welcoming
-            </span>
-          </CodeLine>
-          <CodeLine>
-            &nbsp;&nbsp;&nbsp;&nbsp;
-            <span className="text-[#B5AFA6]">
-              place to explore technology together */
-            </span>
-          </CodeLine>
-          <CodeLine>{""}</CodeLine>
-          <CodeLine>
-            &nbsp;&nbsp;&nbsp;&nbsp; &lt;
-            <span className="text-[#7FA396]">/h1</span>&gt;
-          </CodeLine>
-          <CodeLine>{""}</CodeLine>
+      <CodeLine indent={4} className="mr-6 md:mr-12">
+        <span className="text-[#B5AFA6]">
+          /* We help students learn computer science, build real project,
+          prepare for competitions, and find a welcoming place to explore
+          technology together */
+        </span>
+      </CodeLine>
+      <CodeLine>{""}</CodeLine>
+      <CodeLine indent={4}>
+        {" "}
+        &lt;
+        <span className="text-[#7FA396]">/h1</span>&gt;
+      </CodeLine>
+      <CodeLine>{""}</CodeLine>
 
-          {/* Also not a CodeLine — the border adds 2px that no row fraction
+      {/* Also not a CodeLine — the border adds 2px that no row fraction
               accounts for, which RowBlock absorbs automatically. */}
-          <RowBlock className="flex flex-wrap gap-[calc(var(--row)*7/18)] pl-[calc(var(--row)*4/3)]">
-            <a
-              href="https://docs.google.com/forms/d/e/1FAIpQLSf9RmXHCNVPsQZiRgBSL1XP0mABGRPCnLSRCI6WL67fvpM8BQ/viewform?usp=header"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="px-[calc(var(--row)*10/9)] py-[calc(var(--row)*5/9)] text-[length:calc(var(--row)*2/3)] leading-[calc(var(--row)*8/9)] rounded-lg cursor-pointer bg-[#e3c088] text-[#241a10] border border-[#e3c088] hover:-translate-y-0.5 duration-300 ease-in-out hover:opacity-85 transition-all"
-            >
-              onClick = {'{"Join Club"}'}
-            </a>
-            <NavLink
-              to="/calendar"
-              className="px-[calc(var(--row)*10/9)] py-[calc(var(--row)*5/9)] text-[length:calc(var(--row)*2/3)] leading-[calc(var(--row)*8/9)] rounded-lg cursor-pointer bg-transparent text-[#c9b896] hover:-translate-y-0.5 duration-300 ease-in-out border border-[#3a2f26] hover:opacity-85 transition-all"
-            >
-              onClick = {'{"See Calendar"}'}
-            </NavLink>
-          </RowBlock>
+      <RowBlock className="flex flex-wrap gap-[calc(var(--row)*7/18)] pl-[calc(var(--row)*4/3)]">
+        <a
+          href="https://docs.google.com/forms/d/e/1FAIpQLSf9RmXHCNVPsQZiRgBSL1XP0mABGRPCnLSRCI6WL67fvpM8BQ/viewform?usp=header"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="px-[calc(var(--row)*10/9)] py-[calc(var(--row)*5/9)] text-[length:calc(var(--row)*2/3)] leading-[calc(var(--row)*8/9)] rounded-lg cursor-pointer bg-[#e3c088] text-[#241a10] border border-[#e3c088] hover:-translate-y-0.5 duration-300 ease-in-out hover:opacity-85 transition-all"
+        >
+          onClick = {'{"Join Club"}'}
+        </a>
+        <NavLink
+          to="/calendar"
+          className="px-[calc(var(--row)*10/9)] py-[calc(var(--row)*5/9)] text-[length:calc(var(--row)*2/3)] leading-[calc(var(--row)*8/9)] rounded-lg cursor-pointer bg-transparent text-[#c9b896] hover:-translate-y-0.5 duration-300 ease-in-out border border-[#3a2f26] hover:opacity-85 transition-all"
+        >
+          onClick = {'{"See Calendar"}'}
+        </NavLink>
+      </RowBlock>
 
-          <CodeLine>&nbsp;&nbsp;)</CodeLine>
-          <CodeLine>{"}"}</CodeLine>
-          <CodeLine>
-            <span className="text-[#c1663a]">export</span>{" "}
-            <span className="text-[#c1663a]">default</span> Hero
-          </CodeLine>
+      <CodeLine indent={2}>)</CodeLine>
+      <CodeLine>{"}"}</CodeLine>
+      <CodeLine>
+        <span className="text-[#c1663a]">export</span>{" "}
+        <span className="text-[#c1663a]">default</span> Hero
+      </CodeLine>
     </CodeSection>
   );
 };
@@ -144,19 +128,10 @@ const Spotlight = () => {
               CyberDragons meeting
             </div>
             <div className="mb-2">| 5.011 - 3PM-4PM</div>
-            <div>
-              Come to Cyberdragon's first meeting for the year!
-            </div>
+            <div>Come to Cyberdragon's first meeting for the year!</div>
           </div>
           <div className="self-start relative inline-block">
             <div className="absolute left-4 md:left-6 -top-2 md:-top-3 w-0 h-0 border-l-[7px] md:border-l-[10px] border-l-transparent border-r-[7px] md:border-r-[10px] border-r-transparent border-b-[10px] md:border-b-[14px] border-b-[#e3c088]" />
-
-            {/* text-[length:clamp(...)] instead of the usual text-lg/md:text-2xl
-                step — a badge like this has no room to wrap, so its text needs
-                to shrink continuously with the viewport instead of jumping
-                between two fixed sizes (which leaves a range of widths where
-                it's still the bigger size but the chip's already too narrow
-                for it, and ">> Featured" wraps onto two lines). */}
             <div className="rounded-lg bg-[#e3c088] text-[#1C1512] font-bold px-4 md:px-6 py-2 md:py-3 whitespace-nowrap max-w-full text-[length:clamp(0.7rem,2vw,1.5rem)]">
               &gt;&gt; Cybersecurity
             </div>
@@ -208,8 +183,7 @@ const Spotlight = () => {
 };
 
 // Continues the Hero section's numbering — Hero ends at 25, so this picks up
-// at 26. (Hero's gutter used to render 24 from a measurement that was taken
-// before its RowBlocks settled; CodeLine.jsx now re-measures after that.)
+// at 26.
 const GET_INVOLVED_START = 26;
 
 const GetInvolved = () => {
@@ -232,16 +206,15 @@ const GetInvolved = () => {
         <span className="text-[#C97B63]">def</span>{" "}
         <span className="text-[#7FA396]">join_us</span>(communication):
       </CodeLine>
-      <CodeLine>
-        &nbsp;&nbsp;<span className="text-[#C97B63]">match</span> communication:
+      <CodeLine indent={2}>
+        <span className="text-[#C97B63]">match</span> communication:
       </CodeLine>
 
       {/* The CASE lines self-align; the cards under them are arbitrary
               height, so the whole grid gets snapped as one block. */}
       <RowBlock className="grid grid-cols-1 md:grid-cols-2 gap-x-[calc(var(--row)*32/9)]">
         <div>
-          <CodeLine>
-            &nbsp;&nbsp;&nbsp;&nbsp;
+          <CodeLine indent={4}>
             <span className="text-[#C97B63]">case</span> "Talk to us!":
           </CodeLine>
           <a
@@ -264,8 +237,7 @@ const GetInvolved = () => {
         </div>
 
         <div>
-          <CodeLine>
-            &nbsp;&nbsp;&nbsp;&nbsp;
+          <CodeLine indent={4}>
             <span className="text-[#C97B63]">case</span> "Look at our code":
           </CodeLine>
           <a
@@ -292,8 +264,7 @@ const GetInvolved = () => {
 
       <RowBlock className="grid grid-cols-1 md:grid-cols-2 gap-x-[calc(var(--row)*32/9)]">
         <div>
-          <CodeLine>
-            &nbsp;&nbsp;&nbsp;&nbsp;
+          <CodeLine indent={4}>
             <span className="text-[#C97B63]">case</span> "Interested in
             joining?":
           </CodeLine>
@@ -317,8 +288,7 @@ const GetInvolved = () => {
         </div>
 
         <div>
-          <CodeLine>
-            &nbsp;&nbsp;&nbsp;&nbsp;
+          <CodeLine indent={4}>
             <span className="text-[#C97B63]">case</span> "Contact any of us":
           </CodeLine>
           <NavLink

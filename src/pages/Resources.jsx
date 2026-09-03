@@ -32,18 +32,17 @@ const Resources = () => {
         <span className="text-[#E7B96B]">"/resources"</span>, (req, res) =&gt;{" "}
         {"{"}
       </CodeLine>
-      <CodeLine>
-        &nbsp;&nbsp;<span className="text-[#C97B63]">const</span> keeper = db.
+      <CodeLine indent={2}>
+        <span className="text-[#C97B63]">const</span> keeper = db.
         <span className="text-[#7FA396]">prepare</span>(
       </CodeLine>
-      <CodeLine>
-        &nbsp;&nbsp;&nbsp;&nbsp;
+      <CodeLine indent={4}>
         <span className="text-[#E7B96B]">
           "SELECT * FROM resources WHERE role = ?"
         </span>
       </CodeLine>
-      <CodeLine>
-        &nbsp;&nbsp;).<span className="text-[#7FA396]">get</span>(
+      <CodeLine indent={2}>
+        ).<span className="text-[#7FA396]">get</span>(
         <span className="text-[#E7B96B]">"Google Drive"</span>);
       </CodeLine>
       <CodeLine>{""}</CodeLine>
@@ -60,20 +59,18 @@ const Resources = () => {
         </h1>
       </RowBlock>
 
-      <CodeLine>
-        &nbsp;&nbsp;res.<span className="text-[#7FA396]">send</span>(
+      <CodeLine indent={2}>
+        res.<span className="text-[#7FA396]">send</span>(
       </CodeLine>
-      <CodeLine>
-        &nbsp;&nbsp;&nbsp;&nbsp;
+      <CodeLine indent={4}>
         <span className="text-[#B5AFA6]">
           'Study guides, meeting notes, competition references, and existing
         </span>
       </CodeLine>
-      <CodeLine>
-        &nbsp;&nbsp;&nbsp;&nbsp;
+      <CodeLine indent={4}>
         <span className="text-[#B5AFA6]">documents live here'</span>
       </CodeLine>
-      <CodeLine>&nbsp;&nbsp;);</CodeLine>
+      <CodeLine indent={2}>);</CodeLine>
       <CodeLine>{""}</CodeLine>
       <CodeLine>{"});"}</CodeLine>
       <CodeLine>{""}</CodeLine>

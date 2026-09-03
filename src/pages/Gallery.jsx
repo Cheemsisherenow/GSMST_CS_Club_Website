@@ -40,14 +40,12 @@ const GalleryHero = () => {
             </h1>
           </RowBlock>
 
-          <CodeLine>
-            &nbsp;&nbsp;
+          <CodeLine indent={2}>
             <span className="text-[#B5AFA6]">
               /* Events photos, recap videos, project showcases, and the
             </span>
           </CodeLine>
-          <CodeLine>
-            &nbsp;&nbsp;
+          <CodeLine indent={2}>
             <span className="text-[#B5AFA6]">history of CS club */</span>
           </CodeLine>
           <CodeLine>{""}</CodeLine>
@@ -135,7 +133,7 @@ const SlideingGallery = () => {
         {/* Not real content yet — swap/remove once gallery_images has
             actual rows people can browse. */}
         <span className="text-xs md:text-base font-bold tracking-wide px-3 py-1 rounded-full bg-[#E7B96B] text-[#1C1512]">
-           Work in Progress
+          🚧 Work in Progress
         </span>
       </div>
       <div ref={scrollerRef} className="flex gap-4 mt-8 overflow-x-auto">
