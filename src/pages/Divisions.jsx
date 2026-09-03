@@ -44,28 +44,21 @@ const Divisions = () => {
       <RowBlock minGapRows={1}>
         <h1 className="code-h1 pl-[calc(var(--row)*4/3)] text-[#E7B96B] leading-none whitespace-nowrap">
           <Typewriter>
-            Choose a track
+            The Branches
             <br />
-            without
-            <br />
-            choosing a box
+            of
+            CS Club
           </Typewriter>
         </h1>
       </RowBlock>
 
       <CodeLine indent={4}>
         <span className="text-[#B5AFA6]">
-          /* Each division has their own lead, officers, meeting time,
-        </span>
-      </CodeLine>
-      <CodeLine indent={4}>
-        <span className="text-[#B5AFA6]">
-          resource, calendar, and specializes in different fields.
-        </span>
-      </CodeLine>
-      <CodeLine indent={4}>
-        <span className="text-[#B5AFA6]">
-          Each student can join multiple divisions at once */
+          /* Students aren’t limited to joining a single division!
+          <br />
+          Although every branch is distinct, being a part of multiple
+          <br />
+          is more than welcome. */
         </span>
       </CodeLine>
       <CodeLine>{""}</CodeLine>
@@ -161,7 +154,7 @@ const algo = {
   track: "// Competitive Track",
   title: "Algorithmic Programming",
   description:
-    "Placeholder description for contest prep, data structure, problem sets, mock rounds, and team selection.",
+    "Advanced programming division specialized in algorithms and competitions. Math-oriented and complex, but open to beginners and not tied down to any specific programming language.",
   lead: "Evan Yang",
   meeting: "09/10/2026",
   room: "5.433",
@@ -173,7 +166,7 @@ const cyber = {
   track: "// Cybersecurity Track",
   title: "CyberDragons",
   description:
-    "Placeholder description for cybersecurity lessons, CTF practice, responsible disclosure, and team discussion.",
+    "Cybersecurity division specialized in offensive and defensive hacking. No programming experience required—coding is seldom utilized in this division, if at all. ",
   lead: "Luke Cheng",
   meeting: "09/02/2026",
   room: "5.",
@@ -185,7 +178,7 @@ const cs = {
   track: "// Beginner Track",
   title: "CS101",
   description:
-    "Placeholder description for students learning programming fundamentals, web basics, debugging habits, and project confidence",
+    "Beginner division oriented around understanding the basics of each field in computer science. Absorb broad CS knowledge to understand where you’d best specialize. ",
   lead: "Stephen Akrong",
   meeting: "09/08/2026",
   room: "5.401",
@@ -234,7 +227,7 @@ const DivisionSpotlight = ({
           <div className="text-4xl md:text-7xl mb-4" style={{ color }}>
             {title}
           </div>
-          <div className="text-lg md:text-2xl md:h-32">{description}</div>
+          <div className="text-lg md:text-xl md:h-40">{description}</div>
           <div className="flex flex-col gap-4 mt-6 ">
             <div
               className="flex flex-col rounded-xl border-2 p-2"

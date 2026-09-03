@@ -40,7 +40,7 @@ const Hero = () => {
       <CodeLine>{""}</CodeLine>
 
       <RowBlock>
-        <h1 className="code-h1 pl-[calc(var(--row)*4/3)] text-[#E7B96B] leading-none whitespace-nowrap bg-black px-6 md:px-12">
+        <h1 className="code-h1 pl-[calc(var(--row)*4/3)] text-[#E7B96B] leading-none whitespace-nowrap px-6 md:px-12">
           <Typewriter>
             Welcome to
             <br />
@@ -51,9 +51,11 @@ const Hero = () => {
 
       <CodeLine indent={4} className="mr-6 md:mr-12">
         <span className="text-[#B5AFA6]">
-          /* We help students learn computer science, build real project,
-          prepare for competitions, and find a welcoming place to explore
-          technology together */
+          /* We help students learn computer science, build real
+          <br />
+          projects, prepare for competitions, and find a welcoming
+          <br />
+          place to explore technology together. */
         </span>
       </CodeLine>
       <CodeLine>{""}</CodeLine>
@@ -124,16 +126,28 @@ const Hero = () => {
       <CodeLine>{""}</CodeLine>
 
       <RowBlock>
-        <h1 className="code-h1 pl-[calc(var(--row)*4/3)] text-[#E7B96B] leading-none break-normal  px-6 md:px-12">
-          <Typewriter>Welcome to GSMST's CS Club</Typewriter>
+        {/* whitespace-nowrap + explicit <br /> breaks, not natural wrapping
+            — code-h1's fluid clamp() sizing is specifically tuned to fit
+            each declared line within the available width. Without
+            whitespace-nowrap the browser wraps wherever text happens to
+            overflow instead, which is what was splitting "GSMST's" onto its
+            own line unpredictably. */}
+        <h1 className="code-h1 pl-[calc(var(--row)*4/3)] text-[#E7B96B] leading-none whitespace-nowrap px-6 md:px-12">
+          <Typewriter>
+            Welcome to
+            <br />
+            GSMST's CS
+            <br />
+            Club
+          </Typewriter>
         </h1>
       </RowBlock>
 
       <CodeLine indent={4} className="mr-6 md:mr-12">
         <span className="text-[#B5AFA6]">
-          /* We help students learn computer science, build real project,
+          /* We help students learn computer science, build real projects,
           prepare for competitions, and find a welcoming place to explore
-          technology together */
+          technology together. */
         </span>
       </CodeLine>
       <CodeLine>{""}</CodeLine>

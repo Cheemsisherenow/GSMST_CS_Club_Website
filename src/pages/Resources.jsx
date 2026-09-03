@@ -49,13 +49,7 @@ const Resources = () => {
 
       <RowBlock minGapRows={1}>
         <h1 className="code-h1 pl-[calc(var(--row)*4/3)] text-[#E7B96B] leading-none whitespace-nowrap">
-          <Typewriter>
-            Links that
-            <br />
-            makes the club
-            <br />
-            run faster
-          </Typewriter>
+          <Typewriter>Club Resources</Typewriter>
         </h1>
       </RowBlock>
 
@@ -64,12 +58,10 @@ const Resources = () => {
       </CodeLine>
       <CodeLine indent={4}>
         <span className="text-[#B5AFA6]">
-          'Study guides, meeting notes, competition references, and existing
+          'Includes links, meeting notes/overviews, and competition resources.'
         </span>
       </CodeLine>
-      <CodeLine indent={4}>
-        <span className="text-[#B5AFA6]">documents live here'</span>
-      </CodeLine>
+      
       <CodeLine indent={2}>);</CodeLine>
       <CodeLine>{""}</CodeLine>
       <CodeLine>{"});"}</CodeLine>

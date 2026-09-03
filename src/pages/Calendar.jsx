@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useRef } from "react";
-import { useMediaQuery } from "react-responsive";
 import Typewriter from "../Typewriter";
 import { CodeLine, CodeSection, RowBlock } from "../CodeLine";
 import { supabase } from "../supabaseClient";
@@ -16,11 +15,6 @@ const TODAY = new Date().toLocaleDateString("en-US", {
   year: "numeric",
 });
 
-// Formats a plain "YYYY-MM-DD" string as e.g. "Aug 28". Doesn't just do
-// `new Date(event.date)` — that parses a bare date string as UTC midnight,
-// which toLocaleDateString can then roll back a day once it's converted to
-// a timezone behind UTC (US timezones all are). Splitting it and building
-// the Date from local year/month/day components sidesteps that entirely.
 function formatEventDate(dateString) {
   const [year, month, day] = dateString.split("-").map(Number);
   return new Date(year, month - 1, day).toLocaleDateString("en-US", {
@@ -29,13 +23,8 @@ function formatEventDate(dateString) {
   });
 }
 
-// NOTE: assumes the "events" table has a `type` column whose values match
-// EVENT_FILTERS' `type` values exactly ("meeting" / "volunteer" /
-// "competition", case-insensitive) — update EVENT_FILTERS below if your
-// actual data uses different values.
-function Events({ activeFilter, maxHeight, isDesktop }) {
+function Events({ activeFilter }) {
   const [events, setEvents] = useState([]);
-  const listRef = useRef(null);
 
   useEffect(() => {
     supabase
@@ -53,74 +42,19 @@ function Events({ activeFilter, maxHeight, isDesktop }) {
       )
     : events;
 
-  // Cards don't all appear the moment the data loads — each one fades/slides
-  // in only once it scrolls into view *within the list's own scrollbar*
-  // (scroller: listRef, not the page), so scrolling down reveals them one
-  // at a time instead of dumping the whole list on screen at once.
-  useGSAP(
-    () => {
-      const cards = gsap.utils.toArray(listRef.current.children);
-      cards.forEach((card) => {
-        gsap.fromTo(
-          card,
-          { autoAlpha: 0, y: 60 },
-          {
-            autoAlpha: 1,
-            y: 0,
-            duration: 1.4,
-            ease: "power2.out",
-            scrollTrigger: {
-              trigger: card,
-              scroller: listRef.current,
-              start: "top 90%",
-              toggleActions: "play none none none",
-            },
-          }
-        );
-      });
-    },
-    {
-      scope: listRef,
-      dependencies: [visibleEvents.map((event) => event.id).join(",")],
-    }
-  );
-
   return (
-    <div
-      ref={listRef}
-      // Side by side (desktop): pinned to the calendar iframe's actual
-      // rendered height (measured by the parent, see EmbbededCalendar) so
-      // the list's bottom lines up with the iframe's bottom instead of
-      // stopping short or running past it. Stacked (mobile): there's no
-      // iframe to line up with, so it's just a flat viewport-relative cap.
-      style={isDesktop && maxHeight ? { height: maxHeight } : undefined}
-      className={`events-scroll flex flex-col gap-4 overflow-y-auto pr-2 ${
-        isDesktop ? "" : "max-h-[70vh]"
-      }`}
-    >
+    <div className="flex flex-col gap-4">
       {visibleEvents.map((event) => (
-        <div
-          key={event.id}
-          className="bg-[#F4EFE8] rounded-xl p-6 text-black"
-        >
-          {/* image_url is optional — rows added before you started attaching
-              images (or ones that just don't have one) simply skip this. */}
-          {event.image_url && (
-            <img
-              src={event.image_url}
-              alt={event.title || ""}
-              className="w-full h-40 object-cover rounded-lg mb-4"
-            />
-          )}
+        <div key={event.id} className="bg-[#F4EFE8] rounded-xl p-6 text-black">
           <div className="text-lg text-[#C97B63] mb-1">
             {formatEventDate(event.date)}
           </div>
           <div className="text-2xl font-bold text-[#C97B63] mb-2">
             {event.title}
           </div>
-          <div className="text-lg mb-4">{event.description}</div>
+          <div className="text-md mb-4">{event.description}</div>
           <a
-            href={event.link}
+            href="https://discord.gg/2QUxxJcky"
             className="flex justify-end text-lg font-bold hover:opacity-70 transition-opacity"
           >
             # More Info &gt;&gt;
@@ -138,66 +72,61 @@ const Calendar = () => {
       contentClassName="pr-[calc(var(--row)*13/18)] text-[#f4efe8]"
       after={<EmbbededCalendar />}
     >
-          <CodeLine>
-            <span className="text-[#C97B63]">from</span>{" "}
-            <span className="text-[#E7B96B]">datetime</span>{" "}
-            <span className="text-[#C97B63]">import</span>{" "}
-            <span className="text-[#E7B96B]">date</span>
-          </CodeLine>
-          <CodeLine>{""}</CodeLine>
-          <CodeLine>
-            <span className="text-[#453D34]"># Want to know whats next?</span>
-          </CodeLine>
-          <CodeLine>
-            <span className="text-[#C97B63]">def</span>{" "}
-            <span className="text-[#E7B96B]">calendar</span>():
-          </CodeLine>
-          <CodeLine indent={2}>
-            today = date.
-            <span className="text-[#7FA396]">today</span>()
-          </CodeLine>
-          <CodeLine indent={2}>
-            <span className="text-[#C97B63]">return</span> (
-          </CodeLine>
-          <CodeLine indent={4}>
-            <span className="text-[#7FA396]">'''</span>
-          </CodeLine>
+      <CodeLine>
+        <span className="text-[#C97B63]">from</span>{" "}
+        <span className="text-[#E7B96B]">datetime</span>{" "}
+        <span className="text-[#C97B63]">import</span>{" "}
+        <span className="text-[#E7B96B]">date</span>
+      </CodeLine>
+      <CodeLine>{""}</CodeLine>
+      <CodeLine>
+        <span className="text-[#453D34]"># Want to know whats next?</span>
+      </CodeLine>
+      <CodeLine>
+        <span className="text-[#C97B63]">def</span>{" "}
+        <span className="text-[#E7B96B]">calendar</span>():
+      </CodeLine>
+      <CodeLine indent={2}>
+        today = date.
+        <span className="text-[#7FA396]">today</span>()
+      </CodeLine>
+      <CodeLine indent={2}>
+        <span className="text-[#C97B63]">return</span> (
+      </CodeLine>
+      <CodeLine indent={4}>
+        <span className="text-[#7FA396]">'''</span>
+      </CodeLine>
 
-          {/* Date line + headline snapped together as one block. */}
-          <RowBlock className="pl-[calc(var(--row)*4/3)]">
-            <div className="text-[length:calc(var(--row)*2/3)] leading-[calc(var(--row)*8/9)] text-[#cfc3ae] mb-[calc(var(--row)*2/9)] whitespace-nowrap">
-              {TODAY}
-            </div>
-            <h1 className="code-h1 text-[#E7B96B] leading-none whitespace-nowrap">
-              <Typewriter>
-                Live schedules
-                <br />
-                and events
-                <br />
-                in one place
-              </Typewriter>
-            </h1>
-          </RowBlock>
+      {/* Date line + headline snapped together as one block. */}
+      <RowBlock className="pl-[calc(var(--row)*4/3)]">
+        <div className="text-[length:calc(var(--row)*2/3)] leading-[calc(var(--row)*8/9)] text-[#cfc3ae] mb-[calc(var(--row)*2/9)] whitespace-nowrap">
+          {TODAY}
+        </div>
+        <h1 className="text-[length:calc(var(--row)*8/3)] text-[#E7B96B] leading-none whitespace-nowrap">
+          <Typewriter>
+            The Entire
+            <br />
+            Year’s Plan
+          </Typewriter>
+        </h1>
+      </RowBlock>
 
-          <CodeLine indent={4}>
-            <span className="text-[#B5AFA6]">
-              We post competitions, volunteering,
-            </span>
-          </CodeLine>
-          <CodeLine indent={4}>
-            <span className="text-[#B5AFA6]">
-              meetings, and deadlines here so
-            </span>
-          </CodeLine>
-          <CodeLine indent={4}>
-            <span className="text-[#B5AFA6]">nobody misses what's next</span>
-          </CodeLine>
-          <CodeLine>{""}</CodeLine>
-          <CodeLine indent={4}>
-            <span className="text-[#7FA396]">'''</span>
-          </CodeLine>
-          <CodeLine indent={2}>)</CodeLine>
-          <CodeLine>{""}</CodeLine>
+      <CodeLine indent={4}>
+        <span className="text-[#B5AFA6]">
+          Future meetings, events, competitions, 
+          <br/>
+          and volunteer opportunities are
+          able 
+          <br/>to be found here.
+        </span>
+      </CodeLine>
+      
+      <CodeLine>{""}</CodeLine>
+      <CodeLine indent={4}>
+        <span className="text-[#7FA396]">'''</span>
+      </CodeLine>
+      <CodeLine indent={2}>)</CodeLine>
+      <CodeLine>{""}</CodeLine>
     </CodeSection>
   );
 };
@@ -213,53 +142,17 @@ const EVENT_FILTERS = [
 ];
 
 const EmbbededCalendar = () => {
-  // Only used to gate the JS-level height-measuring effect below — the
-  // layout itself (grid-cols-1 vs md:grid-cols-[3fr_1fr]) is still plain
-  // Tailwind, since that's a value swap CSS already handles fine. This is
-  // for logic that has no CSS equivalent: below `md` the two columns stack,
-  // so there's no iframe bottom to measure the events list against.
-  const isDesktop = useMediaQuery({ minWidth: 768 });
   const [activeFilter, setActiveFilter] = useState(null);
-  const leftColRef = useRef(null);
-  const headerRef = useRef(null);
-  const [eventsHeight, setEventsHeight] = useState(null);
-
-  // Whatever's left of the left column's height (heading + calendar iframe)
-  // below the right column's own heading/filters block, so the events list's
-  // bottom edge lines up with the iframe's bottom edge instead of stopping
-  // short at a guessed height or running past it.
-  useEffect(() => {
-    if (!isDesktop) return;
-
-    function measure() {
-      if (!leftColRef.current || !headerRef.current) return;
-      const leftBottom = leftColRef.current.getBoundingClientRect().bottom;
-      const headerBottom = headerRef.current.getBoundingClientRect().bottom;
-      const GAP = 16; // matches the right column's `gap-4`
-      setEventsHeight(Math.max(leftBottom - headerBottom - GAP, 0));
-    }
-    measure();
-    const ro = new ResizeObserver(measure);
-    ro.observe(leftColRef.current);
-    ro.observe(headerRef.current);
-    window.addEventListener("resize", measure);
-    return () => {
-      ro.disconnect();
-      window.removeEventListener("resize", measure);
-    };
-  }, [isDesktop]);
 
   const toggleFilter = (type) => {
     setActiveFilter((current) => (current === type ? null : type));
   };
 
   return (
-    <div className="bg-[#1C1512] overflow-hidden border-t border-[#3a2f26] p-4 md:p-12">
-      <div className="grid grid-cols-1 md:grid-cols-[3fr_1fr] gap-6 md:gap-2">
-        <div ref={leftColRef} className="flex flex-col gap-4">
-          <div className="text-3xl md:text-6xl text-[#E7B96B]">
-            Monthly Calendar
-          </div>
+    <div className="bg-[#1C1512] overflow-hidden border-t border-[#3a2f26] p-12">
+      <div className="grid grid-cols-[3fr_1fr] gap-2">
+        <div className="flex flex-col gap-4">
+          <div className="text-6xl text-[#E7B96B]">Monthly Calendar</div>
           <iframe
             title="GSMST CS Club Calendar"
             src="https://calendar.google.com/calendar/embed?src=classroom110591615948810464127%40group.calendar.google.com&ctz=America%2FNew_York"
@@ -267,11 +160,9 @@ const EmbbededCalendar = () => {
             className="w-full aspect-4/3 rounded-lg bg-[#F4EFE8]"
           ></iframe>
         </div>
-        <div className="flex flex-col gap-4">
-          <div ref={headerRef} className="flex flex-col gap-2 ">
-            <div className="text-3xl md:text-6xl text-[#E7B96B] mb-2">
-              Upcoming
-            </div>
+        <div>
+          <div className="flex flex-col gap-2 ">
+            <div className="text-6xl text-[#E7B96B] mb-2">Upcoming</div>
             <div className="grid grid-cols-2 gap-2">
               {EVENT_FILTERS.slice(0, 2).map((f) => (
                 <button
@@ -301,11 +192,7 @@ const EmbbededCalendar = () => {
               </button>
             ))}
           </div>
-          <Events
-            activeFilter={activeFilter}
-            maxHeight={eventsHeight}
-            isDesktop={isDesktop}
-          />
+          <Events activeFilter={activeFilter} />
         </div>
       </div>
     </div>

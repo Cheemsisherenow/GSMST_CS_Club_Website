@@ -24,70 +24,57 @@ const Officers = () => {
       className="bg-[#1C1512] overflow-hidden border border-[#3a2f26]"
       contentClassName="pr-[calc(var(--row)*13/18)] text-[#f4efe8]"
     >
-          <CodeLine>
-            &lt;<span className="text-[#C97B63]">!DOCTYPE html</span>&gt;
-          </CodeLine>
-          <CodeLine>
-            &lt;<span className="text-[#C97B63]">html</span>{" "}
-            <span className="text-[#f4efe8]">lang</span>=
-            <span className="text-[#E7B96B]">"en"</span>&gt;
-          </CodeLine>
-          <CodeLine>
-            <span className="text-[#453D34]">
-              &lt;!-- You could also be on here! --&gt;
-            </span>
-          </CodeLine>
-          <CodeLine indent={2}>
-            &lt;<span className="text-[#C97B63]">section</span>{" "}
-            class=
-            <span className="text-[#E7B96B]">"divisions"</span>&gt;
-          </CodeLine>
-          <CodeLine indent={4}>
-            &lt;
-            <span className="text-[#7FA396]">h1</span>&gt;
-          </CodeLine>
-          <CodeLine>{""}</CodeLine>
+      <CodeLine>
+        &lt;<span className="text-[#C97B63]">!DOCTYPE html</span>&gt;
+      </CodeLine>
+      <CodeLine>
+        &lt;<span className="text-[#C97B63]">html</span>{" "}
+        <span className="text-[#f4efe8]">lang</span>=
+        <span className="text-[#E7B96B]">"en"</span>&gt;
+      </CodeLine>
+      <CodeLine>
+        <span className="text-[#453D34]">
+          &lt;!-- You could also be on here! --&gt;
+        </span>
+      </CodeLine>
+      <CodeLine indent={2}>
+        &lt;<span className="text-[#C97B63]">section</span> class=
+        <span className="text-[#E7B96B]">"divisions"</span>&gt;
+      </CodeLine>
+      <CodeLine indent={4}>
+        &lt;
+        <span className="text-[#7FA396]">h1</span>&gt;
+      </CodeLine>
+      <CodeLine>{""}</CodeLine>
 
-          <RowBlock minGapRows={1}>
-            <h1 className="code-h1 pl-[calc(var(--row)*4/3)] text-[#E7B96B] leading-none whitespace-nowrap">
-              <Typewriter>
-                The people who
-                <br />
-                keeps the room
-                <br />
-                open
-              </Typewriter>
-            </h1>
-          </RowBlock>
+      <RowBlock minGapRows={1}>
+        <h1 className="code-h1 pl-[calc(var(--row)*4/3)] text-[#E7B96B] leading-none whitespace-nowrap">
+          <Typewriter>Officers by 
+            <br/>Division</Typewriter>
+        </h1>
+      </RowBlock>
 
-          <CodeLine indent={4}>
-            <span className="text-[#B5AFA6]">
-              &lt;!-- /* Each division has their own lead, officers, meeting
-            </span>
-          </CodeLine>
-          <CodeLine indent={4}>
-            <span className="text-[#B5AFA6]">
-              time, resource, calendar, and specializes in different fields.
-            </span>
-          </CodeLine>
-          <CodeLine indent={4}>
-            <span className="text-[#B5AFA6]">
-              Each student can join multiple divisions at once */ --&gt;
-            </span>
-          </CodeLine>
-          <CodeLine>{""}</CodeLine>
-          <CodeLine indent={4}>
-            &lt;
-            <span className="text-[#7FA396]">/h1</span>&gt;
-          </CodeLine>
-          <CodeLine indent={2}>
-            &lt;<span className="text-[#C97B63]">/section</span>&gt;
-          </CodeLine>
-          <CodeLine>
-            &lt;<span className="text-[#C97B63]">/html</span>&gt;
-          </CodeLine>
-          <CodeLine>{""}</CodeLine>
-          <CodeLine>{""}</CodeLine>
+      <CodeLine indent={4}>
+        <span className="text-[#B5AFA6]">
+          &lt;!-- ach division has 4-5 officers, including a division
+          <br />
+          head who oversees all the duties of these officers within <br />
+          their divisions. Pay your respects to our goats! --&gt;
+        </span>
+      </CodeLine>
+      <CodeLine>{""}</CodeLine>
+      <CodeLine indent={4}>
+        &lt;
+        <span className="text-[#7FA396]">/h1</span>&gt;
+      </CodeLine>
+      <CodeLine indent={2}>
+        &lt;<span className="text-[#C97B63]">/section</span>&gt;
+      </CodeLine>
+      <CodeLine>
+        &lt;<span className="text-[#C97B63]">/html</span>&gt;
+      </CodeLine>
+      <CodeLine>{""}</CodeLine>
+      <CodeLine>{""}</CodeLine>
     </CodeSection>
   );
 };
@@ -124,11 +111,16 @@ const OfficerCard = ({
         <span className="text-[#7FA396]"> &gt; </span> {name.replace(" ", "_")}
         _Picture.png
       </div>
+      {/* mx-auto, not place-self-center — this img's parent is a plain
+          block div, not a grid/flex container, so place-self (a grid-only
+          shorthand for align-self + justify-self) was a no-op here. Tailwind's
+          preflight already makes <img> display:block, so centering a
+          narrower-than-100% block element just needs auto side margins. */}
       <img
         src={photo}
         alt={name}
         loading="lazy"
-        className="place-self-center w-3/4 aspect-square object-cover p-2 border-2 border-[var(--color)] mb-6"
+        className="mx-auto w-3/4 aspect-square object-cover p-2 border-2 border-[var(--color)] mb-6"
       />
 
       <FitText className="text-[#F4EFE8] text-2xl">

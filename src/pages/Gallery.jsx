@@ -13,66 +13,57 @@ const GalleryHero = () => {
       className="bg-[#1C1512] overflow-hidden border border-[#3a2f26]"
       contentClassName="pr-[calc(var(--row)*13/18)] text-[#f4efe8]"
     >
-          <CodeLine>
-            <span className="text-[#C97B63]">INSERT INTO</span>{" "}
-            archive_db.images (file_name, description, folder_name, tag_name,
-            uploaded_at)
-          </CodeLine>
-          <CodeLine>{""}</CodeLine>
-          <CodeLine>
-            <span className="text-[#453D34]">-- Proof the club is alive</span>
-          </CodeLine>
-          <CodeLine>
-            <span className="text-[#C97B63]">SELECT</span> i.file_name,
-            i.description, f.folder_name, it.tag_name, i.uploaded_at
-          </CodeLine>
-          <CodeLine>{""}</CodeLine>
+      <CodeLine>
+        <span className="text-[#C97B63]">INSERT INTO</span> archive_db.images
+        (file_name, description, folder_name, tag_name, uploaded_at)
+      </CodeLine>
+      <CodeLine>{""}</CodeLine>
+      <CodeLine>
+        <span className="text-[#453D34]">-- Proof the club is alive</span>
+      </CodeLine>
+      <CodeLine>
+        <span className="text-[#C97B63]">SELECT</span> i.file_name,
+        i.description, f.folder_name, it.tag_name, i.uploaded_at
+      </CodeLine>
+      <CodeLine>{""}</CodeLine>
 
-          <RowBlock minGapRows={1}>
-            <h1 className="code-h1 pl-[calc(var(--row)*4/3)] text-[#E7B96B] leading-none whitespace-nowrap">
-              <Typewriter>
-                Saving
-                <br />
-                memories of
-                <br />
-                the club
-              </Typewriter>
-            </h1>
-          </RowBlock>
+      <RowBlock minGapRows={1}>
+        <h1 className="code-h1 pl-[calc(var(--row)*4/3)] text-[#E7B96B] leading-none whitespace-nowrap">
+          <Typewriter>Memory Archive</Typewriter>
+        </h1>
+      </RowBlock>
 
-          <CodeLine indent={2}>
-            <span className="text-[#B5AFA6]">
-              /* Events photos, recap videos, project showcases, and the
-            </span>
-          </CodeLine>
-          <CodeLine indent={2}>
-            <span className="text-[#B5AFA6]">history of CS club */</span>
-          </CodeLine>
-          <CodeLine>{""}</CodeLine>
-          <CodeLine>
-            <span className="text-[#C97B63]">FROM</span> gallery_db.images{" "}
-            <span className="text-[#C97B63]">i</span>
-          </CodeLine>
-          <CodeLine>
-            <span className="text-[#C97B63]">JOIN</span> gallery_db.folders{" "}
-            <span className="text-[#C97B63]">f ON</span> f.folder_id =
-            i.folder_id
-          </CodeLine>
-          <CodeLine>
-            <span className="text-[#C97B63]">LEFT JOIN</span>{" "}
-            gallery_db.image_tags <span className="text-[#C97B63]">it ON</span>{" "}
-            it.image_id = i.image_id
-          </CodeLine>
-          <CodeLine>{""}</CodeLine>
-          <CodeLine>
-            <span className="text-[#C97B63]">WHERE</span> f.published ={" "}
-            <span className="text-[#7FA396]">TRUE</span>
-          </CodeLine>
-          <CodeLine>
-            <span className="text-[#C97B63]">ON CONFLICT</span> (file_name){" "}
-            <span className="text-[#C97B63]">DO NOTHING</span>;
-          </CodeLine>
-          <CodeLine>{""}</CodeLine>
+      <CodeLine indent={2}>
+        <span className="text-[#B5AFA6]">
+          /* Here you’ll find event photos, recap videos, 
+          <br/> project showcases, and
+          the history of CS club. */
+        </span>
+      </CodeLine>
+      
+      <CodeLine>{""}</CodeLine>
+      <CodeLine>
+        <span className="text-[#C97B63]">FROM</span> gallery_db.images{" "}
+        <span className="text-[#C97B63]">i</span>
+      </CodeLine>
+      <CodeLine>
+        <span className="text-[#C97B63]">JOIN</span> gallery_db.folders{" "}
+        <span className="text-[#C97B63]">f ON</span> f.folder_id = i.folder_id
+      </CodeLine>
+      <CodeLine>
+        <span className="text-[#C97B63]">LEFT JOIN</span> gallery_db.image_tags{" "}
+        <span className="text-[#C97B63]">it ON</span> it.image_id = i.image_id
+      </CodeLine>
+      <CodeLine>{""}</CodeLine>
+      <CodeLine>
+        <span className="text-[#C97B63]">WHERE</span> f.published ={" "}
+        <span className="text-[#7FA396]">TRUE</span>
+      </CodeLine>
+      <CodeLine>
+        <span className="text-[#C97B63]">ON CONFLICT</span> (file_name){" "}
+        <span className="text-[#C97B63]">DO NOTHING</span>;
+      </CodeLine>
+      <CodeLine>{""}</CodeLine>
     </CodeSection>
   );
 };
