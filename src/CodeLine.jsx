@@ -62,8 +62,7 @@ export function useRowSnap(minGapRows = 0) {
   return ref;
 }
 
-// Wrap any non-CodeLine content (headline, button row, card grid) in this and
-// it will occupy a whole number of rows at whatever size it happens to be.
+
 export function RowBlock({ children, className = "", minGapRows = 0 }) {
   const ref = useRowSnap(minGapRows);
   return (
@@ -73,10 +72,6 @@ export function RowBlock({ children, className = "", minGapRows = 0 }) {
   );
 }
 
-// indent is in "characters" — .code-line is a monospace font, so `ch`
-// (the width of one monospace character) lines up exactly with how many
-// spaces of indentation this used to be, without needing literal &nbsp;
-// characters in the JSX text to fake it.
 export function CodeLine({ children, indent = 0, className = "" }) {
   return (
     <div
@@ -102,8 +97,7 @@ export function CodeGutter({ lines, start = 1 }) {
   );
 }
 
-// Renders both columns and derives the gutter's line count from the content's
-// real measured height, so the numbers can never run short or long.
+
 export function CodeSection({
   className = "",
   contentClassName = "",
@@ -119,8 +113,6 @@ export function CodeSection({
     if (!el) return;
     const probe = rowProbe();
 
-    // The gutter's own width is fixed, so re-rendering it can't change the
-    // content's height — this settles in one pass instead of oscillating.
     const apply = () => {
       const row = probe.getBoundingClientRect().height;
       if (!row) return;
@@ -153,9 +145,28 @@ export function CodeSection({
 
   return (
     <div className={className}>
-      <div className="flex gap-[calc(var(--row)*2/3)]">
+      {/* min-w-0 is load-bearing: a flex item's default min-width is
+          "auto", which means it refuses to shrink below its own content's
+          intrinsic width. .code-line's white-space:pre-wrap can only wrap
+          text once this column is actually allowed to be narrower than its
+          longest unbroken run of characters — without this, that run
+          forces the whole row (gutter + content) wider than the viewport
+          instead of wrapping, which is what was overflowing the page. */}
+      {/* items-start disables the default align-items:stretch — without it,
+          the content column gets stretched to match however tall the
+          gutter renders (lines * row), and since lines is COMPUTED FROM the
+          content's own measured height, any rounding overshoot feeds back
+          into an even taller stretched measurement next time, compounding
+          with every resize into runaway extra gutter numbers. With natural
+          (unstretched) heights on both sides, that loop can't happen — any
+          mismatch between them is at most a fraction of a row, not
+          self-amplifying. */}
+      <div className="flex items-start gap-[calc(var(--row)*2/3)]">
         <CodeGutter lines={lines} start={start} />
-        <div ref={contentRef} className={`${PAD_Y} ${contentClassName}`}>
+        <div
+          ref={contentRef}
+          className={`min-w-0 ${PAD_Y} ${contentClassName}`}
+        >
           {children}
         </div>
       </div>

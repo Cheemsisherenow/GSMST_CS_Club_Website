@@ -2,7 +2,7 @@
 
 
 :root {
-  --row: clamp(12px, 2.2125vw, 96px);
+  --row: clamp(16px, 2.2125vw, 96px);
   /* Hero headline / section headline sizes, as their own tokens so the
      mobile overrides below have one place to shrink them from. */
   --code-h1: calc(var(--row) * 8 / 3);
@@ -16,7 +16,7 @@
    out of an overflow and have to actually fit the column. */
 @media (max-width: 767px) {
   :root {
-    --row: clamp(20px, 6.4vw, 28px);
+    --row: clamp(14px, 6.4vw, 20px);
     --code-h1: clamp(36px, 7vw, 48px);
     --code-h2: clamp(14px, 5.2vw, 22px);
   }

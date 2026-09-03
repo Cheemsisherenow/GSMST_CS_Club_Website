@@ -1,17 +1,12 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
+import { useMediaQuery } from "react-responsive";
 import Typewriter from "../Typewriter";
 import { CodeLine, CodeSection, RowBlock } from "../CodeLine";
 
-// Written entirely against the --row/clamp() fluid-sizing system, not
-// Tailwind md: breakpoints, plus a couple of plain md:-prefixed utilities
-// (bg-black px-6 md:px-12, mr-6 md:mr-12) for the two accents below — a
-// value swap on one shared tree, not two duplicated trees. This used to be
-// split into an isDesktop ? (...) : (...) pair; that meant any edit (like
-// those two accents) only ever landed in one branch, so whichever branch
-// was rendering at the current width silently didn't have it.
 const Hero = () => {
-  return (
+  const isDesktop = useMediaQuery({ minWidth: 768 });
+  return isDesktop ? (
     <CodeSection
       className="bg-[#1C1512] overflow-hidden border border-[#3a2f26]"
       contentClassName="pr-[calc(var(--row)*13/18)] text-[#f4efe8]"
@@ -95,6 +90,86 @@ const Hero = () => {
         <span className="text-[#c1663a]">default</span> Hero
       </CodeLine>
     </CodeSection>
+  ) : (
+    <CodeSection
+      className="bg-[#1C1512] overflow-hidden border border-[#3a2f26]"
+      contentClassName="pr-[calc(var(--row)*13/18)] text-[#f4efe8]"
+    >
+      <CodeLine>
+        <span className="text-[#C97B63]">import</span>{" "}
+        <span className="text-[#7FA396]">
+          React, <span className="text-[#f4efe8]">{"{"}</span>
+          {" useState, useEffect "}
+          <span className="text-[#f4efe8]">{"} "}</span>
+        </span>
+        <span className="text-[#C97B63]">from</span>{" "}
+        <span className="text-[#E7B96B]">"react"</span>
+      </CodeLine>
+      <CodeLine>{""}</CodeLine>
+      <CodeLine>
+        <span className="text-[#453D34]">// Want to join and learn this?</span>
+      </CodeLine>
+      <CodeLine>
+        <span className="text-[#C97B63]">const</span>{" "}
+        <span className="text-[#7FA396]">Hero</span> = () =&gt; {"{"}
+      </CodeLine>
+      <CodeLine indent={2}>
+        <span className="text-[#C97B63]">return</span> (
+      </CodeLine>
+      <CodeLine indent={4}>
+        {" "}
+        &lt;
+        <span className="text-[#7FA396]">h1</span>&gt;
+      </CodeLine>
+      <CodeLine>{""}</CodeLine>
+
+      <RowBlock>
+        <h1 className="code-h1 pl-[calc(var(--row)*4/3)] text-[#E7B96B] leading-none break-normal  px-6 md:px-12">
+          <Typewriter>Welcome to GSMST's CS Club</Typewriter>
+        </h1>
+      </RowBlock>
+
+      <CodeLine indent={4} className="mr-6 md:mr-12">
+        <span className="text-[#B5AFA6]">
+          /* We help students learn computer science, build real project,
+          prepare for competitions, and find a welcoming place to explore
+          technology together */
+        </span>
+      </CodeLine>
+      <CodeLine>{""}</CodeLine>
+      <CodeLine indent={4}>
+        {" "}
+        &lt;
+        <span className="text-[#7FA396]">/h1</span>&gt;
+      </CodeLine>
+      <CodeLine>{""}</CodeLine>
+
+      {/* Also not a CodeLine — the border adds 2px that no row fraction
+              accounts for, which RowBlock absorbs automatically. */}
+      <RowBlock className="flex flex-wrap gap-[calc(var(--row)*7/18)] pl-[calc(var(--row)*4/3)]">
+        <a
+          href="https://docs.google.com/forms/d/e/1FAIpQLSf9RmXHCNVPsQZiRgBSL1XP0mABGRPCnLSRCI6WL67fvpM8BQ/viewform?usp=header"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="px-[calc(var(--row)*10/9)] py-[calc(var(--row)*5/9)] text-[length:calc(var(--row)*2/3)] leading-[calc(var(--row)*8/9)] rounded-lg cursor-pointer bg-[#e3c088] text-[#241a10] border border-[#e3c088] hover:-translate-y-0.5 duration-300 ease-in-out hover:opacity-85 transition-all"
+        >
+          onClick = {'{"Join Club"}'}
+        </a>
+        <NavLink
+          to="/calendar"
+          className="px-[calc(var(--row)*10/9)] py-[calc(var(--row)*5/9)] text-[length:calc(var(--row)*2/3)] leading-[calc(var(--row)*8/9)] rounded-lg cursor-pointer bg-transparent text-[#c9b896] hover:-translate-y-0.5 duration-300 ease-in-out border border-[#3a2f26] hover:opacity-85 transition-all"
+        >
+          onClick = {'{"See Calendar"}'}
+        </NavLink>
+      </RowBlock>
+
+      <CodeLine indent={2}>)</CodeLine>
+      <CodeLine>{"}"}</CodeLine>
+      <CodeLine>
+        <span className="text-[#c1663a]">export</span>{" "}
+        <span className="text-[#c1663a]">default</span> Hero
+      </CodeLine>
+    </CodeSection>
   );
 };
 
@@ -103,34 +178,34 @@ const Spotlight = () => {
     <div className="bg-[#241C18] overflow-hidden border text-[#f4efe8] border-[#3a2f26]">
       <div className="flex justify-between border-b border-[#3a2f26] py-4 text-[#B5AFA6]">
         <div className="flex flex-wrap gap-y-2 justify-between w-full px-6 md:px-12 items-center">
-          <div className="text-2xl md:text-5xl flex gap-3 md:gap-6 items-center">
+          <div className="text-xl flex gap-3 md:gap-6 items-center">
             <h2>Upcoming Dates</h2>{" "}
-            <span className="flex justify-center items-center w-8 h-8 md:w-13 md:h-13 rounded-full bg-[#c9b896] text-[#f4efe8] ">
+            <span className="flex justify-center items-center w-8 h-8 rounded-full bg-[#c9b896] text-[#f4efe8] ">
               3
             </span>
           </div>
           <NavLink
             to="/calendar"
-            className="text-lg md:text-3xl cursor-pointer hover:-translate-y-0.5 hover:text-[#9c968e] duration-300 ease-in-out transition-all"
+            className="text-md cursor-pointer hover:-translate-y-0.5 hover:text-[#9c968e] duration-300 ease-in-out transition-all"
           >
             All Events &gt;&gt;
           </NavLink>
         </div>
       </div>
-      <div className="grid grid-cols-1 md:grid-cols-[2fr_3fr]">
-        <div className="border-b md:border-b-0 md:border-r text-lg md:text-2xl border-[#3a2f26] flex flex-col justify-center gap-8 px-6 md:px-12 py-8 md:py-0">
+      <div className="grid grid-cols-1">
+        <div className="border-b text-lg border-[#3a2f26] flex flex-col justify-center gap-8 px-6 py-8">
           <div>
             <div className="mb-4">
               <span className="text-[#7FA396]">$</span> date --{" "}
               <span className="text-[#E7B96B]">09/03/2026</span>
             </div>
-            <div className="mb-2 text-2xl md:text-4xl text-[#E7B96B]">
+            <div className="mb-2 text-2xl text-[#E7B96B]">
               CyberDragons meeting
             </div>
             <div className="mb-2">| 5.011 - 3PM-4PM</div>
             <div>Come to Cyberdragon's first meeting for the year!</div>
           </div>
-          <div className="self-start relative inline-block">
+          <div className="self-start relative inline-block ">
             <div className="absolute left-4 md:left-6 -top-2 md:-top-3 w-0 h-0 border-l-[7px] md:border-l-[10px] border-l-transparent border-r-[7px] md:border-r-[10px] border-r-transparent border-b-[10px] md:border-b-[14px] border-b-[#e3c088]" />
             <div className="rounded-lg bg-[#e3c088] text-[#1C1512] font-bold px-4 md:px-6 py-2 md:py-3 whitespace-nowrap max-w-full text-[length:clamp(0.7rem,2vw,1.5rem)]">
               &gt;&gt; Cybersecurity
@@ -152,12 +227,18 @@ const Spotlight = () => {
                 CyberDragons!
               </div>
             </div>
-            {/* The arrow-notch clip-path only reads as a tag while the chip is
-                flush against the panel's right edge, which it only is once the
-                row is actually two columns — so it drops back to a plain pill
-                in the stacked layout. */}
-            <div className="self-start md:self-center mb-6 md:mb-0 rounded-lg md:rounded-l-none md:rounded-r-lg bg-[#7FA396] text-[#1C1512] px-4 md:px-8 py-2 md:py-4 md:[clip-path:polygon(20px_0,100%_0,100%_100%,20px_100%,0_50%)] whitespace-nowrap min-w-0 text-[length:clamp(0.7rem,2vw,1.5rem)]">
-              &gt;&gt; Cybersecurity
+
+            {/* justify-self-start (not self-start/align-self) is what this
+                needs — this div is a CSS GRID item, where align-self is the
+                VERTICAL axis and justify-self is the horizontal one, unlike
+                flex where align-self covers whichever axis is "cross". The
+                grid's default justify-items:stretch was filling the whole
+                column width regardless of self-start. */}
+            <div className="self-start justify-self-start relative inline-block">
+              <div className="absolute left-4 md:left-6 -top-2 md:-top-3 w-0 h-0 border-l-[7px] md:border-l-[10px] border-l-transparent border-r-[7px] md:border-r-[10px] border-r-transparent border-b-[10px] md:border-b-[14px] border-b-[#7FA396]" />
+              <div className="rounded-lg bg-[#7FA396] text-[#1C1512] font-bold px-4 md:px-6 py-2 md:py-3 whitespace-nowrap max-w-full text-[length:clamp(0.7rem,2vw,1.5rem)]">
+                &gt;&gt; Cybersecurity
+              </div>
             </div>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-[3fr_2fr] px-6 md:px-12 text-lg md:text-2xl">
@@ -172,7 +253,13 @@ const Spotlight = () => {
               <div className="mb-2">| MLLH - 3PM-4PM</div>
               <div>Come join us in a escape room game for fun!</div>
             </div>
-            <div className="self-start md:self-center mb-6 md:mb-0 rounded-lg md:rounded-l-none md:rounded-r-lg bg-[#c9846a] text-[#1C1512] px-4 md:px-8 py-2 md:py-4 md:[clip-path:polygon(20px_0,100%_0,100%_100%,20px_100%,0_50%)] whitespace-nowrap min-w-0 text-[length:clamp(0.7rem,2vw,1.5rem)]">
+            {/* justify-self-start on mobile keeps this compact like the two
+                Cybersecurity badges above. md:justify-self-auto hands it
+                back to the grid's default stretch on desktop, where it's
+                SUPPOSED to span the full column — that's what makes the
+                clip-path notch read as a flush tag against the panel's
+                edge. */}
+            <div className="self-start md:self-center justify-self-start md:justify-self-auto mb-6 md:mb-0 rounded-lg md:rounded-l-none md:rounded-r-lg bg-[#c9846a] text-[#1C1512] px-4 md:px-8 py-2 md:py-4 md:[clip-path:polygon(20px_0,100%_0,100%_100%,20px_100%,0_50%)] whitespace-nowrap min-w-0 text-[length:clamp(0.7rem,2vw,1.5rem)]">
               &gt;&gt; Activity
             </div>
           </div>
@@ -401,7 +488,7 @@ const Meet_Divisions = () => {
       </div>
       <NavLink
         to="/divisions"
-        className="float-right mt-12 text-3xl text-[#B5AFA6] hover:-translate-y-0.5 duration-300 transition-all hover:text-[#9c968e]"
+        className="float-right mt-12 text-lg md:text-3xl text-[#B5AFA6] hover:-translate-y-0.5 duration-300 transition-all hover:text-[#9c968e]"
       >
         {" "}
         See All Divisions &gt;&gt;
