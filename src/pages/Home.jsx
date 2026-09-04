@@ -206,14 +206,21 @@ const Spotlight = () => {
           </NavLink>
         </div>
       </div>
-      <div className="grid grid-cols-1">
-        <div className="border-b text-lg border-[#3a2f26] flex flex-col justify-center gap-8 px-6 py-8">
+      {/* md:grid-cols-[2fr_3fr] — this and the two md: additions below it
+          got dropped in an earlier fix that was only meant to touch a
+          badge, which flattened the desktop layout down to the same
+          single stacked column as mobile. Restoring them: on desktop the
+          featured CyberDragons block sits in its own left column (with
+          its own right border) beside the two other events stacked on
+          the right, instead of everything stacking top to bottom. */}
+      <div className="grid grid-cols-1 md:grid-cols-[2fr_3fr]">
+        <div className="border-b md:border-b-0 md:border-r text-lg md:text-2xl border-[#3a2f26] flex flex-col justify-center gap-8 px-6 md:px-12 py-8 md:py-0">
           <div>
             <div className="mb-4">
               <span className="text-[#7FA396]">$</span> date --{" "}
               <span className="text-[#E7B96B]">09/03/2026</span>
             </div>
-            <div className="mb-2 text-2xl text-[#E7B96B]">
+            <div className="mb-2 text-2xl md:text-4xl text-[#E7B96B]">
               CyberDragons meeting
             </div>
             <div className="mb-2">| 5.011 - 3PM-4PM</div>
@@ -242,17 +249,15 @@ const Spotlight = () => {
               </div>
             </div>
 
-            {/* justify-self-start (not self-start/align-self) is what this
-                needs — this div is a CSS GRID item, where align-self is the
-                VERTICAL axis and justify-self is the horizontal one, unlike
-                flex where align-self covers whichever axis is "cross". The
-                grid's default justify-items:stretch was filling the whole
-                column width regardless of self-start. */}
-            <div className="self-start justify-self-start relative inline-block">
-              <div className="absolute left-4 md:left-6 -top-2 md:-top-3 w-0 h-0 border-l-[7px] md:border-l-[10px] border-l-transparent border-r-[7px] md:border-r-[10px] border-r-transparent border-b-[10px] md:border-b-[14px] border-b-[#7FA396]" />
-              <div className="rounded-lg bg-[#7FA396] text-[#1C1512] font-bold px-4 md:px-6 py-2 md:py-3 whitespace-nowrap max-w-full text-[length:clamp(0.7rem,2vw,1.5rem)]">
-                &gt;&gt; Cybersecurity
-              </div>
+            {/* Same shape as the "Activity" badge below — clip-path flush
+                tag on desktop, self-start md:self-center so it's actually
+                centered next to the title instead of pinned to the top of
+                this (tall, multi-line) row, justify-self-start md:justify-
+                self-auto so it doesn't blow out to the full column width
+                on mobile but does span it (for the clip-path notch to read
+                as a flush tag) on desktop. */}
+            <div className="self-start md:self-center justify-self-start md:justify-self-auto mb-6 md:mb-0 rounded-lg md:rounded-l-none md:rounded-r-lg bg-[#7FA396] text-[#1C1512] px-4 md:px-8 py-2 md:py-4 md:[clip-path:polygon(20px_0,100%_0,100%_100%,20px_100%,0_50%)] whitespace-nowrap min-w-0 text-[length:clamp(0.7rem,2vw,1.5rem)]">
+              &gt;&gt; Cybersecurity
             </div>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-[3fr_2fr] px-6 md:px-12 text-lg md:text-2xl">

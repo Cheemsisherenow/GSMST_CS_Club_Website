@@ -19,6 +19,11 @@ import { CodeLine, CodeSection, RowBlock } from "../CodeLine";
 gsap.registerPlugin(ScrollTrigger);
 
 const Officers = () => {
+  // "Officers by" is too wide for code-h1's mobile size once the px-6/
+  // md:px-12 right margin (matching Home.jsx's Hero) eats into the
+  // available width — same fix as Home: shorter line breaks below md,
+  // desktop keeps the original two-line break.
+  const isDesktop = useMediaQuery({ minWidth: 768 });
   return (
     <CodeSection
       className="bg-[#1C1512] overflow-hidden border border-[#3a2f26]"
@@ -48,9 +53,22 @@ const Officers = () => {
       <CodeLine>{""}</CodeLine>
 
       <RowBlock minGapRows={1}>
-        <h1 className="code-h1 pl-[calc(var(--row)*4/3)] text-[#E7B96B] leading-none whitespace-nowrap">
-          <Typewriter>Officers by 
-            <br/>Division</Typewriter>
+        <h1 className="code-h1 pl-[calc(var(--row)*4/3)] text-[#E7B96B] leading-none whitespace-nowrap px-6 md:px-12">
+          {isDesktop ? (
+            <Typewriter>
+              Officers by
+              <br />
+              Division
+            </Typewriter>
+          ) : (
+            <Typewriter>
+              Officers
+              <br />
+              by
+              <br />
+              Division
+            </Typewriter>
+          )}
         </h1>
       </RowBlock>
 

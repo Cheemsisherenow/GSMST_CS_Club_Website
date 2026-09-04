@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
+import { useMediaQuery } from "react-responsive";
 import Typewriter from "../Typewriter";
 import { CodeLine, CodeSection, RowBlock } from "../CodeLine";
 import { supabase } from "../supabaseClient";
@@ -30,6 +31,10 @@ function Events({ activeFilter }) {
     supabase
       .from("events")
       .select("*")
+      // Soonest first — the list has no other ordering, so without this
+      // it renders in whatever order Supabase happens to return rows in
+      // (insertion order), not by relevance to "what's coming up next".
+      .order("date", { ascending: true })
       .then(({ data, error }) => {
         if (error) console.error(error);
         else setEvents(data);
@@ -43,7 +48,13 @@ function Events({ activeFilter }) {
     : events;
 
   return (
-    <div className="flex flex-col gap-4">
+    // mt-4 md:mt-6 — space between the filter buttons above and the first
+    // card, which was previously touching (Events is a sibling of the
+    // filter block, not part of its own gap-2 flex column). md:flex-1
+    // md:overflow-y-auto (paired with md:h-full on the column that wraps
+    // this) lets the card list scroll on its own once it outgrows the
+    // iframe's height on desktop, instead of stretching the whole page.
+    <div className="flex flex-col gap-4 mt-4 md:mt-6 md:flex-1 md:overflow-y-auto md:pr-1">
       {visibleEvents.map((event) => (
         <div key={event.id} className="bg-[#F4EFE8] rounded-xl p-6 text-black">
           <div className="text-lg text-[#C97B63] mb-1">
@@ -66,6 +77,11 @@ function Events({ activeFilter }) {
 }
 
 const Calendar = () => {
+  // "Year's Plan" is too wide for code-h1's mobile size once the pr-6/
+  // md:pr-12 right margin (matching Home.jsx's Hero) eats into the
+  // available width — same fix as Home: shorter line breaks below md,
+  // desktop keeps the original two-line break.
+  const isDesktop = useMediaQuery({ minWidth: 768 });
   return (
     <CodeSection
       className="bg-[#1C1512] overflow-hidden border border-[#3a2f26]"
@@ -102,12 +118,26 @@ const Calendar = () => {
         <div className="text-[length:calc(var(--row)*2/3)] leading-[calc(var(--row)*8/9)] text-[#cfc3ae] mb-[calc(var(--row)*2/9)] whitespace-nowrap">
           {TODAY}
         </div>
-        <h1 className="text-[length:calc(var(--row)*8/3)] text-[#E7B96B] leading-none whitespace-nowrap">
-          <Typewriter>
-            The Entire
-            <br />
-            Year’s Plan
-          </Typewriter>
+        {/* code-h1, not the raw calc(var(--row)*8/3) — that formula never
+            picks up the mobile-tuned --code-h1 override in index.css, so
+            on phones it rendered at the full desktop size and "The Entire"
+            got silently clipped by CodeSection's overflow-hidden. */}
+        <h1 className="code-h1 text-[#E7B96B] leading-none whitespace-nowrap pr-6 md:pr-12">
+          {isDesktop ? (
+            <Typewriter>
+              The Entire
+              <br />
+              Year’s Plan
+            </Typewriter>
+          ) : (
+            <Typewriter>
+              The Entire
+              <br />
+              Year’s
+              <br />
+              Plan
+            </Typewriter>
+          )}
         </h1>
       </RowBlock>
 
@@ -149,10 +179,18 @@ const EmbbededCalendar = () => {
   };
 
   return (
-    <div className="bg-[#1C1512] overflow-hidden border-t border-[#3a2f26] p-12">
-      <div className="grid grid-cols-[3fr_1fr] gap-2">
+    // p-4 md:p-12 and grid-cols-1 md:grid-cols-[3fr_1fr] — this whole panel
+    // was fixed at desktop sizing (p-12, a forced 2-column grid, text-6xl)
+    // with no md: fallback, so on a phone the iframe and filter buttons got
+    // squeezed into slivers and "Monthly Calendar"/"Upcoming" ran off the
+    // right edge. Same fix pattern as every other page's sections: stack to
+    // one column and shrink text below md.
+    <div className="bg-[#1C1512] overflow-hidden border-t border-[#3a2f26] p-4 md:p-12">
+      <div className="grid grid-cols-1 md:grid-cols-[3fr_1fr] gap-8 md:gap-2">
         <div className="flex flex-col gap-4">
-          <div className="text-6xl text-[#E7B96B]">Monthly Calendar</div>
+          <div className="text-3xl md:text-6xl text-[#E7B96B]">
+            Monthly Calendar
+          </div>
           <iframe
             title="GSMST CS Club Calendar"
             src="https://calendar.google.com/calendar/embed?src=classroom110591615948810464127%40group.calendar.google.com&ctz=America%2FNew_York"
@@ -160,9 +198,17 @@ const EmbbededCalendar = () => {
             className="w-full aspect-4/3 rounded-lg bg-[#F4EFE8]"
           ></iframe>
         </div>
-        <div>
+        {/* flex flex-col md:h-full — a plain block div had no defined
+            height for Events' md:flex-1/md:overflow-y-auto to fill, so
+            the card list just grew the page instead of scrolling inside
+            this column. md:h-full stretches it to match the grid row's
+            height (set by the iframe on the left), giving Events an
+            actual bound to scroll within. */}
+        <div className="flex flex-col md:h-full">
           <div className="flex flex-col gap-2 ">
-            <div className="text-6xl text-[#E7B96B] mb-2">Upcoming</div>
+            <div className="text-3xl md:text-6xl text-[#E7B96B] mb-2">
+              Upcoming
+            </div>
             <div className="grid grid-cols-2 gap-2">
               {EVENT_FILTERS.slice(0, 2).map((f) => (
                 <button

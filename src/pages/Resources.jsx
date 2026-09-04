@@ -1,9 +1,15 @@
 import React, { useRef, useState, useLayoutEffect } from "react";
 import gsap from "gsap/all";
+import { useMediaQuery } from "react-responsive";
 import Typewriter from "../Typewriter";
 import { CodeLine, CodeSection, RowBlock } from "../CodeLine";
 
 const Resources = () => {
+  // "Club Resources" as one line is wider than code-h1's mobile size can fit
+  // in a phone viewport — whitespace-nowrap means it doesn't wrap, it just
+  // gets silently clipped by CodeSection's overflow-hidden. Same fix as
+  // Home.jsx's Hero: break it across two lines only below the md breakpoint.
+  const isDesktop = useMediaQuery({ minWidth: 768 });
   return (
     <CodeSection
       className="bg-[#1C1512] overflow-hidden border border-[#3a2f26]"
@@ -48,8 +54,16 @@ const Resources = () => {
       <CodeLine>{""}</CodeLine>
 
       <RowBlock minGapRows={1}>
-        <h1 className="code-h1 pl-[calc(var(--row)*4/3)] text-[#E7B96B] leading-none whitespace-nowrap">
-          <Typewriter>Club Resources</Typewriter>
+        <h1 className="code-h1 pl-[calc(var(--row)*4/3)] text-[#E7B96B] leading-none whitespace-nowrap px-6 md:px-12">
+          {isDesktop ? (
+            <Typewriter>Club Resources</Typewriter>
+          ) : (
+            <Typewriter>
+              Club
+              <br />
+              Resources
+            </Typewriter>
+          )}
         </h1>
       </RowBlock>
 

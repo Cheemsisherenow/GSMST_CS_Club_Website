@@ -144,10 +144,9 @@ export const CS101Officers = [
   {
     role: "CS101 Officer",
     name: "Danny Lee",
-    description:
-      "I do CS and I love playing league, my favoritve champion is Teemo",
+    description: "I do cs and I play Jayce in League",
     email: "danny.lee2982@g.gcpsk12.org",
-    photo: "/OfficerImages/Danny.jpg",
+    photo: "/OfficerImages/Danny.png",
     title: "Officer",
   },
 ];

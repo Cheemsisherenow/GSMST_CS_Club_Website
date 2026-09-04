@@ -2,10 +2,16 @@ import React, { useRef, useState } from "react";
 import { NavLink } from "react-router-dom";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
+import { useMediaQuery } from "react-responsive";
 import Typewriter from "../Typewriter";
 import { CodeLine, CodeSection, RowBlock } from "../CodeLine";
 
 const Divisions = () => {
+  // "The Branches" alone is too wide for code-h1's mobile size once the
+  // px-6/md:px-12 right margin (matching Home.jsx's Hero) eats into the
+  // available width — same fix as Home: shorter line breaks below md,
+  // desktop keeps the original break.
+  const isDesktop = useMediaQuery({ minWidth: 768 });
   return (
     <CodeSection
       className="bg-[#1C1512] overflow-hidden border border-b-2 border-[#3a2f26]"
@@ -42,13 +48,24 @@ const Divisions = () => {
       {/* Not a CodeLine — RowBlock measures it and pads it out to a
               whole number of rows, whatever text size it ends up. */}
       <RowBlock minGapRows={1}>
-        <h1 className="code-h1 pl-[calc(var(--row)*4/3)] text-[#E7B96B] leading-none whitespace-nowrap">
-          <Typewriter>
-            The Branches
-            <br />
-            of
-            CS Club
-          </Typewriter>
+        <h1 className="code-h1 pl-[calc(var(--row)*4/3)] text-[#E7B96B] leading-none whitespace-nowrap px-6 md:px-12">
+          {isDesktop ? (
+            <Typewriter>
+              The Branches
+              <br />
+              of
+              <br />
+              CS Club
+            </Typewriter>
+          ) : (
+            <Typewriter>
+              The
+              <br />
+              Branches
+              <br />
+              of CS Club
+            </Typewriter>
+          )}
         </h1>
       </RowBlock>
 
@@ -169,7 +186,7 @@ const cyber = {
     "Cybersecurity division specialized in offensive and defensive hacking. No programming experience required—coding is seldom utilized in this division, if at all. ",
   lead: "Luke Cheng",
   meeting: "09/02/2026",
-  room: "5.",
+  room: "5.037",
   images: cyberData,
 };
 
