@@ -31,9 +31,6 @@ function Events({ activeFilter }) {
     supabase
       .from("events")
       .select("*")
-      // Soonest first — the list has no other ordering, so without this
-      // it renders in whatever order Supabase happens to return rows in
-      // (insertion order), not by relevance to "what's coming up next".
       .order("date", { ascending: true })
       .then(({ data, error }) => {
         if (error) console.error(error);
@@ -48,12 +45,6 @@ function Events({ activeFilter }) {
     : events;
 
   return (
-    // mt-4 md:mt-6 — space between the filter buttons above and the first
-    // card, which was previously touching (Events is a sibling of the
-    // filter block, not part of its own gap-2 flex column). md:flex-1
-    // md:overflow-y-auto (paired with md:h-full on the column that wraps
-    // this) lets the card list scroll on its own once it outgrows the
-    // iframe's height on desktop, instead of stretching the whole page.
     <div className="flex flex-col gap-4 mt-4 md:mt-6 md:flex-1 md:overflow-y-auto md:pr-1">
       {visibleEvents.map((event) => (
         <div key={event.id} className="bg-[#F4EFE8] rounded-xl p-6 text-black">

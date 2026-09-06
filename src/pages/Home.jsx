@@ -1,8 +1,21 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { NavLink } from "react-router-dom";
 import { useMediaQuery } from "react-responsive";
 import Typewriter from "../Typewriter";
 import { CodeLine, CodeSection, RowBlock } from "../CodeLine";
+import { supabase } from "../supabaseClient";
+
+function formatSpotlightDate(dateString) {
+  const [year, month, day] = dateString.split("-").map(Number);
+  return `${String(month).padStart(2, "0")}/${String(day).padStart(
+    2,
+    "0"
+  )}/${year}`;
+}
+
+function cleanLabel(label) {
+  return label?.replace(/^>>\s*/, "").trim() || "Event";
+}
 
 const Hero = () => {
   const isDesktop = useMediaQuery({ minWidth: 768 });
@@ -66,8 +79,7 @@ const Hero = () => {
       </CodeLine>
       <CodeLine>{""}</CodeLine>
 
-      {/* Also not a CodeLine — the border adds 2px that no row fraction
-              accounts for, which RowBlock absorbs automatically. */}
+    
       <RowBlock className="flex flex-wrap gap-[calc(var(--row)*7/18)] pl-[calc(var(--row)*4/3)]">
         <a
           href="https://docs.google.com/forms/d/e/1FAIpQLSf9RmXHCNVPsQZiRgBSL1XP0mABGRPCnLSRCI6WL67fvpM8BQ/viewform?usp=header"
@@ -126,12 +138,7 @@ const Hero = () => {
       <CodeLine>{""}</CodeLine>
 
       <RowBlock>
-        {/* whitespace-nowrap + explicit <br /> breaks, not natural wrapping
-            — code-h1's fluid clamp() sizing is specifically tuned to fit
-            each declared line within the available width. Without
-            whitespace-nowrap the browser wraps wherever text happens to
-            overflow instead, which is what was splitting "GSMST's" onto its
-            own line unpredictably. */}
+   
         <h1 className="code-h1 pl-[calc(var(--row)*4/3)] text-[#E7B96B] leading-none whitespace-nowrap px-6 md:px-12">
           <Typewriter>
             Welcome to
@@ -158,8 +165,7 @@ const Hero = () => {
       </CodeLine>
       <CodeLine>{""}</CodeLine>
 
-      {/* Also not a CodeLine — the border adds 2px that no row fraction
-              accounts for, which RowBlock absorbs automatically. */}
+     
       <RowBlock className="flex flex-wrap gap-[calc(var(--row)*7/18)] pl-[calc(var(--row)*4/3)]">
         <a
           href="https://docs.google.com/forms/d/e/1FAIpQLSf9RmXHCNVPsQZiRgBSL1XP0mABGRPCnLSRCI6WL67fvpM8BQ/viewform?usp=header"
@@ -187,109 +193,175 @@ const Hero = () => {
   );
 };
 
+
+const SPOTLIGHT_ACCENTS = ["#e3c088", "#7FA396", "#c9846a"];
+
+function SpotlightBadge({ accent, label, style }) {
+  return (
+    <div className={`relative inline-block ${style}`}>
+      <div
+        className="absolute left-4 md:left-6 -top-2 md:-top-3 w-0 h-0 border-l-[7px] md:border-l-[10px] border-l-transparent border-r-[7px] md:border-r-[10px] border-r-transparent border-b-[10px] md:border-b-[14px]"
+        style={{ borderBottomColor: accent }}
+      />
+      <div
+        className="rounded-lg text-[#1C1512] font-bold px-4 md:px-6 py-2 md:py-3 whitespace-nowrap max-w-full text-[length:clamp(0.7rem,2vw,1.5rem)]"
+        style={{ backgroundColor: accent }}
+      >
+        &gt;&gt; {label}
+      </div>
+    </div>
+  );
+}
+
+
+function EventLocation({ event }) {
+  if (!event.room || !event.time) return null;
+  return (
+    <div className="mb-2">
+      | {event.room} - {event.time}
+    </div>
+  );
+}
+
 const Spotlight = () => {
+  const isDesktop = useMediaQuery({ minWidth: 768 });
+  const [events, setEvents] = useState([]);
+
+  useEffect(() => {
+    supabase
+      .from("events")
+      .select("*")
+      .order("date", { ascending: true })
+      .then(({ data, error }) => {
+        if (error) console.error(error);
+        else setEvents(data);
+      });
+  }, []);
+
+
+  const [featured, second, third] = events;
+  if (!featured || !second || !third) return null;
+
   return (
     <div className="bg-[#241C18] overflow-hidden border text-[#f4efe8] border-[#3a2f26]">
       <div className="flex justify-between border-b border-[#3a2f26] py-4 text-[#B5AFA6]">
         <div className="flex flex-wrap gap-y-2 justify-between w-full px-6 md:px-12 items-center">
-          <div className="text-xl flex gap-3 md:gap-6 items-center">
+          <div className="text-xl md:text-5xl flex gap-3 md:gap-6 items-center">
             <h2>Upcoming Dates</h2>{" "}
-            <span className="flex justify-center items-center w-8 h-8 rounded-full bg-[#c9b896] text-[#f4efe8] ">
+            <span className="flex justify-center items-center w-8 h-8 md:w-12 md:h-12 rounded-full bg-[#c9b896] text-[#f4efe8] ">
               3
             </span>
           </div>
           <NavLink
             to="/calendar"
-            className="text-md cursor-pointer hover:-translate-y-0.5 hover:text-[#9c968e] duration-300 ease-in-out transition-all"
+            className="text-md md:text-3xl cursor-pointer hover:-translate-y-0.5 hover:text-[#9c968e] duration-300 ease-in-out transition-all"
           >
             All Events &gt;&gt;
           </NavLink>
         </div>
       </div>
-      {/* md:grid-cols-[2fr_3fr] — this and the two md: additions below it
-          got dropped in an earlier fix that was only meant to touch a
-          badge, which flattened the desktop layout down to the same
-          single stacked column as mobile. Restoring them: on desktop the
-          featured CyberDragons block sits in its own left column (with
-          its own right border) beside the two other events stacked on
-          the right, instead of everything stacking top to bottom. */}
       <div className="grid grid-cols-1 md:grid-cols-[2fr_3fr]">
-        <div className="border-b md:border-b-0 md:border-r text-lg md:text-2xl border-[#3a2f26] flex flex-col justify-center gap-8 px-6 md:px-12 py-8 md:py-0">
-          <div>
-            <div className="mb-4">
-              <span className="text-[#7FA396]">$</span> date --{" "}
-              <span className="text-[#E7B96B]">09/03/2026</span>
+        {isDesktop ? (
+          <div className="border-b md:border-b-0 md:border-r text-lg md:text-2xl border-[#3a2f26] flex flex-col justify-center gap-8 px-6 md:px-12 py-8 md:py-0">
+            <div>
+              <div className="mb-4">
+                <span className="text-[#7FA396]">$</span> date --{" "}
+                <span style={{ color: SPOTLIGHT_ACCENTS[0] }}>
+                  {formatSpotlightDate(featured.date)}
+                </span>
+              </div>
+              <div
+                className="mb-2 text-2xl md:text-4xl"
+                style={{ color: SPOTLIGHT_ACCENTS[0] }}
+              >
+                {featured.title?.trim()}
+              </div>
+              <EventLocation event={featured} />
+              <div>{featured.description?.trim()}</div>
             </div>
-            <div className="mb-2 text-2xl md:text-4xl text-[#E7B96B]">
-              CyberDragons meeting
-            </div>
-            <div className="mb-2">| 5.011 - 3PM-4PM</div>
-            <div>Come to Cyberdragon's first meeting for the year!</div>
+
+            <SpotlightBadge
+              accent={SPOTLIGHT_ACCENTS[0]}
+              label={cleanLabel(featured.label)}
+              style="self-start"
+            />
           </div>
-          <div className="self-start relative inline-block ">
-            <div className="absolute left-4 md:left-6 -top-2 md:-top-3 w-0 h-0 border-l-[7px] md:border-l-[10px] border-l-transparent border-r-[7px] md:border-r-[10px] border-r-transparent border-b-[10px] md:border-b-[14px] border-b-[#e3c088]" />
-            <div className="rounded-lg bg-[#e3c088] text-[#1C1512] font-bold px-4 md:px-6 py-2 md:py-3 whitespace-nowrap max-w-full text-[length:clamp(0.7rem,2vw,1.5rem)]">
-              &gt;&gt; Cybersecurity
-            </div>
-          </div>
-        </div>
-        <div className="flex flex-col">
+        ) : (
           <div className="grid grid-cols-1 md:grid-cols-[3fr_2fr] border-b px-6 md:px-12 border-[#3a2f26] text-lg md:text-2xl">
             <div className="md:pr-12 py-8 md:py-12">
               <div className="text-[#B5AFA6] mb-4">
                 <span className="text-[#7FA396]">$</span> date --{" "}
-                <span className="text-[#7FA396]">09/10/2026</span>
+                <span style={{ color: SPOTLIGHT_ACCENTS[0] }}>
+                  {formatSpotlightDate(featured.date)}
+                </span>
               </div>
-              <div className="text-2xl md:text-4xl text-[#7FA396] mb-2">
-                CyberPatriots Application Due
+              <div
+                className="text-2xl md:text-4xl mb-2"
+                style={{ color: SPOTLIGHT_ACCENTS[0] }}
+              >
+                {featured.title?.trim()}
               </div>
-              <div>
-                Complete the CyberPatriots application and pay the due to join
-                CyberDragons!
-              </div>
+              <EventLocation event={featured} />
+              <div>{featured.description?.trim()}</div>
             </div>
+            <SpotlightBadge
+              accent={SPOTLIGHT_ACCENTS[0]}
+              label={cleanLabel(featured.label)}
+              style="justify-self-start mb-6 md:mb-0"
+            />
+          </div>
+        )}
+        <div className="flex flex-col">
+          {[second, third].map((event, i) => {
+            const accent = SPOTLIGHT_ACCENTS[i + 1];
+            const isLast = i === 1;
+            return (
+              <div
+                key={event.id}
+                className={`grid grid-cols-1 md:grid-cols-[3fr_2fr] px-6 md:px-12 text-lg md:text-2xl ${
+                  isLast ? "" : "border-b border-[#3a2f26]"
+                }`}
+              >
+                <div className="md:pr-12 py-8 md:py-12">
+                  <div className="text-[#B5AFA6] mb-4">
+                    <span className="text-[#7FA396]">$</span> date --{" "}
+                    <span style={{ color: accent }}>
+                      {formatSpotlightDate(event.date)}
+                    </span>
+                  </div>
+                  <div
+                    className="text-2xl md:text-4xl mb-2"
+                    style={{ color: accent }}
+                  >
+                    {event.title?.trim()}
+                  </div>
+                  <EventLocation event={event} />
+                  <div>{event.description?.trim()}</div>
+                </div>
 
-            {/* Same shape as the "Activity" badge below — clip-path flush
-                tag on desktop, self-start md:self-center so it's actually
-                centered next to the title instead of pinned to the top of
-                this (tall, multi-line) row, justify-self-start md:justify-
-                self-auto so it doesn't blow out to the full column width
-                on mobile but does span it (for the clip-path notch to read
-                as a flush tag) on desktop. */}
-            <div className="self-start md:self-center justify-self-start md:justify-self-auto mb-6 md:mb-0 rounded-lg md:rounded-l-none md:rounded-r-lg bg-[#7FA396] text-[#1C1512] px-4 md:px-8 py-2 md:py-4 md:[clip-path:polygon(20px_0,100%_0,100%_100%,20px_100%,0_50%)] whitespace-nowrap min-w-0 text-[length:clamp(0.7rem,2vw,1.5rem)]">
-              &gt;&gt; Cybersecurity
-            </div>
-          </div>
-          <div className="grid grid-cols-1 md:grid-cols-[3fr_2fr] px-6 md:px-12 text-lg md:text-2xl">
-            <div className="md:pr-12 py-8 md:py-12">
-              <div className="text-[#B5AFA6] mb-4">
-                <span className="text-[#7FA396]">$</span> date --{" "}
-                <span className="text-[#c9846a]">09/16/2026</span>
+                {isDesktop ? (
+                  <div
+                    className="self-start md:self-center justify-self-start md:justify-self-auto mb-6 md:mb-0 rounded-lg md:rounded-l-none md:rounded-r-lg text-[#1C1512] px-4 md:px-8 py-2 md:py-4 md:[clip-path:polygon(20px_0,100%_0,100%_100%,20px_100%,0_50%)] whitespace-nowrap min-w-0 truncate text-[length:clamp(0.7rem,2vw,1.5rem)]"
+                    style={{ backgroundColor: accent }}
+                  >
+                    &gt;&gt; {cleanLabel(event.label)}
+                  </div>
+                ) : (
+                  <SpotlightBadge
+                    accent={accent}
+                    label={cleanLabel(event.label)}
+                    style="justify-self-start mb-6 md:mb-0"
+                  />
+                )}
               </div>
-              <div className="text-2xl md:text-4xl text-[#c9846a] mb-2">
-                Escape Room
-              </div>
-              <div className="mb-2">| MLLH - 3PM-4PM</div>
-              <div>Come join us in a escape room game for fun!</div>
-            </div>
-            {/* justify-self-start on mobile keeps this compact like the two
-                Cybersecurity badges above. md:justify-self-auto hands it
-                back to the grid's default stretch on desktop, where it's
-                SUPPOSED to span the full column — that's what makes the
-                clip-path notch read as a flush tag against the panel's
-                edge. */}
-            <div className="self-start md:self-center justify-self-start md:justify-self-auto mb-6 md:mb-0 rounded-lg md:rounded-l-none md:rounded-r-lg bg-[#c9846a] text-[#1C1512] px-4 md:px-8 py-2 md:py-4 md:[clip-path:polygon(20px_0,100%_0,100%_100%,20px_100%,0_50%)] whitespace-nowrap min-w-0 text-[length:clamp(0.7rem,2vw,1.5rem)]">
-              &gt;&gt; Activity
-            </div>
-          </div>
+            );
+          })}
         </div>
       </div>
     </div>
   );
 };
 
-// Continues the Hero section's numbering — Hero ends at 25, so this picks up
-// at 26.
 const GET_INVOLVED_START = 26;
 
 const GetInvolved = () => {
