@@ -24,29 +24,68 @@ function formatEventDate(dateString) {
   });
 }
 
+const EVENTS_PAGE_SIZE = 5;
+
 function Events({ activeFilter }) {
   const [events, setEvents] = useState([]);
+  const [hasMore, setHasMore] = useState(true);
+  const [loading, setLoading] = useState(false);
 
-  useEffect(() => {
-    supabase
+  function fetchPage(from) {
+    let query = supabase
       .from("events")
       .select("*")
       .order("date", { ascending: true })
-      .then(({ data, error }) => {
-        if (error) console.error(error);
-        else setEvents(data);
-      });
-  }, []);
+      .range(from, from + EVENTS_PAGE_SIZE - 1);
+    // Filtering server-side (not the old client-side .filter on the fully
+    // loaded list) is what makes pagination and the filter buttons work
+    // together correctly — filtering AFTER paging in would mean a page of
+    // mixed-type events could come back nearly empty even though more
+    // matching ones exist further down.
+    if (activeFilter) query = query.ilike("type", activeFilter);
+    return query;
+  }
 
-  const visibleEvents = activeFilter
-    ? events.filter(
-        (event) => event.type?.trim().toLowerCase() === activeFilter
-      )
-    : events;
+  // Reload from the start whenever the active filter changes (this also
+  // covers the initial mount, since activeFilter starts defined at null).
+  useEffect(() => {
+    setLoading(true);
+    fetchPage(0).then(({ data, error }) => {
+      if (error) console.error(error);
+      setEvents(data || []);
+      setHasMore((data?.length || 0) === EVENTS_PAGE_SIZE);
+      setLoading(false);
+    });
+  }, [activeFilter]);
+
+  const loadMore = () => {
+    if (loading || !hasMore) return;
+    setLoading(true);
+    fetchPage(events.length).then(({ data, error }) => {
+      if (error) console.error(error);
+      else {
+        setEvents((prev) => [...prev, ...(data || [])]);
+        setHasMore((data?.length || 0) === EVENTS_PAGE_SIZE);
+      }
+      setLoading(false);
+    });
+  };
+
+  // Fires more often than strictly needed, but loadMore is a no-op once
+  // hasMore is false or a fetch is already in flight, so that's fine.
+  const handleScroll = (e) => {
+    const el = e.currentTarget;
+    if (el.scrollTop + el.clientHeight >= el.scrollHeight - 120) {
+      loadMore();
+    }
+  };
 
   return (
-    <div className="flex flex-col gap-4 mt-4 md:mt-6 md:flex-1 md:overflow-y-auto md:pr-1">
-      {visibleEvents.map((event) => (
+    <div
+      onScroll={handleScroll}
+      className="flex flex-col gap-4 mt-4 md:mt-6 md:flex-1 md:overflow-y-auto md:pr-1 md:min-h-0"
+    >
+      {events.map((event) => (
         <div key={event.id} className="bg-[#F4EFE8] rounded-xl p-6 text-black">
           <div className="text-lg text-[#C97B63] mb-1">
             {formatEventDate(event.date)}
@@ -63,6 +102,11 @@ function Events({ activeFilter }) {
           </a>
         </div>
       ))}
+      {loading && (
+        <div className="text-center text-[#1C1512]/60 py-2">
+          Loading more…
+        </div>
+      )}
     </div>
   );
 }
@@ -164,6 +208,28 @@ const EVENT_FILTERS = [
 
 const EmbbededCalendar = () => {
   const [activeFilter, setActiveFilter] = useState(null);
+  const leftColRef = useRef(null);
+  const [leftColHeight, setLeftColHeight] = useState(null);
+
+  // md:h-full alone can't cap this column's height, even though it LOOKS
+  // right with only a couple of events: a CSS grid's "auto" row track is
+  // sized from its items' own natural content height, and a percentage
+  // height (h-full) doesn't count toward that — so adding more events just
+  // grows the row itself to fit them, and h-full's 100% keeps matching that
+  // ever-growing row instead of ever actually capping it. Measuring the
+  // left column's real rendered height and applying it as an explicit
+  // pixel value sidesteps the circularity entirely, the same way
+  // ResourceFolders on the Resources page measures a folder's height with
+  // ResizeObserver instead of trying to express it in CSS alone.
+  useEffect(() => {
+    const el = leftColRef.current;
+    if (!el) return;
+    const ro = new ResizeObserver(([entry]) => {
+      setLeftColHeight(entry.contentRect.height);
+    });
+    ro.observe(el);
+    return () => ro.disconnect();
+  }, []);
 
   const toggleFilter = (type) => {
     setActiveFilter((current) => (current === type ? null : type));
@@ -178,7 +244,7 @@ const EmbbededCalendar = () => {
     // one column and shrink text below md.
     <div className="bg-[#1C1512] overflow-hidden border-t border-[#3a2f26] p-4 md:p-12">
       <div className="grid grid-cols-1 md:grid-cols-[3fr_1fr] gap-8 md:gap-2">
-        <div className="flex flex-col gap-4">
+        <div className="flex flex-col gap-4" ref={leftColRef}>
           <div className="text-3xl md:text-6xl text-[#E7B96B]">
             Monthly Calendar
           </div>
@@ -189,13 +255,18 @@ const EmbbededCalendar = () => {
             className="w-full aspect-4/3 rounded-lg bg-[#F4EFE8]"
           ></iframe>
         </div>
-        {/* flex flex-col md:h-full — a plain block div had no defined
-            height for Events' md:flex-1/md:overflow-y-auto to fill, so
-            the card list just grew the page instead of scrolling inside
-            this column. md:h-full stretches it to match the grid row's
-            height (set by the iframe on the left), giving Events an
-            actual bound to scroll within. */}
-        <div className="flex flex-col md:h-full">
+        {/* An explicit pixel height (from the ResizeObserver above), not
+            md:h-full — see the comment on leftColHeight for why a
+            percentage height can't actually cap this column. min-h-0
+            because a flex/grid item's default min-height is "auto", which
+            (like min-width on a flex row) refuses to shrink below its own
+            content's height even once an explicit height is set — without
+            it Events' overflow-y-auto still has nothing to actually clip
+            against. */}
+        <div
+          className="flex flex-col md:min-h-0"
+          style={leftColHeight ? { height: leftColHeight } : undefined}
+        >
           <div className="flex flex-col gap-2 ">
             <div className="text-3xl md:text-6xl text-[#E7B96B] mb-2">
               Upcoming

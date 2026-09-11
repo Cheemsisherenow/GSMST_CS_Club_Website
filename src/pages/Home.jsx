@@ -6,12 +6,24 @@ import { CodeLine, CodeSection, RowBlock } from "../CodeLine";
 import { supabase } from "../supabaseClient";
 
 function formatSpotlightDate(dateString) {
+  if (!dateString) return "TBD";
   const [year, month, day] = dateString.split("-").map(Number);
   return `${String(month).padStart(2, "0")}/${String(day).padStart(
     2,
     "0"
   )}/${year}`;
 }
+
+// Filled in for any of the 3 slots below that don't have a real event yet,
+// so the section still renders instead of vanishing entirely.
+const SPOTLIGHT_PLACEHOLDER = {
+  title: "More Events Coming Soon",
+  description: "Check back soon for updates!",
+  date: null,
+  room: null,
+  time: null,
+  label: "TBD",
+};
 
 function cleanLabel(label) {
   return label?.replace(/^>>\s*/, "").trim() || "Event";
@@ -239,8 +251,9 @@ const Spotlight = () => {
   }, []);
 
 
-  const [featured, second, third] = events;
-  if (!featured || !second || !third) return null;
+  const featured = events[0] || { ...SPOTLIGHT_PLACEHOLDER, id: "placeholder-1" };
+  const second = events[1] || { ...SPOTLIGHT_PLACEHOLDER, id: "placeholder-2" };
+  const third = events[2] || { ...SPOTLIGHT_PLACEHOLDER, id: "placeholder-3" };
 
   return (
     <div className="bg-[#241C18] overflow-hidden border text-[#f4efe8] border-[#3a2f26]">
